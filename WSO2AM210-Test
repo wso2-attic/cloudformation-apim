@@ -3,13 +3,15 @@ Metadata:
   'AWS::CloudFormation::Designer':
     c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2:
       size:
-        width: 500
-        height: 360
+        width: 510
+        height: 430
       position:
-        x: -5130
+        x: -5140
         'y': -710
       z: 1
       embeds:
+        - 0f6bf8e9-5331-491e-82f3-f8c49c78af5f
+        - 84568a5c-d633-40e4-a970-800a21224d24
         - 0b43d1ba-21f8-4a17-89da-f526431323bd
         - 977bd553-1eca-42e8-80ca-d06efa92fc2c
         - 9a0cbff1-168f-4d60-a912-110365f8933b
@@ -19,12 +21,12 @@ Metadata:
         width: 130
         height: 120
       position:
-        x: -5090
+        x: -5100
         'y': -650
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
-        - 6f443223-0b2a-44ac-80f6-93bceb3bb844
+        - d4c668f0-ab82-4cf1-a377-e2f5d792e079
     4f6d7998-3ba6-40a2-8a02-19a91c756908:
       size:
         width: 60
@@ -40,7 +42,7 @@ Metadata:
         width: 130
         height: 120
       position:
-        x: -4780
+        x: -4790
         'y': -650
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
@@ -67,7 +69,7 @@ Metadata:
         width: 120
         height: 120
       position:
-        x: -5000
+        x: -5010
         'y': -500
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
@@ -78,10 +80,9 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4570
+        x: -4580
         'y': -470
       z: 0
-      parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
       embeds: []
       isrelatedto:
         - 0f6bf8e9-5331-491e-82f3-f8c49c78af5f
@@ -106,7 +107,7 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4970
+        x: -4980
         'y': -470
       z: 3
       parent: 977bd553-1eca-42e8-80ca-d06efa92fc2c
@@ -134,7 +135,7 @@ Metadata:
         width: 120
         height: 120
       position:
-        x: -4860
+        x: -4870
         'y': -500
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
@@ -145,7 +146,7 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4830
+        x: -4840
         'y': -470
       z: 3
       parent: 0b43d1ba-21f8-4a17-89da-f526431323bd
@@ -157,9 +158,10 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4570
-        'y': -590
-      z: 1
+        x: -4720
+        'y': -360
+      z: 2
+      parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
     32b54b15-6a0c-4f39-a18b-9efbee09569d:
       source:
@@ -172,6 +174,42 @@ Metadata:
         id: 0c6a6593-1ece-4ea6-a375-faf74b62a6b2
       target:
         id: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
+      z: 0
+    84568a5c-d633-40e4-a970-800a21224d24:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -5110
+        'y': -360
+      z: 2
+      parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
+      embeds: []
+    d4c668f0-ab82-4cf1-a377-e2f5d792e079:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -5110
+        'y': -220
+      z: 0
+      parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
+      embeds: []
+      ismemberof:
+        - 84568a5c-d633-40e4-a970-800a21224d24
+      dependson:
+        - 84568a5c-d633-40e4-a970-800a21224d24
+    5ce139ad-4dd4-4cf0-aca5-08029aee6eec:
+      source:
+        id: d4c668f0-ab82-4cf1-a377-e2f5d792e079
+      target:
+        id: 84568a5c-d633-40e4-a970-800a21224d24
+      z: 4
+    92fed6de-d0bb-4c9e-ade4-ba7f35dee2ff:
+      source:
+        id: d4c668f0-ab82-4cf1-a377-e2f5d792e079
+      target:
+        id: 84568a5c-d633-40e4-a970-800a21224d24
       z: 4
 Resources:
   WSO2AM1SIMPLE1VPC:
@@ -215,7 +253,10 @@ Resources:
   PrivateNATGateway:
     Type: 'AWS::EC2::NatGateway'
     Properties:
-      AllocationId: !Ref NATEIP
+      AllocationId:
+        'Fn::GetAtt':
+          - NATEIP
+          - AllocationId
       SubnetId: !Ref PublicSubnet
     Metadata:
       'AWS::CloudFormation::Designer':
@@ -255,7 +296,8 @@ Resources:
         id: be0c7987-95fe-4620-b66f-10c2582e49ea
   NATEIP:
     Type: 'AWS::EC2::EIP'
-    Properties: {}
+    Properties:
+      Domain: vpc
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 0f6bf8e9-5331-491e-82f3-f8c49c78af5f
@@ -275,3 +317,39 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: a585cc83-c457-4d52-85bf-8fe714d6302b
+  BastionSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Bastion Security Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: ICMP
+          FromPort: '-1'
+          ToPort: '-1'
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: '0'
+          ToPort: '0'
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref WSO2AM1SIMPLE1VPC
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 84568a5c-d633-40e4-a970-800a21224d24
+  BastionInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      SecurityGroupIds:
+        - !Ref BastionSecurityGroup
+      ImageId: ami-7bfcd81e
+      KeyName: wso2deploymenttoolpoc
+      SubnetId: !Ref PublicSubnet
+      InstanceType: t2.micro
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: d4c668f0-ab82-4cf1-a377-e2f5d792e079
+    DependsOn:
+      - BastionSecurityGroup
