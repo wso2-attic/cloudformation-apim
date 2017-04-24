@@ -11,6 +11,7 @@ Metadata:
       z: 1
       embeds:
         - 0f6bf8e9-5331-491e-82f3-f8c49c78af5f
+        - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
         - 84568a5c-d633-40e4-a970-800a21224d24
         - 0b43d1ba-21f8-4a17-89da-f526431323bd
         - 977bd553-1eca-42e8-80ca-d06efa92fc2c
@@ -27,6 +28,7 @@ Metadata:
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
         - d4c668f0-ab82-4cf1-a377-e2f5d792e079
+        - 6f443223-0b2a-44ac-80f6-93bceb3bb844
     4f6d7998-3ba6-40a2-8a02-19a91c756908:
       size:
         width: 60
@@ -83,6 +85,7 @@ Metadata:
         x: -4580
         'y': -470
       z: 0
+      parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
       embeds: []
       isrelatedto:
         - 0f6bf8e9-5331-491e-82f3-f8c49c78af5f
@@ -211,6 +214,70 @@ Metadata:
       target:
         id: 84568a5c-d633-40e4-a970-800a21224d24
       z: 4
+    449ab838-562f-4716-ac0c-b6ff97c368b9:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -4890
+        'y': -260
+      z: 0
+      embeds: []
+      ismemberof:
+        - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
+    c6bb6de6-531f-4bff-9b29-ad95c678e79b:
+      source:
+        id: 449ab838-562f-4716-ac0c-b6ff97c368b9
+      target:
+        id: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
+      z: 4
+    56c87c09-c78a-4cde-887f-b8bcb87dbd35:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -5000
+        'y': -360
+      z: 2
+      parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
+      embeds: []
+    95c27dea-05f1-4cae-8b36-390fcddbbced:
+      source:
+        id: 449ab838-562f-4716-ac0c-b6ff97c368b9
+      target:
+        id: 56c87c09-c78a-4cde-887f-b8bcb87dbd35
+      z: 4
+    3f971707-256d-47c5-a68e-e5ab0728e152:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -4890
+        'y': -120
+      z: 0
+      embeds: []
+      isconnectedto:
+        - e2cf773b-7ade-41a8-9edd-8f35f6d369d7
+      isassociatedwith:
+        - 449ab838-562f-4716-ac0c-b6ff97c368b9
+    be448209-beee-4cd8-b856-6613de7346e1:
+      source:
+        id: 3f971707-256d-47c5-a68e-e5ab0728e152
+      target:
+        id: 449ab838-562f-4716-ac0c-b6ff97c368b9
+      z: 5
+    1b710fe0-ec7b-4c72-8874-f4bd92c88c0a:
+      source:
+        id: 3f971707-256d-47c5-a68e-e5ab0728e152
+      target:
+        id: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
+      z: 11
+    5d387bd6-75e6-4719-af84-8ff332faad1d:
+      source:
+        id: 449ab838-562f-4716-ac0c-b6ff97c368b9
+      target:
+        id: 56c87c09-c78a-4cde-887f-b8bcb87dbd35
+      z: 11
 Resources:
   WSO2AM1SIMPLE1VPC:
     Type: 'AWS::EC2::VPC'
@@ -226,6 +293,7 @@ Resources:
     Properties:
       VpcId: !Ref WSO2AM1SIMPLE1VPC
       CidrBlock: 10.0.254.0/24
+      MapPublicIpOnLaunch: true
     Metadata:
       'AWS::CloudFormation::Designer':
         id: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
@@ -353,3 +421,35 @@ Resources:
         id: d4c668f0-ab82-4cf1-a377-e2f5d792e079
     DependsOn:
       - BastionSecurityGroup
+  WSO2AMLC:
+    Type: 'AWS::AutoScaling::LaunchConfiguration'
+    Properties:
+      AssociatePublicIpAddress: true
+      ImageId: ami-7bfcd81e
+      InstanceType: t2.micro
+      KeyName: wso2deploymenttoolpoc
+      SecurityGroups:
+        - !Ref ProductSecurityGroup
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 449ab838-562f-4716-ac0c-b6ff97c368b9
+  ProductSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Product Security Group
+      VpcId: !Ref WSO2AM1SIMPLE1VPC
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 56c87c09-c78a-4cde-887f-b8bcb87dbd35
+  WSO2AMASGroup:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      LaunchConfigurationName: !Ref WSO2AMLC
+      VPCZoneIdentifier:
+        - !Ref PublicSubnet
+      DesiredCapacity: 2
+      MinSize: 2
+      MaxSize: 2
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 3f971707-256d-47c5-a68e-e5ab0728e152
