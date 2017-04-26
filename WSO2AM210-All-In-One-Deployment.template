@@ -2,6 +2,11 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "WSO2 API Manager 2.1.0 All-In-One CloudFormation Template",
     "Parameters": {
+        "AvailabilityZone": {
+            "Description": "Availability zone to be used",
+            "Default": "us-east-1a",
+            "Type": "String"
+        },
         "KeyName": {
             "Description": "Name of an existing EC2 KeyPair to enable SSH access to the instances",
             "Type": "AWS::EC2::KeyPair::KeyName",
@@ -576,49 +581,14 @@
             }
         }
     },
-    "Conditions": {
-        "Is-EC2-VPC": {
-            "Fn::Or": [
-                {
-                    "Fn::Equals": [
-                        {
-                            "Ref": "AWS::Region"
-                        },
-                        "eu-central-1"
-                    ]
-                },
-                {
-                    "Fn::Equals": [
-                        {
-                            "Ref": "AWS::Region"
-                        },
-                        "cn-north-1"
-                    ]
-                },
-                {
-                    "Fn::Equals": [
-                        {
-                            "Ref": "AWS::Region"
-                        },
-                        "ap-northeast-2"
-                    ]
-                }
-            ]
-        },
-        "Is-EC2-Classic": {
-            "Fn::Not": [
-                {
-                    "Condition": "Is-EC2-VPC"
-                }
-            ]
-        }
-    },
     "Resources": {
         "WSO2APIMLoadBalancer": {
             "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
             "Properties": {
                 "AvailabilityZones": [
-                    "us-east-1a"
+                    {
+                        "Ref": "AvailabilityZone"
+                    }
                 ],
                 "CrossZone": "true",
                 "LBCookieStickinessPolicy": [
@@ -706,7 +676,7 @@
                         "IpProtocol": "tcp",
                         "FromPort": "443",
                         "ToPort": "9443",
-                        "CidrIp" : "0.0.0.0/0"
+                        "CidrIp": "0.0.0.0/0"
                     },
                     {
                         "IpProtocol": "tcp",
@@ -757,7 +727,9 @@
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
                 "AvailabilityZones": [
-                    "us-east-1a"
+                    {
+                        "Ref": "AvailabilityZone"
+                    }
                 ],
                 "LaunchConfigurationName": {
                     "Ref": "WSO2APIMLaunchConfig"
@@ -986,6 +958,44 @@
                     }
                 }
             }
+        }
+    },
+    "Outputs": {
+        "WSO2APIMPublisherURL": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "https://",
+                        {
+                            "Fn::GetAtt": [
+                                "WSO2APIMLoadBalancer",
+                                "DNSName"
+                            ]
+                        },
+                        "/publisher"
+                    ]
+                ]
+            },
+            "Description": "WSO2 API-M Publisher URL"
+        },
+        "WSO2APIMStoreURL": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "https://",
+                        {
+                            "Fn::GetAtt": [
+                                "WSO2APIMLoadBalancer",
+                                "DNSName"
+                            ]
+                        },
+                        "/store"
+                    ]
+                ]
+            },
+            "Description": "WSO2 API-M Store URL"
         }
     }
 }
