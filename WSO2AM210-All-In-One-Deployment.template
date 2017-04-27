@@ -153,16 +153,6 @@
             "AllowedPattern": "[a-zA-Z0-9]*",
             "ConstraintDescription": "must contain only alphanumeric characters."
         },
-        "MultiAZDatabase": {
-            "Default": "false",
-            "Description": "Create a Multi-AZ MySQL Amazon RDS database instance",
-            "Type": "String",
-            "AllowedValues": [
-                "true",
-                "false"
-            ],
-            "ConstraintDescription": "must be either true or false."
-        },
         "WSO2APIMCapacity": {
             "Default": "1",
             "Description": "The initial number of WSO2APIM instances",
@@ -723,6 +713,52 @@
                 ]
             }
         },
+        "WSO2APIMDBSecurityGroup": {
+            "Type": "AWS::RDS::DBSecurityGroup",
+            "Properties": {
+                "DBSecurityGroupIngress": {
+                    "EC2SecurityGroupName": {
+                        "Ref": "WSO2APIMSecurityGroup"
+                    }
+                },
+                "GroupDescription": "database access"
+            }
+        },
+        "WSO2APIMDBInstance": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "DBName": {
+                    "Ref": "DBName"
+                },
+                "Engine": "MySQL",
+                "MasterUsername": {
+                    "Ref": "DBUser"
+                },
+                "MasterUserPassword": {
+                    "Ref": "DBPassword"
+                },
+                "DBInstanceClass": {
+                    "Ref": "DBClass"
+                },
+                "AllocatedStorage": {
+                    "Ref": "DBAllocatedStorage"
+                },
+                "DBSecurityGroups": [ 
+                    { 
+                        "Ref": "WSO2APIMDBSecurityGroup" 
+                    } 
+                ],
+                "Tags": [
+                    {
+                        "Key": "User",
+                        "Value": "imesh@wso2.com"
+                    }
+                ]
+            },
+            "DependsOn": [
+                "WSO2APIMDBSecurityGroup"
+            ]
+        },
         "WSO2APIMAutoscalingGroup": {
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
@@ -764,7 +800,10 @@
                     "PauseTime": "PT15M",
                     "WaitOnResourceSignals": "false"
                 }
-            }
+            },
+            "DependsOn": [
+                "WSO2APIMDBInstance"
+            ]
         },
         "WSO2APIMLaunchConfig": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
@@ -878,7 +917,7 @@
                                                                 "WSO2APIMLoadBalancer",
                                                                 "DNSName"
                                                             ]
-                                                        },                                                        
+                                                        },
                                                         "</HostName>%g' /mnt/wso2am-2.1.0/repository/conf/carbon.xml\n"
                                                     ]
                                                 ]
@@ -894,7 +933,7 @@
                                                                 "WSO2APIMLoadBalancer",
                                                                 "DNSName"
                                                             ]
-                                                        },                                                        
+                                                        },
                                                         "</MgtHostName>%g' /mnt/wso2am-2.1.0/repository/conf/carbon.xml\n"
                                                     ]
                                                 ]
@@ -1012,7 +1051,10 @@
                         ]
                     }
                 }
-            }
+            },
+            "DependsOn": [
+                "WSO2APIMDBInstance"
+            ]
         }
     },
     "Outputs": {
