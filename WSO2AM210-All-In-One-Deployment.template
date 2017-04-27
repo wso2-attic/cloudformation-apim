@@ -127,13 +127,11 @@
             "ConstraintDescription": "must select a valid database instance type."
         },
         "DBName": {
-            "Default": "wso2amdb",
+            "Default": "WSO2AM_DB",
             "Description": "The wso2am database name",
             "Type": "String",
             "MinLength": "1",
-            "MaxLength": "64",
-            "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
-            "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
+            "MaxLength": "64"
         },
         "DBUser": {
             "NoEcho": "true",
@@ -168,6 +166,11 @@
             "MinValue": "5",
             "MaxValue": "1024",
             "ConstraintDescription": "must be between 5 and 1024Gb."
+        },
+        "UseRDSDBInstance": {
+            "Default": "false",
+            "Description": "Create a RDS database instance for data persistence, if not create a MySQL server instance in each VM.",
+            "Type": "String"
         }
     },
     "Mappings": {
@@ -571,6 +574,16 @@
             }
         }
     },
+    "Conditions": {
+        "Use-RDS-DBInstance": {
+            "Fn::Equals": [
+                {
+                    "Ref": "UseRDSDBInstance"
+                },
+                "true"
+            ]
+        }
+    },
     "Resources": {
         "WSO2APIMLoadBalancer": {
             "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
@@ -715,6 +728,7 @@
         },
         "WSO2APIMDBSecurityGroup": {
             "Type": "AWS::RDS::DBSecurityGroup",
+            "Condition": "Use-RDS-DBInstance",
             "Properties": {
                 "DBSecurityGroupIngress": {
                     "EC2SecurityGroupName": {
@@ -726,6 +740,7 @@
         },
         "WSO2APIMDBInstance": {
             "Type": "AWS::RDS::DBInstance",
+            "Condition": "Use-RDS-DBInstance",
             "Properties": {
                 "DBName": {
                     "Ref": "DBName"
@@ -743,10 +758,10 @@
                 "AllocatedStorage": {
                     "Ref": "DBAllocatedStorage"
                 },
-                "DBSecurityGroups": [ 
-                    { 
-                        "Ref": "WSO2APIMDBSecurityGroup" 
-                    } 
+                "DBSecurityGroups": [
+                    {
+                        "Ref": "WSO2APIMDBSecurityGroup"
+                    }
                 ],
                 "Tags": [
                     {
@@ -779,7 +794,7 @@
                     {
                         "Ref": "WSO2APIMLoadBalancer"
                     }
-                ],
+                     ],
                 "Tags": [
                     {
                         "Key": "User",
@@ -800,10 +815,7 @@
                     "PauseTime": "PT15M",
                     "WaitOnResourceSignals": "false"
                 }
-            },
-            "DependsOn": [
-                "WSO2APIMDBInstance"
-            ]
+            }
         },
         "WSO2APIMLaunchConfig": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
@@ -885,7 +897,8 @@
                         "packages": {
                             "yum": {
                                 "wget": [],
-                                "zip": []
+                                "zip": [],
+                                "mysql-server": []
                             }
                         },
                         "files": {
@@ -961,13 +974,137 @@
                                                     ]
                                                 ]
                                             },
+                                            "echo \"Configuring carbon datasource URL...\"\n",
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "sed -i 's%<url>jdbc:h2:repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE</url>%<url>jdbc:mysql://",
+                                                        {
+                                                            "Fn::If": [
+                                                                "Use-RDS-DBInstance",
+                                                                {
+                                                                    "Fn::GetAtt": [
+                                                                        "WSO2APIMDBInstance",
+                                                                        "Endpoint.Address"
+                                                                    ]
+                                                                },
+                                                                "localhost"
+                                                            ]
+                                                        },
+                                                        ":3306/WSO2AM_DB?autoReconnect=true</url>%g' /mnt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml\n"
+                                                    ]
+                                                ]
+                                            },
+                                            "echo \"Configuring API-M datasource URL...\"\n",
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "sed -i 's%<url>jdbc:h2:repository/database/WSO2AM_DB;DB_CLOSE_ON_EXIT=FALSE</url>%<url>jdbc:mysql://",
+                                                        {
+                                                            "Fn::If": [
+                                                                "Use-RDS-DBInstance",
+                                                                {
+                                                                    "Fn::GetAtt": [
+                                                                        "WSO2APIMDBInstance",
+                                                                        "Endpoint.Address"
+                                                                    ]
+                                                                },
+                                                                "localhost"
+                                                            ]
+                                                        },
+                                                        ":3306/WSO2AM_DB?autoReconnect=true</url>%g' /mnt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml\n"
+                                                    ]
+                                                ]
+                                            },
+                                            "echo \"Configuring API-M statistics datasource URL...\"\n",
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "sed -i 's%<url>jdbc:h2:../tmpStatDB/WSO2AM_STATS_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000;AUTO_SERVER=TRUE</url>%<url>jdbc:mysql://",
+                                                        {
+                                                            "Fn::If": [
+                                                                "Use-RDS-DBInstance",
+                                                                {
+                                                                    "Fn::GetAtt": [
+                                                                        "WSO2APIMDBInstance",
+                                                                        "Endpoint.Address"
+                                                                    ]
+                                                                },
+                                                                "localhost"
+                                                            ]
+                                                        },
+                                                        ":3306/WSO2AM_DB?autoReconnect=true</url>%g' /mnt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml\n"
+                                                    ]
+                                                ]
+                                            },
+                                            "echo \"Configuring API-M message broker datasource URL...\"\n",
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "sed -i 's%<url>jdbc:h2:repository/database/WSO2MB_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>%<url>jdbc:mysql://",
+                                                        {
+                                                            "Fn::If": [
+                                                                "Use-RDS-DBInstance",
+                                                                {
+                                                                    "Fn::GetAtt": [
+                                                                        "WSO2APIMDBInstance",
+                                                                        "Endpoint.Address"
+                                                                    ]
+                                                                },
+                                                                "localhost"
+                                                            ]
+                                                        },
+                                                        ":3306/WSO2AM_DB?autoReconnect=true</url>%g' /mnt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml\n"
+                                                    ]
+                                                ]
+                                            },
+                                            "echo \"Configuring datasource usernames...\"\n",
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "sed -i 's%<username>wso2carbon</username>%<username>",
+                                                        {
+                                                            "Ref": "DBUser"
+                                                        },
+                                                        "</username>%g' /mnt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml\n"
+                                                    ]
+                                                ]
+                                            },
+                                            "echo \"Configuring datasource passwords...\"\n",
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "sed -i 's%<password>wso2carbon</password>%<password>",
+                                                        {
+                                                            "Ref": "DBPassword"
+                                                        },
+                                                        "</password>%g' /mnt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml\n"
+                                                    ]
+                                                ]
+                                            },
+                                            "echo \"Configuring datasource drivers...\"\n",
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "sed -i 's%<driverClassName>org.h2.Driver</driverClassName>%<driverClassName>",
+                                                        "com.mysql.jdbc.Driver</driverClassName>%g' /mnt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml\n"
+                                                    ]
+                                                ]
+                                            },
                                             "echo \"Downloading MySQL Java Connector...\"\n",
                                             "wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip\n",
                                             "echo \"Extracting and copying MySQL Connector...\"\n",
                                             "unzip mysql-connector-java-5.1.41.zip\n",
                                             "cp -v /mnt/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /mnt/wso2am-2.1.0/repository/components/lib/\n",
                                             "echo \"Starting WSO2 API-M 2.1.0...\"\n",
-                                            "/mnt/wso2am-2.1.0/bin/wso2server.sh start\n"
+                                            "/mnt/wso2am-2.1.0/bin/wso2server.sh -Dsetup start\n"
                                         ]
                                     ]
                                 },
@@ -1051,10 +1188,7 @@
                         ]
                     }
                 }
-            },
-            "DependsOn": [
-                "WSO2APIMDBInstance"
-            ]
+            }
         }
     },
     "Outputs": {
