@@ -867,6 +867,61 @@
                                             "wget --user-agent=\"testuser\" --referer=\"http://connect.wso2.com/wso2/getform/reg/new_product_download\" http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip\n",
                                             "echo \"Extracting WSO2 API-M 2.1.0 distribution...\"\n",
                                             "unzip wso2am-2.1.0.zip\n",
+                                            "echo \"Configuring Carbon hostname...\"\n",
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "sed -i 's%<!--HostName>www.wso2.org</HostName-->%<HostName>",
+                                                        {
+                                                            "Fn::GetAtt": [
+                                                                "WSO2APIMLoadBalancer",
+                                                                "DNSName"
+                                                            ]
+                                                        },                                                        
+                                                        "</HostName>%g' /mnt/wso2am-2.1.0/repository/conf/carbon.xml\n"
+                                                    ]
+                                                ]
+                                            },
+                                            "echo \"Configuring Carbon management hostname...\"\n",
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "sed -i 's%<!--MgtHostName>mgt.wso2.org</MgtHostName-->%<MgtHostName>",
+                                                        {
+                                                            "Fn::GetAtt": [
+                                                                "WSO2APIMLoadBalancer",
+                                                                "DNSName"
+                                                            ]
+                                                        },                                                        
+                                                        "</MgtHostName>%g' /mnt/wso2am-2.1.0/repository/conf/carbon.xml\n"
+                                                    ]
+                                                ]
+                                            },
+                                            "echo \"Configuring API gateway hostname...\"\n",
+                                            {
+                                                "Fn::Join": [
+                                                    "",
+                                                    [
+                                                        "sed -i 's%<GatewayEndpoint>http://${carbon.local.ip}:${http.nio.port},https://${carbon.local.ip}:${https.nio.port}</GatewayEndpoint>%<GatewayEndpoint>http://",
+                                                        {
+                                                            "Fn::GetAtt": [
+                                                                "WSO2APIMLoadBalancer",
+                                                                "DNSName"
+                                                            ]
+                                                        },
+                                                        ":${http.nio.port},https://",
+                                                        {
+                                                            "Fn::GetAtt": [
+                                                                "WSO2APIMLoadBalancer",
+                                                                "DNSName"
+                                                            ]
+                                                        },
+                                                        ":${https.nio.port}</GatewayEndpoint>%g' /mnt/wso2am-2.1.0/repository/conf/api-manager.xml\n"
+                                                    ]
+                                                ]
+                                            },
                                             "echo \"Downloading MySQL Java Connector...\"\n",
                                             "wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip\n",
                                             "echo \"Extracting and copying MySQL Connector...\"\n",
