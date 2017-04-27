@@ -1,13 +1,55 @@
 AWSTemplateFormatVersion: 2010-09-09
 Metadata:
+  'AWS::CloudFormation::Interface':
+    ParameterGroups:
+      - Label:
+          default: Cluster Configuration
+        Parameters:
+          - APIMClusterSize
+          - APIMClusterMax
+          - ProductInstanceType
+          - AWSAccessKeyID
+          - AWSAccessKeySecret
+      - Label:
+          default: Network Configuration
+        Parameters:
+          - CertificateName
+      - Label:
+          default: Database Configuration
+        Parameters:
+          - DBInstanceType
+          - DBSize
+          - DBUsername
+          - DBPassword
+    ParameterLabels:
+      APIMClusterSize:
+        default: How many instances should the APIM Cluster contain?
+      APIMClusterMax:
+        default: How many maximum instances should the APIM Cluster scale up to?
+      ProductInstanceType:
+        default: EC2 Instance type for the APIM instances
+      AWSAccessKeyID:
+        default: AWS Access Key ID
+      AWSAccessKeySecret:
+        default: AWS Access Secret Key
+      CertificateName:
+        default: Which certificate should be used at the Load Balancer for APIM?
+      DBInstanceType:
+        default: RDS Instance type for the APIM Database?
+      DBSize:
+        default: How large should APIM database should be?
+      DBUsername:
+        default: APIM Database Master username?
+      DBPassword:
+        default: APIM Database Master password
   'AWS::CloudFormation::Designer':
     c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2:
       size:
-        width: 1140
-        height: 460
+        width: 810
+        height: 590
       position:
-        x: -5150
-        'y': -610
+        x: -5270
+        'y': -470
       z: 1
       embeds:
         - 0f6bf8e9-5331-491e-82f3-f8c49c78af5f
@@ -28,8 +70,8 @@ Metadata:
         width: 130
         height: 120
       position:
-        x: -5130
-        'y': -570
+        x: -5170
+        'y': -430
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -47,11 +89,11 @@ Metadata:
       embeds: []
     9a0cbff1-168f-4d60-a912-110365f8933b:
       size:
-        width: 140
+        width: 130
         height: 120
       position:
-        x: -4740
-        'y': -580
+        x: -5170
+        'y': -90
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -66,8 +108,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4640
-        'y': -770
+        x: -5410
+        'y': -350
       z: 0
       embeds: []
       isrelatedto:
@@ -77,8 +119,8 @@ Metadata:
         width: 120
         height: 120
       position:
-        x: -4980
-        'y': -580
+        x: -5030
+        'y': -430
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -88,8 +130,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4780
-        'y': -650
+        x: -5410
+        'y': -40
       z: 0
       parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
       embeds: []
@@ -116,8 +158,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4950
-        'y': -550
+        x: -5000
+        'y': -400
       z: 3
       parent: 977bd553-1eca-42e8-80ca-d06efa92fc2c
       embeds: []
@@ -144,8 +186,8 @@ Metadata:
         width: 120
         height: 120
       position:
-        x: -4590
-        'y': -580
+        x: -5030
+        'y': -90
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -155,8 +197,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4560
-        'y': -550
+        x: -5000
+        'y': -60
       z: 3
       parent: 0b43d1ba-21f8-4a17-89da-f526431323bd
       embeds: []
@@ -167,8 +209,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4830
-        'y': -540
+        x: -5250
+        'y': 20
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -189,8 +231,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -5100
-        'y': -280
+        x: -5250
+        'y': -400
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -199,8 +241,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -5100
-        'y': -540
+        x: -5140
+        'y': -400
       z: 3
       parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
       embeds: []
@@ -225,8 +267,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4700
-        'y': -280
+        x: -4850
+        'y': -40
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -247,8 +289,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4860
-        'y': -280
+        x: -4850
+        'y': 40
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -268,8 +310,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4780
-        'y': -410
+        x: -4850
+        'y': -120
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -304,8 +346,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4950
-        'y': -360
+        x: -4550
+        'y': -330
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -386,8 +428,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4390
-        'y': -540
+        x: -4730
+        'y': -330
       z: 3
       parent: e803fa6d-1f40-44df-a758-8b44f434eb0f
       embeds: []
@@ -412,8 +454,8 @@ Metadata:
         width: 180
         height: 150
       position:
-        x: -4450
-        'y': -590
+        x: -4790
+        'y': -380
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -436,21 +478,21 @@ Metadata:
       z: 5
     f3cdfe70-41d8-423b-8043-b5588d320330:
       size:
-        width: 140
-        height: 140
+        width: 130
+        height: 120
       position:
-        x: -4230
-        'y': -570
+        x: -5170
+        'y': -280
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
     21d07bfc-0717-46fa-9325-5eb52ad71c83:
       size:
-        width: 140
-        height: 140
+        width: 120
+        height: 120
       position:
-        x: -4230
-        'y': -400
+        x: -5030
+        'y': -280
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -460,8 +502,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4189.657702628645
-        'y': -363.325184207859
+        x: -5000
+        'y': -250
       z: 3
       parent: 21d07bfc-0717-46fa-9325-5eb52ad71c83
       embeds: []
@@ -636,9 +678,9 @@ Resources:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
       AssociatePublicIpAddress: true
-      ImageId: ami-5c547339
-      InstanceType: t2.small
-      KeyName: wso2deploymenttoolpoc
+      ImageId: ami-bd5c7bd8
+      InstanceType: !Ref ProductInstanceType
+      KeyName: !Ref KeyPairName
       SecurityGroups:
         - !Ref ProductSecurityGroup
       UserData: !Base64 
@@ -677,6 +719,36 @@ Resources:
             - >-
               sed -i "s/DB_PASSWORD/rootrootroot/g"
               /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
+            - !Join 
+              - ''
+              - - sed -i "s/AWS_ACCESS_KEY/
+                - !Ref AWSAccessKeyID
+                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - !Join 
+              - ''
+              - - sed -i "s/AWS_SECRET_KEY/
+                - !Ref AWSAccessKeySecret
+                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - !Join 
+              - ''
+              - - sed -i "s/AWS_SECURITY_GROUP/
+                - !Ref ProductSecurityGroup
+                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - !Join 
+              - ''
+              - - sed -i "s/AWS_REGION/
+                - !Ref 'AWS::Region'
+                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - !Join 
+              - ''
+              - - sed -i "s/AWS_CLUSTER_TAG_NAME/
+                - Cluster
+                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - !Join 
+              - ''
+              - - sed -i "s/AWS_CLUSTER_TAG_VALUE/
+                - WSO2AM210SIMPLE
+                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
             - /opt/wso2am-2.1.0/bin/wso2server.sh -Dsetup start
     Metadata:
       'AWS::CloudFormation::Designer':
@@ -695,6 +767,10 @@ Resources:
         - IpProtocol: tcp
           FromPort: '9443'
           ToPort: '9443'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '5701'
+          ToPort: '5701'
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: '9763'
@@ -743,13 +819,26 @@ Resources:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
       LaunchConfigurationName: !Ref WSO2AMLC
-      DesiredCapacity: 1
+      DesiredCapacity: !Ref APIMClusterSize
       MinSize: 1
-      MaxSize: 2
+      MaxSize: !Ref APIMClusterMax
       LoadBalancerNames:
         - !Ref WSO2AMELB
       VPCZoneIdentifier:
         - !Ref PrivateSubnet
+      Tags:
+        - Key: Name
+          Value: WSO2AM-Instance
+          PropagateAtLaunch: 'true'
+        - Key: Product
+          Value: WSO2AM
+          PropagateAtLaunch: 'true'
+        - Key: Version
+          Value: 2.1.0
+          PropagateAtLaunch: 'true'
+        - Key: Cluster
+          Value: WSO2AM210SIMPLE
+          PropagateAtLaunch: 'true'
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 3f971707-256d-47c5-a68e-e5ab0728e152
@@ -774,7 +863,7 @@ Resources:
               - !Ref 'AWS::AccountId'
               - ':server-certificate'
               - /
-              - wso2carbon
+              - !Ref CertificateName
       HealthCheck:
         Target: 'TCP:9763'
         HealthyThreshold: '3'
@@ -791,14 +880,14 @@ Resources:
     Properties:
       VPCSecurityGroups:
         - !Ref ProductSecurityGroup
-      DBInstanceClass: db.t2.micro
-      AllocatedStorage: '5'
+      DBInstanceClass: !Ref DBInstanceType
+      AllocatedStorage: !Ref DBSize
       BackupRetentionPeriod: '0'
       DBInstanceIdentifier: wso2amdb
       DBName: WSO2AM_DB
       Engine: MySQL
-      MasterUsername: root
-      MasterUserPassword: rootrootroot
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
       MultiAZ: 'false'
       StorageType: gp2
       DBSubnetGroupName: !Ref RDSDBSG412ZQ
@@ -810,7 +899,6 @@ Resources:
     Properties:
       DBSubnetGroupDescription: DB Subnet Group
       SubnetIds:
-        - !Ref PrivateSubnet
         - !Ref PublicSubnet
         - !Ref PublicSubnet2
     Metadata:
@@ -852,3 +940,68 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 7c399c2f-0dc5-42b7-a950-3c1c4d927ed5
+Outputs:
+  Carbon:
+    Value: !Join 
+      - ''
+      - - 'https://'
+        - !GetAtt 
+          - WSO2AMELB
+          - DNSName
+        - ':9443/carbon'
+    Description: WSO2 AM Carbon Console URL
+  SSH:
+    Value: !Join 
+      - ''
+      - - 'ssh -i '
+        - !Ref KeyPairName
+        - ' ubuntu@'
+        - !GetAtt 
+          - BastionInstance
+          - PublicIp
+    Description: Bastion SSH Details
+Parameters:
+  KeyPairName:
+    Description: The key pair to establish a SSH connection to the web servers.
+    Type: 'AWS::EC2::KeyPair::KeyName'
+  CertificateName:
+    Description: The certificate to use at the Load Balancer Listeners
+    Type: String
+  AWSAccessKeyID:
+    Description: The access key ID to be used in AWS based Clustering for WSO2 Products
+    Type: String
+  AWSAccessKeySecret:
+    Description: The secret access key to be used in AWS based Clustering for WSO2 Products
+    Type: String
+  ProductInstanceType:
+    Description: The EC2 instance type to be used for the WSO2 AM instances
+    Type: String
+    Default: t2.small
+  APIMClusterSize:
+    Description: The number of instances of WSO2 API Manager to spawn
+    Type: Number
+    Default: 1
+  APIMClusterMax:
+    Description: The maximum number of instances of WSO2 API Manager to scale up to
+    Type: Number
+    Default: 2
+  DBInstanceType:
+    Description: The DB instance type of the RDS instance to be used  for WSO2 AM
+    Type: String
+    Default: db.t2.micro
+  DBSize:
+    Description: The DB size (in GB) to be used for WSO2 AM
+    Type: Number
+    Default: 5
+  DBUsername:
+    Description: The username to be used in the WSO2 AM DB
+    Type: String
+    Default: root
+    MinLength: 4
+    AllowedPattern: '[A-Za-z0-9\-]+'
+  DBPassword:
+    Description: The passworf to be used in the WSO2 AM DB
+    Type: String
+    Default: rootrootroot
+    MinLength: 8
+    NoEcho: true
