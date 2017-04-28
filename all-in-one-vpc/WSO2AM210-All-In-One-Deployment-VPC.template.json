@@ -1,0 +1,1902 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Metadata": {
+        "AWS::CloudFormation::Interface": {
+            "ParameterGroups": [
+                {
+                    "Label": {
+                        "default": "Cluster Configuration"
+                    },
+                    "Parameters": [
+                        "APIMClusterSize",
+                        "APIMClusterMax",
+                        "ProductInstanceType",
+                        "KeyPairName",
+                        "AWSAccessKeyID",
+                        "AWSAccessKeySecret"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": "Network Configuration"
+                    },
+                    "Parameters": [
+                        "CertificateName"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": "Database Configuration"
+                    },
+                    "Parameters": [
+                        "DBInstanceType",
+                        "DBSize",
+                        "DBUsername",
+                        "DBPassword"
+                    ]
+                }
+            ],
+            "ParameterLabels": {
+                "APIMClusterSize": {
+                    "default": "How many instances should the APIM Cluster contain?"
+                },
+                "APIMClusterMax": {
+                    "default": "How many maximum instances should the APIM Cluster scale up to?"
+                },
+                "ProductInstanceType": {
+                    "default": "EC2 Instance type for the APIM instances"
+                },
+                "AWSAccessKeyID": {
+                    "default": "AWS Access Key ID"
+                },
+                "AWSAccessKeySecret": {
+                    "default": "AWS Access Secret Key"
+                },
+                "CertificateName": {
+                    "default": "Which certificate should be used at the Load Balancer for APIM?"
+                },
+                "DBInstanceType": {
+                    "default": "RDS Instance type for the APIM Database?"
+                },
+                "DBSize": {
+                    "default": "How large should APIM database should be?"
+                },
+                "DBUsername": {
+                    "default": "APIM Database Master username?"
+                },
+                "DBPassword": {
+                    "default": "APIM Database Master password"
+                }
+            }
+        },
+        "AWS::CloudFormation::Designer": {
+            "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2": {
+                "size": {
+                    "width": 670,
+                    "height": 530
+                },
+                "position": {
+                    "x": -5270,
+                    "y": -480
+                },
+                "z": 1,
+                "embeds": [
+                    "0f6bf8e9-5331-491e-82f3-f8c49c78af5f",
+                    "21d07bfc-0717-46fa-9325-5eb52ad71c83",
+                    "f3cdfe70-41d8-423b-8043-b5588d320330",
+                    "84568a5c-d633-40e4-a970-800a21224d24",
+                    "56c87c09-c78a-4cde-887f-b8bcb87dbd35",
+                    "0b43d1ba-21f8-4a17-89da-f526431323bd",
+                    "977bd553-1eca-42e8-80ca-d06efa92fc2c",
+                    "9a0cbff1-168f-4d60-a912-110365f8933b",
+                    "e2cf773b-7ade-41a8-9edd-8f35f6d369d7",
+                    "e803fa6d-1f40-44df-a758-8b44f434eb0f",
+                    "a873c9a5-f1c1-4955-8485-c532254dad8e",
+                    "449ab838-562f-4716-ac0c-b6ff97c368b9",
+                    "3f971707-256d-47c5-a68e-e5ab0728e152"
+                ]
+            },
+            "e2cf773b-7ade-41a8-9edd-8f35f6d369d7": {
+                "size": {
+                    "width": 130,
+                    "height": 120
+                },
+                "position": {
+                    "x": -5170,
+                    "y": -430
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": [
+                    "d4c668f0-ab82-4cf1-a377-e2f5d792e079",
+                    "6f443223-0b2a-44ac-80f6-93bceb3bb844"
+                ]
+            },
+            "4f6d7998-3ba6-40a2-8a02-19a91c756908": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5010,
+                    "y": -750
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": []
+            },
+            "9a0cbff1-168f-4d60-a912-110365f8933b": {
+                "size": {
+                    "width": 130,
+                    "height": 120
+                },
+                "position": {
+                    "x": -5170,
+                    "y": -90
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": []
+            },
+            "e1b716e6-0636-44a8-a88e-b9c679e00efd": {
+                "source": {
+                    "id": "4f6d7998-3ba6-40a2-8a02-19a91c756908"
+                },
+                "target": {
+                    "id": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2"
+                },
+                "z": 2
+            },
+            "0c6a6593-1ece-4ea6-a375-faf74b62a6b2": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5410,
+                    "y": -350
+                },
+                "z": 0,
+                "embeds": [],
+                "isrelatedto": [
+                    "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2"
+                ]
+            },
+            "977bd553-1eca-42e8-80ca-d06efa92fc2c": {
+                "size": {
+                    "width": 120,
+                    "height": 120
+                },
+                "position": {
+                    "x": -5030,
+                    "y": -430
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": [
+                    "0b559c64-1251-44be-86e6-e55d89462462"
+                ]
+            },
+            "6f443223-0b2a-44ac-80f6-93bceb3bb844": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5410,
+                    "y": -60
+                },
+                "z": 0,
+                "parent": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7",
+                "embeds": [],
+                "isrelatedto": [
+                    "0f6bf8e9-5331-491e-82f3-f8c49c78af5f"
+                ]
+            },
+            "cf4ad471-855d-4129-bd88-3a21a4caab78": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5070,
+                    "y": -620
+                },
+                "z": 3,
+                "parent": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7",
+                "embeds": []
+            },
+            "91c5365f-9914-43ad-b8bf-ccd30d95e309": {
+                "source": {
+                    "id": "977bd553-1eca-42e8-80ca-d06efa92fc2c"
+                },
+                "target": {
+                    "id": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7"
+                },
+                "z": 2
+            },
+            "0b559c64-1251-44be-86e6-e55d89462462": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5000,
+                    "y": -400
+                },
+                "z": 3,
+                "parent": "977bd553-1eca-42e8-80ca-d06efa92fc2c",
+                "embeds": [],
+                "references": [
+                    "0c6a6593-1ece-4ea6-a375-faf74b62a6b2"
+                ]
+            },
+            "52b537bf-aa49-4fba-8e81-a27c630eb747": {
+                "source": {
+                    "id": "0b559c64-1251-44be-86e6-e55d89462462"
+                },
+                "target": {
+                    "id": "0c6a6593-1ece-4ea6-a375-faf74b62a6b2"
+                },
+                "z": 5
+            },
+            "7c0999f8-5cfe-4b5e-8719-3aa18030ed01": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -4830,
+                    "y": -620
+                },
+                "z": 3,
+                "parent": "9a0cbff1-168f-4d60-a912-110365f8933b",
+                "embeds": []
+            },
+            "0b43d1ba-21f8-4a17-89da-f526431323bd": {
+                "size": {
+                    "width": 120,
+                    "height": 120
+                },
+                "position": {
+                    "x": -5030,
+                    "y": -90
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": [
+                    "be0c7987-95fe-4620-b66f-10c2582e49ea"
+                ]
+            },
+            "be0c7987-95fe-4620-b66f-10c2582e49ea": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5000,
+                    "y": -60
+                },
+                "z": 3,
+                "parent": "0b43d1ba-21f8-4a17-89da-f526431323bd",
+                "embeds": [],
+                "isrelatedto": [
+                    "6f443223-0b2a-44ac-80f6-93bceb3bb844"
+                ]
+            },
+            "0f6bf8e9-5331-491e-82f3-f8c49c78af5f": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5250,
+                    "y": -60
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": []
+            },
+            "32b54b15-6a0c-4f39-a18b-9efbee09569d": {
+                "source": {
+                    "id": "0b43d1ba-21f8-4a17-89da-f526431323bd"
+                },
+                "target": {
+                    "id": "9a0cbff1-168f-4d60-a912-110365f8933b"
+                },
+                "z": 2
+            },
+            "a585cc83-c457-4d52-85bf-8fe714d6302b": {
+                "source": {
+                    "id": "0c6a6593-1ece-4ea6-a375-faf74b62a6b2"
+                },
+                "target": {
+                    "id": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2"
+                },
+                "z": 0
+            },
+            "84568a5c-d633-40e4-a970-800a21224d24": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5250,
+                    "y": -400
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": []
+            },
+            "d4c668f0-ab82-4cf1-a377-e2f5d792e079": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5140,
+                    "y": -400
+                },
+                "z": 3,
+                "parent": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7",
+                "embeds": [],
+                "ismemberof": [
+                    "84568a5c-d633-40e4-a970-800a21224d24"
+                ],
+                "dependson": [
+                    "84568a5c-d633-40e4-a970-800a21224d24"
+                ]
+            },
+            "5ce139ad-4dd4-4cf0-aca5-08029aee6eec": {
+                "source": {
+                    "id": "d4c668f0-ab82-4cf1-a377-e2f5d792e079"
+                },
+                "target": {
+                    "id": "84568a5c-d633-40e4-a970-800a21224d24"
+                },
+                "z": 4
+            },
+            "92fed6de-d0bb-4c9e-ade4-ba7f35dee2ff": {
+                "source": {
+                    "id": "d4c668f0-ab82-4cf1-a377-e2f5d792e079"
+                },
+                "target": {
+                    "id": "84568a5c-d633-40e4-a970-800a21224d24"
+                },
+                "z": 4
+            },
+            "449ab838-562f-4716-ac0c-b6ff97c368b9": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -4850,
+                    "y": -40
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": [],
+                "ismemberof": [
+                    "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                ],
+                "dependson": [
+                    "56c87c09-c78a-4cde-887f-b8bcb87dbd35",
+                    "a873c9a5-f1c1-4955-8485-c532254dad8e"
+                ],
+                "isrelatedto": [
+                    "c923fc1a-40b9-4c51-a288-6477f32b3219",
+                    "a873c9a5-f1c1-4955-8485-c532254dad8e"
+                ]
+            },
+            "c6bb6de6-531f-4bff-9b29-ad95c678e79b": {
+                "source": {
+                    "id": "449ab838-562f-4716-ac0c-b6ff97c368b9"
+                },
+                "target": {
+                    "id": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2"
+                },
+                "z": 4
+            },
+            "56c87c09-c78a-4cde-887f-b8bcb87dbd35": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -4730,
+                    "y": -450
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": [],
+                "dependson": [
+                    "84568a5c-d633-40e4-a970-800a21224d24"
+                ],
+                "isrelatedto": [
+                    "84568a5c-d633-40e4-a970-800a21224d24",
+                    "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                ]
+            },
+            "95c27dea-05f1-4cae-8b36-390fcddbbced": {
+                "source": {
+                    "id": "449ab838-562f-4716-ac0c-b6ff97c368b9"
+                },
+                "target": {
+                    "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                },
+                "z": 4
+            },
+            "3f971707-256d-47c5-a68e-e5ab0728e152": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -4850,
+                    "y": -120
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": [],
+                "isconnectedto": [
+                    "a873c9a5-f1c1-4955-8485-c532254dad8e",
+                    "9a0cbff1-168f-4d60-a912-110365f8933b"
+                ],
+                "isassociatedwith": [
+                    "449ab838-562f-4716-ac0c-b6ff97c368b9"
+                ],
+                "dependson": [
+                    "449ab838-562f-4716-ac0c-b6ff97c368b9",
+                    "a873c9a5-f1c1-4955-8485-c532254dad8e"
+                ]
+            },
+            "be448209-beee-4cd8-b856-6613de7346e1": {
+                "source": {
+                    "id": "3f971707-256d-47c5-a68e-e5ab0728e152"
+                },
+                "target": {
+                    "id": "449ab838-562f-4716-ac0c-b6ff97c368b9"
+                },
+                "z": 5
+            },
+            "1b710fe0-ec7b-4c72-8874-f4bd92c88c0a": {
+                "source": {
+                    "id": "3f971707-256d-47c5-a68e-e5ab0728e152"
+                },
+                "target": {
+                    "id": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7"
+                },
+                "z": 11
+            },
+            "5d387bd6-75e6-4719-af84-8ff332faad1d": {
+                "source": {
+                    "id": "449ab838-562f-4716-ac0c-b6ff97c368b9"
+                },
+                "target": {
+                    "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                },
+                "z": 11
+            },
+            "a873c9a5-f1c1-4955-8485-c532254dad8e": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -4850,
+                    "y": -450
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": [],
+                "isconnectedto": [
+                    "e2cf773b-7ade-41a8-9edd-8f35f6d369d7"
+                ],
+                "ismemberof": [
+                    "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                ],
+                "dependson": [
+                    "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                ]
+            },
+            "c2e248a1-dc42-4df6-9cd7-aeaeefd0fd7c": {
+                "source": {
+                    "id": "a873c9a5-f1c1-4955-8485-c532254dad8e"
+                },
+                "target": {
+                    "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                },
+                "z": 11
+            },
+            "b1a6c048-1720-4419-a3f9-2ada9335a9de": {
+                "source": {
+                    "id": "a873c9a5-f1c1-4955-8485-c532254dad8e"
+                },
+                "target": {
+                    "id": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7"
+                },
+                "z": 12
+            },
+            "16346f02-e313-48d4-a93d-5d96cd6f7433": {
+                "source": {
+                    "id": "3f971707-256d-47c5-a68e-e5ab0728e152"
+                },
+                "target": {
+                    "id": "a873c9a5-f1c1-4955-8485-c532254dad8e"
+                },
+                "z": 13
+            },
+            "de7ee385-0508-4c4f-a318-0d7e59a2a400": {
+                "source": {
+                    "id": "3f971707-256d-47c5-a68e-e5ab0728e152"
+                },
+                "target": {
+                    "id": "9a0cbff1-168f-4d60-a912-110365f8933b"
+                },
+                "z": 14
+            },
+            "e354e03c-91aa-48df-8a91-0ead57f7281c": {
+                "source": {
+                    "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                },
+                "target": {
+                    "id": "84568a5c-d633-40e4-a970-800a21224d24"
+                },
+                "z": 4
+            },
+            "1b173d86-ec69-43ca-9a29-30712ee7dc53": {
+                "source": {
+                    "id": "a873c9a5-f1c1-4955-8485-c532254dad8e"
+                },
+                "target": {
+                    "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                },
+                "z": 5
+            },
+            "349c36ee-1b09-43a9-9ec2-5f6713724f19": {
+                "source": {
+                    "id": "449ab838-562f-4716-ac0c-b6ff97c368b9"
+                },
+                "target": {
+                    "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                },
+                "z": 6
+            },
+            "c19cf564-d402-4bb7-bf57-239811fcfac9": {
+                "source": {
+                    "id": "3f971707-256d-47c5-a68e-e5ab0728e152"
+                },
+                "target": {
+                    "id": "449ab838-562f-4716-ac0c-b6ff97c368b9"
+                },
+                "z": 7
+            },
+            "cc2a0878-c939-4037-9fe9-adee9185778b": {
+                "source": {
+                    "id": "3f971707-256d-47c5-a68e-e5ab0728e152"
+                },
+                "target": {
+                    "id": "a873c9a5-f1c1-4955-8485-c532254dad8e"
+                },
+                "z": 8
+            },
+            "f5bd26f4-744d-4421-ab01-2bf865daf07c": {
+                "source": {
+                    "id": "5f929353-a443-4711-a696-512169532f1a"
+                },
+                "target": {
+                    "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                },
+                "z": 4
+            },
+            "2b1d9bea-72be-48ba-a9c8-a632441b0311": {
+                "source": {
+                    "id": "449ab838-562f-4716-ac0c-b6ff97c368b9"
+                },
+                "target": {
+                    "id": "5f929353-a443-4711-a696-512169532f1a"
+                },
+                "z": 4
+            },
+            "c923fc1a-40b9-4c51-a288-6477f32b3219": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -4730,
+                    "y": -300
+                },
+                "z": 3,
+                "parent": "e803fa6d-1f40-44df-a758-8b44f434eb0f",
+                "embeds": [],
+                "ismemberof": [
+                    "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                ],
+                "isrelatedto": [
+                    "e2cf773b-7ade-41a8-9edd-8f35f6d369d7"
+                ]
+            },
+            "82b3feca-e9d0-4f81-be6d-319f449e80a1": {
+                "source": {
+                    "id": "0979f871-e850-492d-89a4-4e2a706fca71"
+                },
+                "target": {
+                    "id": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7"
+                },
+                "z": 4
+            },
+            "fc39e52b-f39b-4d01-8399-76a712c844b5": {
+                "source": {
+                    "id": "0979f871-e850-492d-89a4-4e2a706fca71"
+                },
+                "target": {
+                    "id": "9a0cbff1-168f-4d60-a912-110365f8933b"
+                },
+                "z": 4
+            },
+            "e803fa6d-1f40-44df-a758-8b44f434eb0f": {
+                "size": {
+                    "width": 180,
+                    "height": 150
+                },
+                "position": {
+                    "x": -4790,
+                    "y": -350
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": [
+                    "c923fc1a-40b9-4c51-a288-6477f32b3219"
+                ],
+                "isconnectedto": [
+                    "9a0cbff1-168f-4d60-a912-110365f8933b",
+                    "e2cf773b-7ade-41a8-9edd-8f35f6d369d7",
+                    "f3cdfe70-41d8-423b-8043-b5588d320330"
+                ]
+            },
+            "5b708e2b-5ee0-48c2-beec-d1f63212fba3": {
+                "source": {
+                    "id": "e803fa6d-1f40-44df-a758-8b44f434eb0f"
+                },
+                "target": {
+                    "id": "9a0cbff1-168f-4d60-a912-110365f8933b"
+                },
+                "z": 4
+            },
+            "2545d78f-eecf-485c-a068-ebf794240ca3": {
+                "source": {
+                    "id": "e803fa6d-1f40-44df-a758-8b44f434eb0f"
+                },
+                "target": {
+                    "id": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7"
+                },
+                "z": 5
+            },
+            "f3cdfe70-41d8-423b-8043-b5588d320330": {
+                "size": {
+                    "width": 130,
+                    "height": 120
+                },
+                "position": {
+                    "x": -5170,
+                    "y": -280
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": []
+            },
+            "21d07bfc-0717-46fa-9325-5eb52ad71c83": {
+                "size": {
+                    "width": 120,
+                    "height": 120
+                },
+                "position": {
+                    "x": -5030,
+                    "y": -280
+                },
+                "z": 2,
+                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
+                "embeds": [
+                    "c628636d-6d86-4649-a71e-ff6a1b41a493"
+                ]
+            },
+            "c628636d-6d86-4649-a71e-ff6a1b41a493": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5000,
+                    "y": -250
+                },
+                "z": 3,
+                "parent": "21d07bfc-0717-46fa-9325-5eb52ad71c83",
+                "embeds": [],
+                "references": [
+                    "0c6a6593-1ece-4ea6-a375-faf74b62a6b2"
+                ]
+            },
+            "7c399c2f-0dc5-42b7-a950-3c1c4d927ed5": {
+                "source": {
+                    "id": "21d07bfc-0717-46fa-9325-5eb52ad71c83"
+                },
+                "target": {
+                    "id": "f3cdfe70-41d8-423b-8043-b5588d320330"
+                },
+                "z": 2
+            },
+            "98d58bbd-ea6d-4e89-9288-bc94b82c07f1": {
+                "source": {
+                    "id": "e803fa6d-1f40-44df-a758-8b44f434eb0f"
+                },
+                "target": {
+                    "id": "f3cdfe70-41d8-423b-8043-b5588d320330"
+                },
+                "z": 4
+            },
+            "6464f4cf-7f13-46d2-8313-5079e8d2d535": {
+                "source": {
+                    "id": "449ab838-562f-4716-ac0c-b6ff97c368b9"
+                },
+                "target": {
+                    "id": "a873c9a5-f1c1-4955-8485-c532254dad8e"
+                },
+                "z": 4
+            }
+        }
+    },
+    "Resources": {
+        "WSO2AM1SIMPLE1VPC": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": "10.0.0.0/16",
+                "EnableDnsSupport": true,
+                "EnableDnsHostnames": true
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2"
+                }
+            }
+        },
+        "PublicSubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "WSO2AM1SIMPLE1VPC"
+                },
+                "CidrBlock": "10.0.254.0/24",
+                "MapPublicIpOnLaunch": true,
+                "AvailabilityZone": {
+                    "Fn::Select": [
+                        "0",
+                        {
+                            "Fn::GetAZs": ""
+                        }
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7"
+                }
+            }
+        },
+        "PrivateSubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "WSO2AM1SIMPLE1VPC"
+                },
+                "CidrBlock": "10.0.1.0/24",
+                "AvailabilityZone": {
+                    "Fn::Select": [
+                        "0",
+                        {
+                            "Fn::GetAZs": ""
+                        }
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "9a0cbff1-168f-4d60-a912-110365f8933b"
+                }
+            }
+        },
+        "PublicInternetGateway": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {},
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "0c6a6593-1ece-4ea6-a375-faf74b62a6b2"
+                }
+            }
+        },
+        "PublicRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "WSO2AM1SIMPLE1VPC"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "977bd553-1eca-42e8-80ca-d06efa92fc2c"
+                }
+            }
+        },
+        "PrivateNATGateway": {
+            "Type": "AWS::EC2::NatGateway",
+            "Properties": {
+                "AllocationId": {
+                    "Fn::GetAtt": [
+                        "NATEIP",
+                        "AllocationId"
+                    ]
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "6f443223-0b2a-44ac-80f6-93bceb3bb844"
+                }
+            }
+        },
+        "EC2SRTA4ALO8": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "91c5365f-9914-43ad-b8bf-ccd30d95e309"
+                }
+            }
+        },
+        "PublicRoute": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                },
+                "GatewayId": {
+                    "Ref": "PublicInternetGateway"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "0b559c64-1251-44be-86e6-e55d89462462"
+                }
+            }
+        },
+        "PrivateRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "WSO2AM1SIMPLE1VPC"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "0b43d1ba-21f8-4a17-89da-f526431323bd"
+                }
+            }
+        },
+        "PrivateRoute": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PrivateRouteTable"
+                },
+                "NatGatewayId": {
+                    "Ref": "PrivateNATGateway"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "be0c7987-95fe-4620-b66f-10c2582e49ea"
+                }
+            }
+        },
+        "NATEIP": {
+            "Type": "AWS::EC2::EIP",
+            "Properties": {
+                "Domain": "vpc"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "0f6bf8e9-5331-491e-82f3-f8c49c78af5f"
+                }
+            }
+        },
+        "EC2SRTA2ZXK4": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PrivateRouteTable"
+                },
+                "SubnetId": {
+                    "Ref": "PrivateSubnet"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "32b54b15-6a0c-4f39-a18b-9efbee09569d"
+                }
+            }
+        },
+        "EC2VPCG1W38G": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "InternetGatewayId": {
+                    "Ref": "PublicInternetGateway"
+                },
+                "VpcId": {
+                    "Ref": "WSO2AM1SIMPLE1VPC"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "a585cc83-c457-4d52-85bf-8fe714d6302b"
+                }
+            }
+        },
+        "BastionSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Bastion Security Group",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "ICMP",
+                        "FromPort": "-1",
+                        "ToPort": "-1",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "SecurityGroupEgress": [
+                    {
+                        "IpProtocol": -1,
+                        "FromPort": "0",
+                        "ToPort": "0",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "WSO2AM1SIMPLE1VPC"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "84568a5c-d633-40e4-a970-800a21224d24"
+                }
+            }
+        },
+        "BastionInstance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "BastionSecurityGroup"
+                    }
+                ],
+                "ImageId": "ami-7bfcd81e",
+                "KeyName": "wso2deploymenttoolpoc",
+                "SubnetId": {
+                    "Ref": "PublicSubnet"
+                },
+                "InstanceType": "t2.micro",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "WSO2AM-Bastion"
+                    },
+                    {
+                        "Key": "Product",
+                        "Value": "Bastion"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "d4c668f0-ab82-4cf1-a377-e2f5d792e079"
+                }
+            },
+            "DependsOn": [
+                "BastionSecurityGroup"
+            ]
+        },
+        "WSO2AMLC": {
+            "Type": "AWS::AutoScaling::LaunchConfiguration",
+            "Properties": {
+                "AssociatePublicIpAddress": true,
+                "ImageId": "ami-618fab04",
+                "InstanceType": {
+                    "Ref": "ProductInstanceType"
+                },
+                "BlockDeviceMappings": [
+                    {
+                        "DeviceName": "/dev/sda1",
+                        "Ebs": {
+                            "VolumeSize": "20",
+                            "VolumeType": "gp2",
+                            "DeleteOnTermination": "true"
+                        }
+                    }
+                ],
+                "KeyName": {
+                    "Ref": "KeyPairName"
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "ProductSecurityGroup"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "\n",
+                            [
+                                "#!/bin/bash",
+                                "mount -t ext4 /dev/sda1 /opt/",
+                                "apt-get update",
+                                "apt-get install unzip -y",
+                                "wget --no-check-certificate --no-cookies --header \"Cookie: oraclelicense=accept-securebackup-cookie\" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz -P /tmp",
+                                "tar zxvf /tmp/jdk-8u112-linux-x64.tar.gz -C /opt",
+                                "ln -s /opt/jdk1.8.0_112/ /opt/java",
+                                "export JAVA_HOME=\"/opt/java\"",
+                                "",
+                                "wget --user-agent=\"testuser\" --referer=\"http://connect.wso2.com/wso2/getform/reg/new_product_download\" http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip -P /tmp",
+                                "unzip /tmp/wso2am-2.1.0.zip -d /opt",
+                                "wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip -P /tmp",
+                                "unzip /tmp/mysql-connector-java-5.1.41.zip -d /tmp",
+                                "cp /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /opt/wso2am-2.1.0/repository/components/lib/",
+                                "",
+                                "public_ip=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)",
+                                "sed -i \"/HostName>www.wso2.org/c\\<HostName>$public_ip</HostName>\" /opt/wso2am-2.1.0/repository/conf/carbon.xml",
+                                "sed -i \"/MgtHostName>mgt.wso2.org/c\\<MgtHostName>$public_ip</MgtHostName>\" /opt/wso2am-2.1.0/repository/conf/carbon.xml",
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"19s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"90s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"96s/\\${carbon.local.ip}/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"205s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"267s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"287s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"290s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"320s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"592s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"658s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"659s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"660s/localhost/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELB",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/api-manager.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"s/DB_HOST/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMDB",
+                                                    "Endpoint.Address"
+                                                ]
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"s/DB_USERNAME/",
+                                            {
+                                                "Ref": "DBUsername"
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"s/DB_PASSWORD/",
+                                            {
+                                                "Ref": "DBPassword"
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"s/AWS_ACCESS_KEY/",
+                                            {
+                                                "Ref": "AWSAccessKeyID"
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"s/AWS_SECRET_KEY/",
+                                            {
+                                                "Ref": "AWSAccessKeySecret"
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"s/AWS_SECURITY_GROUP/",
+                                            {
+                                                "Ref": "ProductSecurityGroup"
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"s/AWS_REGION/",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "/g\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml"
+                                        ]
+                                    ]
+                                },
+                                "sed -i \"s/AWS_CLUSTER_TAG_NAME/Cluster/g\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml",
+                                "sed -i \"s/AWS_CLUSTER_TAG_VALUE/WSO2AM210SIMPLE/g\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml",
+                                "sed -i \"546s/.*/<parameter name=\\\"HostnameVerifier\\\">AllowAll<\\\/parameter>/\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml",
+                                "",
+                                "/opt/wso2am-2.1.0/bin/wso2server.sh -Dsetup start"
+                            ]
+                        ]
+                    }
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "449ab838-562f-4716-ac0c-b6ff97c368b9"
+                }
+            },
+            "DependsOn": [
+                "ProductSecurityGroup",
+                "WSO2AMELB"
+            ]
+        },
+        "ProductSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Product Security Group",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "SourceSecurityGroupId": {
+                            "Ref": "BastionSecurityGroup"
+                        }
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "9443",
+                        "ToPort": "9443",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "5701",
+                        "ToPort": "5701",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "9763",
+                        "ToPort": "9763",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "8243",
+                        "ToPort": "8243",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "8280",
+                        "ToPort": "8280",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "443",
+                        "ToPort": "443",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "3306",
+                        "ToPort": "3306",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "ICMP",
+                        "FromPort": "-1",
+                        "ToPort": "-1",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "3306",
+                        "ToPort": "3306",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "10389",
+                        "ToPort": "10389",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "8000",
+                        "ToPort": "8000",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "5701",
+                        "ToPort": "5701",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "5672",
+                        "ToPort": "5672",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "9611",
+                        "ToPort": "9611",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "9711",
+                        "ToPort": "9711",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "10397",
+                        "ToPort": "10397",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "SecurityGroupEgress": [
+                    {
+                        "IpProtocol": -1,
+                        "FromPort": "0",
+                        "ToPort": "0",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "WSO2AM1SIMPLE1VPC"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                }
+            },
+            "DependsOn": [
+                "BastionSecurityGroup"
+            ]
+        },
+        "WSO2AMASGroup": {
+            "Type": "AWS::AutoScaling::AutoScalingGroup",
+            "Properties": {
+                "LaunchConfigurationName": {
+                    "Ref": "WSO2AMLC"
+                },
+                "DesiredCapacity": {
+                    "Ref": "APIMClusterSize"
+                },
+                "MinSize": 1,
+                "MaxSize": {
+                    "Ref": "APIMClusterMax"
+                },
+                "LoadBalancerNames": [
+                    {
+                        "Ref": "WSO2AMELB"
+                    }
+                ],
+                "VPCZoneIdentifier": [
+                    {
+                        "Ref": "PrivateSubnet"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "WSO2AM-Instance",
+                        "PropagateAtLaunch": "true"
+                    },
+                    {
+                        "Key": "Product",
+                        "Value": "WSO2AM",
+                        "PropagateAtLaunch": "true"
+                    },
+                    {
+                        "Key": "Version",
+                        "Value": "2.1.0",
+                        "PropagateAtLaunch": "true"
+                    },
+                    {
+                        "Key": "Cluster",
+                        "Value": "WSO2AM210SIMPLE",
+                        "PropagateAtLaunch": "true"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "3f971707-256d-47c5-a68e-e5ab0728e152"
+                }
+            },
+            "DependsOn": [
+                "WSO2AMLC"
+            ]
+        },
+        "WSO2AMELB": {
+            "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+            "Properties": {
+                "CrossZone": true,
+                "SecurityGroups": [
+                    {
+                        "Ref": "ProductSecurityGroup"
+                    }
+                ],
+                "Subnets": [
+                    {
+                        "Ref": "PublicSubnet"
+                    }
+                ],
+                "Listeners": [
+                    {
+                        "LoadBalancerPort": "9443",
+                        "InstancePort": "9443",
+                        "Protocol": "HTTPS",
+                        "InstanceProtocol": "HTTPS",
+                        "SSLCertificateId": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:iam::",
+                                    {
+                                        "Ref": "AWS::AccountId"
+                                    },
+                                    ":server-certificate",
+                                    "/",
+                                    {
+                                        "Ref": "CertificateName"
+                                    }
+                                ]
+                            ]
+                        }
+                    },
+                    {
+                        "LoadBalancerPort": "8243",
+                        "InstancePort": "8243",
+                        "Protocol": "HTTPS",
+                        "InstanceProtocol": "HTTPS",
+                        "SSLCertificateId": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:iam::",
+                                    {
+                                        "Ref": "AWS::AccountId"
+                                    },
+                                    ":server-certificate",
+                                    "/",
+                                    {
+                                        "Ref": "CertificateName"
+                                    }
+                                ]
+                            ]
+                        }
+                    },
+                    {
+                        "LoadBalancerPort": "9763",
+                        "InstancePort": "9763",
+                        "Protocol": "HTTP",
+                        "InstanceProtocol": "HTTP"
+                    },
+                    {
+                        "LoadBalancerPort": "10389",
+                        "InstancePort": "10389",
+                        "Protocol": "TCP",
+                        "InstanceProtocol": "TCP"
+                    },
+                    {
+                        "LoadBalancerPort": "8000",
+                        "InstancePort": "8000",
+                        "Protocol": "TCP",
+                        "InstanceProtocol": "TCP"
+                    },
+                    {
+                        "LoadBalancerPort": "5701",
+                        "InstancePort": "5701",
+                        "Protocol": "TCP",
+                        "InstanceProtocol": "TCP"
+                    },
+                    {
+                        "LoadBalancerPort": "5672",
+                        "InstancePort": "5672",
+                        "Protocol": "TCP",
+                        "InstanceProtocol": "TCP"
+                    },
+                    {
+                        "LoadBalancerPort": "9611",
+                        "InstancePort": "9611",
+                        "Protocol": "TCP",
+                        "InstanceProtocol": "TCP"
+                    },
+                    {
+                        "LoadBalancerPort": "9711",
+                        "InstancePort": "9711",
+                        "Protocol": "TCP",
+                        "InstanceProtocol": "TCP"
+                    },
+                    {
+                        "LoadBalancerPort": "10397",
+                        "InstancePort": "10397",
+                        "Protocol": "TCP",
+                        "InstanceProtocol": "TCP"
+                    }
+                ],
+                "HealthCheck": {
+                    "Target": "TCP:9763",
+                    "HealthyThreshold": "3",
+                    "UnhealthyThreshold": "5",
+                    "Interval": "10",
+                    "Timeout": "5"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "a873c9a5-f1c1-4955-8485-c532254dad8e"
+                }
+            },
+            "DependsOn": [
+                "ProductSecurityGroup"
+            ]
+        },
+        "WSO2AMDB": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "VPCSecurityGroups": [
+                    {
+                        "Ref": "ProductSecurityGroup"
+                    }
+                ],
+                "DBInstanceClass": {
+                    "Ref": "DBInstanceType"
+                },
+                "AllocatedStorage": {
+                    "Ref": "DBSize"
+                },
+                "BackupRetentionPeriod": "0",
+                "DBInstanceIdentifier": "wso2amdb",
+                "DBName": "WSO2AM_DB",
+                "Engine": "MySQL",
+                "MasterUsername": {
+                    "Ref": "DBUsername"
+                },
+                "MasterUserPassword": {
+                    "Ref": "DBPassword"
+                },
+                "MultiAZ": "false",
+                "StorageType": "gp2",
+                "DBSubnetGroupName": {
+                    "Ref": "RDSDBSG412ZQ"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "c923fc1a-40b9-4c51-a288-6477f32b3219"
+                }
+            }
+        },
+        "RDSDBSG412ZQ": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "DB Subnet Group",
+                "SubnetIds": [
+                    {
+                        "Ref": "PublicSubnet"
+                    },
+                    {
+                        "Ref": "PublicSubnet2"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "e803fa6d-1f40-44df-a758-8b44f434eb0f"
+                }
+            }
+        },
+        "PublicSubnet2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "WSO2AM1SIMPLE1VPC"
+                },
+                "CidrBlock": "10.0.252.0/24",
+                "MapPublicIpOnLaunch": true,
+                "AvailabilityZone": {
+                    "Fn::Select": [
+                        "1",
+                        {
+                            "Fn::GetAZs": ""
+                        }
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "f3cdfe70-41d8-423b-8043-b5588d320330"
+                }
+            }
+        },
+        "PublicRouteTable2": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "WSO2AM1SIMPLE1VPC"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "21d07bfc-0717-46fa-9325-5eb52ad71c83"
+                }
+            }
+        },
+        "PublicRoute2": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable2"
+                },
+                "GatewayId": {
+                    "Ref": "PublicInternetGateway"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "c628636d-6d86-4649-a71e-ff6a1b41a493"
+                }
+            }
+        },
+        "EC2SRTA21VEF": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable2"
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet2"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "7c399c2f-0dc5-42b7-a950-3c1c4d927ed5"
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "Carbon": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "https://",
+                        {
+                            "Fn::GetAtt": [
+                                "WSO2AMELB",
+                                "DNSName"
+                            ]
+                        },
+                        ":9443/carbon"
+                    ]
+                ]
+            },
+            "Description": "WSO2 AM Carbon Console URL"
+        },
+        "SSH": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "ssh -i ",
+                        {
+                            "Ref": "KeyPairName"
+                        },
+                        ".pem ec2-user@",
+                        {
+                            "Fn::GetAtt": [
+                                "BastionInstance",
+                                "PublicIp"
+                            ]
+                        }
+                    ]
+                ]
+            },
+            "Description": "Bastion SSH Details"
+        }
+    },
+    "Parameters": {
+        "KeyPairName": {
+            "Description": "The key pair to establish a SSH connection to the web servers. This should be already created.",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "CertificateName": {
+            "Description": "A previously uploaded certificate to use at the Load Balancer Listeners.",
+            "Type": "String"
+        },
+        "AWSAccessKeyID": {
+            "Description": "The access key ID to be used in AWS based Clustering for WSO2 Products.",
+            "Type": "String"
+        },
+        "AWSAccessKeySecret": {
+            "Description": "The secret access key to be used in AWS based Clustering for WSO2 Products.",
+            "Type": "String"
+        },
+        "ProductInstanceType": {
+            "Description": "The EC2 instance type to be used for the WSO2 AM instances.",
+            "Type": "String",
+            "Default": "t2.small"
+        },
+        "APIMClusterSize": {
+            "Description": "The number of instances of WSO2 API Manager to spawn. This can be increased later through the AutoScale Group.",
+            "Type": "Number",
+            "Default": 1
+        },
+        "APIMClusterMax": {
+            "Description": "The maximum number of instances of WSO2 API Manager to scale up to.",
+            "Type": "Number",
+            "Default": 2
+        },
+        "DBInstanceType": {
+            "Description": "The DB instance type of the RDS instance to be used  for WSO2 AM.",
+            "Type": "String",
+            "Default": "db.t2.micro"
+        },
+        "DBSize": {
+            "Description": "The DB size (in GB) to be used for WSO2 AM.",
+            "Type": "Number",
+            "Default": 5
+        },
+        "DBUsername": {
+            "Description": "The username to be used in the WSO2 AM DB.",
+            "Type": "String",
+            "Default": "root",
+            "MinLength": 4,
+            "AllowedPattern": "[A-Za-z0-9\\-]+"
+        },
+        "DBPassword": {
+            "Description": "The passworf to be used in the WSO2 AM DB.",
+            "Type": "String",
+            "Default": "rootrootroot",
+            "MinLength": 8,
+            "NoEcho": true
+        }
+    }
+}

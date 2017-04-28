@@ -8,6 +8,7 @@ Metadata:
           - APIMClusterSize
           - APIMClusterMax
           - ProductInstanceType
+          - KeyPairName
           - AWSAccessKeyID
           - AWSAccessKeySecret
       - Label:
@@ -45,11 +46,11 @@ Metadata:
   'AWS::CloudFormation::Designer':
     c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2:
       size:
-        width: 810
-        height: 590
+        width: 670
+        height: 530
       position:
         x: -5270
-        'y': -470
+        'y': -480
       z: 1
       embeds:
         - 0f6bf8e9-5331-491e-82f3-f8c49c78af5f
@@ -62,8 +63,8 @@ Metadata:
         - 9a0cbff1-168f-4d60-a912-110365f8933b
         - e2cf773b-7ade-41a8-9edd-8f35f6d369d7
         - e803fa6d-1f40-44df-a758-8b44f434eb0f
-        - 449ab838-562f-4716-ac0c-b6ff97c368b9
         - a873c9a5-f1c1-4955-8485-c532254dad8e
+        - 449ab838-562f-4716-ac0c-b6ff97c368b9
         - 3f971707-256d-47c5-a68e-e5ab0728e152
     e2cf773b-7ade-41a8-9edd-8f35f6d369d7:
       size:
@@ -131,7 +132,7 @@ Metadata:
         height: 60
       position:
         x: -5410
-        'y': -40
+        'y': -60
       z: 0
       parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
       embeds: []
@@ -210,7 +211,7 @@ Metadata:
         height: 60
       position:
         x: -5250
-        'y': 20
+        'y': -60
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -276,8 +277,10 @@ Metadata:
         - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
       dependson:
         - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
+        - a873c9a5-f1c1-4955-8485-c532254dad8e
       isrelatedto:
         - c923fc1a-40b9-4c51-a288-6477f32b3219
+        - a873c9a5-f1c1-4955-8485-c532254dad8e
     c6bb6de6-531f-4bff-9b29-ad95c678e79b:
       source:
         id: 449ab838-562f-4716-ac0c-b6ff97c368b9
@@ -289,8 +292,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4850
-        'y': 40
+        x: -4730
+        'y': -450
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -346,8 +349,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4550
-        'y': -330
+        x: -4850
+        'y': -450
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -429,7 +432,7 @@ Metadata:
         height: 60
       position:
         x: -4730
-        'y': -330
+        'y': -300
       z: 3
       parent: e803fa6d-1f40-44df-a758-8b44f434eb0f
       embeds: []
@@ -455,7 +458,7 @@ Metadata:
         height: 150
       position:
         x: -4790
-        'y': -380
+        'y': -350
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -520,6 +523,12 @@ Metadata:
         id: e803fa6d-1f40-44df-a758-8b44f434eb0f
       target:
         id: f3cdfe70-41d8-423b-8043-b5588d320330
+      z: 4
+    6464f4cf-7f13-46d2-8313-5079e8d2d535:
+      source:
+        id: 449ab838-562f-4716-ac0c-b6ff97c368b9
+      target:
+        id: a873c9a5-f1c1-4955-8485-c532254dad8e
       z: 4
 Resources:
   WSO2AM1SIMPLE1VPC:
@@ -678,8 +687,14 @@ Resources:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
       AssociatePublicIpAddress: true
-      ImageId: ami-bd5c7bd8
+      ImageId: ami-618fab04
       InstanceType: !Ref ProductInstanceType
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: '20'
+            VolumeType: gp2
+            DeleteOnTermination: 'true'
       KeyName: !Ref KeyPairName
       SecurityGroups:
         - !Ref ProductSecurityGroup
@@ -688,7 +703,24 @@ Resources:
           - |+
 
           - - '#!/bin/bash'
+            - mount -t ext4 /dev/sda1 /opt/
+            - apt-get update
+            - apt-get install unzip -y
+            - >-
+              wget --no-check-certificate --no-cookies --header "Cookie:
+              oraclelicense=accept-securebackup-cookie"
+              http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
+              -P /tmp
+            - tar zxvf /tmp/jdk-8u112-linux-x64.tar.gz -C /opt
+            - ln -s /opt/jdk1.8.0_112/ /opt/java
             - export JAVA_HOME="/opt/java"
+            - ''
+            - >-
+              wget --user-agent="testuser"
+              --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download"
+              http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip
+              -P /tmp
+            - unzip /tmp/wso2am-2.1.0.zip -d /opt
             - >-
               wget
               https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip
@@ -698,12 +730,31 @@ Resources:
               cp
               /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar
               /opt/wso2am-2.1.0/repository/components/lib/
+            - ''
             - >-
               public_ip=$(curl
               http://169.254.169.254/latest/meta-data/public-ipv4)
             - >-
-              sed -i "s/IP_ADDRESS/$public_ip/g"
+              sed -i "/HostName>www.wso2.org/c\<HostName>$public_ip</HostName>"
               /opt/wso2am-2.1.0/repository/conf/carbon.xml
+            - >-
+              sed -i
+              "/MgtHostName>mgt.wso2.org/c\<MgtHostName>$public_ip</MgtHostName>"
+              /opt/wso2am-2.1.0/repository/conf/carbon.xml
+            - !Join 
+              - ''
+              - - 'sed -i "s/\${carbon.local.ip}/'
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - sed -i "s/localhost/
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
             - !Join 
               - ''
               - - sed -i "s/DB_HOST/
@@ -713,12 +764,20 @@ Resources:
                 - >-
                   /g"
                   /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
-            - >-
-              sed -i "s/DB_USERNAME/root/g"
-              /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
-            - >-
-              sed -i "s/DB_PASSWORD/rootrootroot/g"
-              /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
+            - !Join 
+              - ''
+              - - sed -i "s/DB_USERNAME/
+                - !Ref DBUsername
+                - >-
+                  /g"
+                  /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
+            - !Join 
+              - ''
+              - - sed -i "s/DB_PASSWORD/
+                - !Ref DBPassword
+                - >-
+                  /g"
+                  /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
             - !Join 
               - ''
               - - sed -i "s/AWS_ACCESS_KEY/
@@ -749,12 +808,14 @@ Resources:
               - - sed -i "s/AWS_CLUSTER_TAG_VALUE/
                 - WSO2AM210SIMPLE
                 - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - ''
             - /opt/wso2am-2.1.0/bin/wso2server.sh -Dsetup start
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 449ab838-562f-4716-ac0c-b6ff97c368b9
     DependsOn:
       - ProductSecurityGroup
+      - WSO2AMELB
   ProductSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
@@ -804,6 +865,34 @@ Resources:
           FromPort: '3306'
           ToPort: '3306'
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '10389'
+          ToPort: '10389'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '8000'
+          ToPort: '8000'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '5701'
+          ToPort: '5701'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '5672'
+          ToPort: '5672'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '9611'
+          ToPort: '9611'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '9711'
+          ToPort: '9711'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '10397'
+          ToPort: '10397'
+          CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
         - IpProtocol: -1
           FromPort: '0'
@@ -844,10 +933,10 @@ Resources:
         id: 3f971707-256d-47c5-a68e-e5ab0728e152
     DependsOn:
       - WSO2AMLC
-      - WSO2AMELB
   WSO2AMELB:
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
     Properties:
+      CrossZone: true
       SecurityGroups:
         - !Ref ProductSecurityGroup
       Subnets:
@@ -864,6 +953,49 @@ Resources:
               - ':server-certificate'
               - /
               - !Ref CertificateName
+        - LoadBalancerPort: '8243'
+          InstancePort: '8243'
+          Protocol: HTTPS
+          InstanceProtocol: HTTPS
+          SSLCertificateId: !Join 
+            - ''
+            - - 'arn:aws:iam::'
+              - !Ref 'AWS::AccountId'
+              - ':server-certificate'
+              - /
+              - !Ref CertificateName
+        - LoadBalancerPort: '9763'
+          InstancePort: '9763'
+          Protocol: HTTP
+          InstanceProtocol: HTTP
+        - LoadBalancerPort: '10389'
+          InstancePort: '10389'
+          Protocol: TCP
+          InstanceProtocol: TCP
+        - LoadBalancerPort: '8000'
+          InstancePort: '8000'
+          Protocol: TCP
+          InstanceProtocol: TCP
+        - LoadBalancerPort: '5701'
+          InstancePort: '5701'
+          Protocol: TCP
+          InstanceProtocol: TCP
+        - LoadBalancerPort: '5672'
+          InstancePort: '5672'
+          Protocol: TCP
+          InstanceProtocol: TCP
+        - LoadBalancerPort: '9611'
+          InstancePort: '9611'
+          Protocol: TCP
+          InstanceProtocol: TCP
+        - LoadBalancerPort: '9711'
+          InstancePort: '9711'
+          Protocol: TCP
+          InstanceProtocol: TCP
+        - LoadBalancerPort: '10397'
+          InstancePort: '10397'
+          Protocol: TCP
+          InstanceProtocol: TCP
       HealthCheck:
         Target: 'TCP:9763'
         HealthyThreshold: '3'
@@ -955,52 +1087,58 @@ Outputs:
       - ''
       - - 'ssh -i '
         - !Ref KeyPairName
-        - ' ubuntu@'
+        - .pem ec2-user@
         - !GetAtt 
           - BastionInstance
           - PublicIp
     Description: Bastion SSH Details
 Parameters:
   KeyPairName:
-    Description: The key pair to establish a SSH connection to the web servers.
+    Description: >-
+      The key pair to establish a SSH connection to the web servers. This should
+      be already created.
     Type: 'AWS::EC2::KeyPair::KeyName'
   CertificateName:
-    Description: The certificate to use at the Load Balancer Listeners
+    Description: A previously uploaded certificate to use at the Load Balancer Listeners.
     Type: String
   AWSAccessKeyID:
-    Description: The access key ID to be used in AWS based Clustering for WSO2 Products
+    Description: The access key ID to be used in AWS based Clustering for WSO2 Products.
     Type: String
   AWSAccessKeySecret:
-    Description: The secret access key to be used in AWS based Clustering for WSO2 Products
+    Description: >-
+      The secret access key to be used in AWS based Clustering for WSO2
+      Products.
     Type: String
   ProductInstanceType:
-    Description: The EC2 instance type to be used for the WSO2 AM instances
+    Description: The EC2 instance type to be used for the WSO2 AM instances.
     Type: String
     Default: t2.small
   APIMClusterSize:
-    Description: The number of instances of WSO2 API Manager to spawn
+    Description: >-
+      The number of instances of WSO2 API Manager to spawn. This can be
+      increased later through the AutoScale Group.
     Type: Number
     Default: 1
   APIMClusterMax:
-    Description: The maximum number of instances of WSO2 API Manager to scale up to
+    Description: The maximum number of instances of WSO2 API Manager to scale up to.
     Type: Number
     Default: 2
   DBInstanceType:
-    Description: The DB instance type of the RDS instance to be used  for WSO2 AM
+    Description: The DB instance type of the RDS instance to be used  for WSO2 AM.
     Type: String
     Default: db.t2.micro
   DBSize:
-    Description: The DB size (in GB) to be used for WSO2 AM
+    Description: The DB size (in GB) to be used for WSO2 AM.
     Type: Number
     Default: 5
   DBUsername:
-    Description: The username to be used in the WSO2 AM DB
+    Description: The username to be used in the WSO2 AM DB.
     Type: String
     Default: root
     MinLength: 4
     AllowedPattern: '[A-Za-z0-9\-]+'
   DBPassword:
-    Description: The passworf to be used in the WSO2 AM DB
+    Description: The passworf to be used in the WSO2 AM DB.
     Type: String
     Default: rootrootroot
     MinLength: 8
