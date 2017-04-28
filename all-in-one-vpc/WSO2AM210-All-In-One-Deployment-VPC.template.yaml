@@ -743,14 +743,84 @@ Resources:
               /opt/wso2am-2.1.0/repository/conf/carbon.xml
             - !Join 
               - ''
-              - - 'sed -i "s/\${carbon.local.ip}/'
+              - - sed -i "19s/localhost/
                 - !GetAtt 
                   - WSO2AMELB
                   - DNSName
                 - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
             - !Join 
               - ''
-              - - sed -i "s/localhost/
+              - - sed -i "90s/localhost/
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - 'sed -i "96s/\${carbon.local.ip}/'
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - sed -i "205s/localhost/
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - sed -i "267s/localhost/
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - sed -i "287s/localhost/
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - sed -i "290s/localhost/
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - sed -i "320s/localhost/
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - sed -i "592s/localhost/
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - sed -i "658s/localhost/
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - sed -i "659s/localhost/
+                - !GetAtt 
+                  - WSO2AMELB
+                  - DNSName
+                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
+            - !Join 
+              - ''
+              - - sed -i "660s/localhost/
                 - !GetAtt 
                   - WSO2AMELB
                   - DNSName
@@ -798,16 +868,16 @@ Resources:
               - - sed -i "s/AWS_REGION/
                 - !Ref 'AWS::Region'
                 - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join 
-              - ''
-              - - sed -i "s/AWS_CLUSTER_TAG_NAME/
-                - Cluster
-                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join 
-              - ''
-              - - sed -i "s/AWS_CLUSTER_TAG_VALUE/
-                - WSO2AM210SIMPLE
-                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - >-
+              sed -i "s/AWS_CLUSTER_TAG_NAME/Cluster/g"
+              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - >-
+              sed -i "s/AWS_CLUSTER_TAG_VALUE/WSO2AM210SIMPLE/g"
+              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - >-
+              sed -i "546s/.*/<parameter
+              name=\"HostnameVerifier\">AllowAll<\/parameter>/"
+              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
             - ''
             - /opt/wso2am-2.1.0/bin/wso2server.sh -Dsetup start
     Metadata:
