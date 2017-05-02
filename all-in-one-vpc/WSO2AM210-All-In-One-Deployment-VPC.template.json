@@ -1027,7 +1027,15 @@
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
                 "AssociatePublicIpAddress": true,
-                "ImageId": "ami-618fab04",
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "AWSAMIRegionMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "Ubuntu140464bit"
+                    ]
+                },
                 "InstanceType": {
                     "Ref": "ProductInstanceType"
                 },
@@ -1996,7 +2004,63 @@
         "ProductInstanceType": {
             "Description": "The EC2 instance type to be used for the WSO2 AM instances.",
             "Type": "String",
-            "Default": "t2.small"
+            "Default": "t2.small",
+            "AllowedValues": [
+                "t1.micro",
+                "t2.nano",
+                "t2.micro",
+                "t2.small",
+                "t2.medium",
+                "t2.large",
+                "m1.small",
+                "m1.medium",
+                "m1.large",
+                "m1.xlarge",
+                "m2.xlarge",
+                "m2.2xlarge",
+                "m2.4xlarge",
+                "m3.medium",
+                "m3.large",
+                "m3.xlarge",
+                "m3.2xlarge",
+                "m4.large",
+                "m4.xlarge",
+                "m4.2xlarge",
+                "m4.4xlarge",
+                "m4.10xlarge",
+                "c1.medium",
+                "c1.xlarge",
+                "c3.large",
+                "c3.xlarge",
+                "c3.2xlarge",
+                "c3.4xlarge",
+                "c3.8xlarge",
+                "c4.large",
+                "c4.xlarge",
+                "c4.2xlarge",
+                "c4.4xlarge",
+                "c4.8xlarge",
+                "g2.2xlarge",
+                "g2.8xlarge",
+                "r3.large",
+                "r3.xlarge",
+                "r3.2xlarge",
+                "r3.4xlarge",
+                "r3.8xlarge",
+                "i2.xlarge",
+                "i2.2xlarge",
+                "i2.4xlarge",
+                "i2.8xlarge",
+                "d2.xlarge",
+                "d2.2xlarge",
+                "d2.4xlarge",
+                "d2.8xlarge",
+                "hi1.4xlarge",
+                "hs1.8xlarge",
+                "cr1.8xlarge",
+                "cc2.8xlarge",
+                "cg1.4xlarge"
+            ]
         },
         "APIMClusterSize": {
             "Description": "The number of instances of WSO2 API Manager to spawn. This can be increased later through the AutoScale Group.",
@@ -2011,7 +2075,39 @@
         "DBInstanceType": {
             "Description": "The DB instance type of the RDS instance to be used  for WSO2 AM.",
             "Type": "String",
-            "Default": "db.t2.micro"
+            "Default": "db.t2.micro",
+            "AllowedValues": [
+                "db.t1.micro",
+                "db.m1.small",
+                "db.m1.medium",
+                "db.m1.large",
+                "db.m1.xlarge",
+                "db.m2.xlarge",
+                "db.m2.2xlarge",
+                "db.m2.4xlarge",
+                "db.m3.medium",
+                "db.m3.large",
+                "db.m3.xlarge",
+                "db.m3.2xlarge",
+                "db.m4.large",
+                "db.m4.xlarge",
+                "db.m4.2xlarge",
+                "db.m4.4xlarge",
+                "db.m4.10xlarge",
+                "db.r3.large",
+                "db.r3.xlarge",
+                "db.r3.2xlarge",
+                "db.r3.4xlarge",
+                "db.r3.8xlarge",
+                "db.m2.xlarge",
+                "db.m2.2xlarge",
+                "db.m2.4xlarge",
+                "db.cr1.8xlarge",
+                "db.t2.micro",
+                "db.t2.small",
+                "db.t2.medium",
+                "db.t2.large"
+            ]
         },
         "DBSize": {
             "Description": "The DB size (in GB) to be used for WSO2 AM.",
@@ -2031,6 +2127,52 @@
             "Default": "rootrootroot",
             "MinLength": 8,
             "NoEcho": true
+        }
+    },
+    "Mappings": {
+        "AWSAMIRegionMap": {
+            "ap-northeast-1": {
+                "Ubuntu140464bit": "ami-2e63924f"
+            },
+            "ap-northeast-2": {
+                "Ubuntu140464bit": "ami-979258f9"
+            },
+            "ap-south-1": {
+                "Ubuntu140464bit": "ami-4a90fa25"
+            },
+            "ap-southeast-1": {
+                "Ubuntu140464bit": "ami-ea2bf989"
+            },
+            "ap-southeast-2": {
+                "Ubuntu140464bit": "ami-396a415a"
+            },
+            "eu-central-1": {
+                "Ubuntu140464bit": "ami-4bd03b24"
+            },
+            "eu-west-1": {
+                "Ubuntu140464bit": "ami-02b62c71"
+            },
+            "eu-west-2": {
+                "Ubuntu140464bit": "ami-63342007"
+            },
+            "us-east-1": {
+                "Ubuntu140464bit": "ami-2d39803a"
+            },
+            "us-east-2": {
+                "Ubuntu140464bit": "ami-8fab8fea"
+            },
+            "us-west-1": {
+                "Ubuntu140464bit": "ami-992661f9"
+            },
+            "us-west-2": {
+                "Ubuntu140464bit": "ami-42569022"
+            },
+            "ca-central-1": {
+                "Ubuntu140464bit": "ami-beea56da"
+            },
+            "sa-east-1": {
+                "Ubuntu140464bit": "ami-8df695e1"
+            }
         }
     }
 }
