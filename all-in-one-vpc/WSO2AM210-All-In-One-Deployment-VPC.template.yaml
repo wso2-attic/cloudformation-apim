@@ -827,52 +827,172 @@ Resources:
                 - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
             - !Join 
               - ''
-              - - sed -i "s/DB_HOST/
+              - - sed -i "38s/.*/
+                - '<url>jdbc:mysql:\/\/'
                 - !GetAtt 
                   - WSO2AMDB
                   - Endpoint.Address
                 - >-
-                  /g"
+                  :3306\/WSO2AM_DB?autoReconnect=true<\/url>/"
                   /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
             - !Join 
               - ''
-              - - sed -i "s/DB_USERNAME/
+              - - sed -i "39s/wso2carbon/
                 - !Ref DBUsername
                 - >-
                   /g"
                   /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
             - !Join 
               - ''
-              - - sed -i "s/DB_PASSWORD/
+              - - sed -i "40s/wso2carbon/
                 - !Ref DBPassword
                 - >-
                   /g"
                   /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
-            - !Join 
-              - ''
-              - - sed -i "s/AWS_ACCESS_KEY/
-                - !Ref AWSAccessKeyID
-                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join 
-              - ''
-              - - sed -i "s/AWS_SECRET_KEY/
-                - !Ref AWSAccessKeySecret
-                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join 
-              - ''
-              - - sed -i "s/AWS_SECURITY_GROUP/
-                - !Ref ProductSecurityGroup
-                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join 
-              - ''
-              - - sed -i "s/AWS_REGION/
-                - !Ref 'AWS::Region'
-                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
             - >-
-              sed -i "s/AWS_CLUSTER_TAG_NAME/Cluster/g"
+              sed -i "42s/org.h2.Driver/com.mysql.jdbc.Driver/g"
+              /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
+            - !Join 
+              - ''
+              - - sed -i "51 a\
+                - <datasource>\n\
+                - '    <name>WSO2UM_DB<\/name>\n\'
+                - '    <description>The datasource used for API Manager database<\/description>\n\'
+                - '    <jndiConfig>\n\'
+                - '        <name>jdbc\/WSO2UM_DB<\/name>\n\'
+                - '    <\/jndiConfig>\n\'
+                - '    <definition type=\"RDBMS\">\n\'
+                - '        <configuration>\n\'
+                - '            <url>jdbc:mysql:\/\/'
+                - !GetAtt 
+                  - WSO2AMDB
+                  - Endpoint.Address
+                - ':3306\/WSO2AM_DB?autoReconnect=true<\/url>\n\'
+                - '            <username>'
+                - !Ref DBUsername
+                - <\/username>\n\
+                - '            <password>'
+                - !Ref DBPassword
+                - <\/password>\n\
+                - '            <defaultAutoCommit>false<\/defaultAutoCommit>\n\'
+                - '            <driverClassName>com.mysql.jdbc.Driver<\/driverClassName>\n\'
+                - '            <maxActive>50<\/maxActive>\n\'
+                - '            <maxWait>60000<\/maxWait>\n\'
+                - '            <testOnBorrow>true<\/testOnBorrow>\n\'
+                - '            <validationQuery>SELECT 1<\/validationQuery>\n\'
+                - '            <validationInterval>30000<\/validationInterval>\n\'
+                - '        <\/configuration>\n\'
+                - '    <\/definition>\n\'
+                - >-
+                  <\/datasource>\n"
+                  /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
+            - >-
+              sed -i "30s/jdbc\/WSO2CarbonDB/jdbc\/WSO2UM_DB/g"
+              /opt/wso2am-2.1.0/repository/conf/user-mgt.xml
+            - !Join 
+              - ''
+              - - sed -i "51 a\
+                - <datasource>\n\
+                - '    <name>WSO2REG_DB<\/name>\n\'
+                - '    <description>The datasource used for API Manager database<\/description>\n\'
+                - '    <jndiConfig>\n\'
+                - '        <name>jdbc\/WSO2REG_DB<\/name>\n\'
+                - '    <\/jndiConfig>\n\'
+                - '    <definition type=\"RDBMS\">\n\'
+                - '        <configuration>\n\'
+                - '            <url>jdbc:mysql:\/\/'
+                - !GetAtt 
+                  - WSO2AMDB
+                  - Endpoint.Address
+                - ':3306\/WSO2AM_DB?autoReconnect=true<\/url>\n\'
+                - '            <username>'
+                - !Ref DBUsername
+                - <\/username>\n\
+                - '            <password>'
+                - !Ref DBPassword
+                - <\/password>\n\
+                - '            <defaultAutoCommit>false<\/defaultAutoCommit>\n\'
+                - '            <driverClassName>com.mysql.jdbc.Driver<\/driverClassName>\n\'
+                - '            <maxActive>50<\/maxActive>\n\'
+                - '            <maxWait>60000<\/maxWait>\n\'
+                - '            <testOnBorrow>true<\/testOnBorrow>\n\'
+                - '            <validationQuery>SELECT 1<\/validationQuery>\n\'
+                - '            <validationInterval>30000<\/validationInterval>\n\'
+                - '        <\/configuration>\n\'
+                - '    <\/definition>\n\'
+                - >-
+                  <\/datasource>\n"
+                  /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
+            - !Join 
+              - ''
+              - - sed -i "32 a\
+                - <dbConfig name=\"govregistry\">\n\
+                - '    <dataSource>jdbc\/WSO2REG_DB<\/dataSource>\n\'
+                - <\/dbConfig>\n\
+                - '<remoteInstance url=\"https:\/\/publisher.apim-wso2.com\">\n\'
+                - <id>gov<\/id>\n\
+                - '<cacheId>user@jdbc:mysql:\/\/'
+                - !GetAtt 
+                  - WSO2AMDB
+                  - Endpoint.Address
+                - ':3306\/regdb<\/cacheId>\n\'
+                - <dbConfig>govregistry<\/dbConfig>\n\
+                - <readOnly>false<\/readOnly>\n\
+                - <enableCache>true<\/enableCache>\n\
+                - <registryRoot>\/<\/registryRoot>\n\
+                - <\/remoteInstance>\n\
+                - <mount path=\"\/_system\/governance\" overwrite=\"true\">\n\
+                - <instanceId>gov<\/instanceId>\n\
+                - <targetPath>\/_system\/governance<\/targetPath>\n\
+                - <\/mount>\n\
+                - <mount path=\"\/_system\/config\" overwrite=\"true\">\n\
+                - <instanceId>gov<\/instanceId>\n\
+                - <targetPath>\/_system\/config<\/targetPath>\n\
+                - <\/mount>\n" /opt/wso2am-2.1.0/repository/conf/registry.xml
+            - >-
+              sed -i "636s/false/true/g"
               /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
             - >-
-              sed -i "s/AWS_CLUSTER_TAG_VALUE/WSO2AM210SIMPLE/g"
+              sed -i "658s/multicast/aws/g"
+              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - !Join 
+              - ''
+              - - sed -i "659 a\
+                - <parameter name=\"accessKey\">
+                - !Ref AWSAccessKeyID
+                - >-
+                  <\/parameter>\n"
+                  /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - !Join 
+              - ''
+              - - sed -i "659 a\
+                - <parameter name=\"secretKey\">
+                - !Ref AWSAccessKeySecret
+                - >-
+                  <\/parameter>\n"
+                  /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - !Join 
+              - ''
+              - - sed -i "659 a\
+                - <parameter name=\"securityGroup\">
+                - !Ref ProductSecurityGroup
+                - >-
+                  <\/parameter>\n"
+                  /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - !Join 
+              - ''
+              - - sed -i "659 a\
+                - <parameter name=\"region\">
+                - !Ref 'AWS::Region'
+                - >-
+                  <\/parameter>\n"
+                  /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - >-
+              sed -i "659 a\<parameter name=\"tagKey\">Cluster<\/parameter>\n"
+              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - >-
+              sed -i "659 a\<parameter
+              name=\"tagValue\">WSO2AM210SIMPLE<\/parameter>\n"
               /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
             - >-
               sed -i "546s/.*/<parameter
@@ -1171,14 +1291,17 @@ Parameters:
   CertificateName:
     Description: A previously uploaded certificate to use at the Load Balancer Listeners.
     Type: String
+    MinLength: 1
   AWSAccessKeyID:
     Description: The access key ID to be used in AWS based Clustering for WSO2 Products.
     Type: String
+    MinLength: 16
   AWSAccessKeySecret:
     Description: >-
       The secret access key to be used in AWS based Clustering for WSO2
       Products.
     Type: String
+    MinLength: 1
   ProductInstanceType:
     Description: The EC2 instance type to be used for the WSO2 AM instances.
     Type: String
