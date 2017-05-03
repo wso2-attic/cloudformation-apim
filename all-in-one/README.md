@@ -1,8 +1,36 @@
 # WSO2 API Manager All-In-One CloudFormation Template
 
-This CloudFormation template can be used for deploying WSO2 API Manager (API-M) on AWS with all-in-one profile. 
+This CloudFormation template can be used for deploying WSO2 API Manager (API-M) on AWS with all-in-one profile. There are two approaches in which this template can be used:
 
-## AWS Resources Used
+  - Approach 1: Installing a MySQL database instance on the virtual machine
+  - Approach 2: Using an RDS MySQL database instance
+
+## Approach 1
+
+### AWS Resources Used
+
+- WSO2APIMLoadBalancer
+  
+  An Elastic Load Balancer has been used for exposing API Manager Publisher, Store user interfaces, and Gateway endpoint.
+
+- WSO2APIMSecurityGroup
+  
+  This security group defines rules for disabling direct access to to the virtual machine(s) and allowing the load balancer to route HTTP requests to the API Manager.
+
+- WSO2APIMAutoscalingGroup
+  
+  An autoscaling group has been used for providing autohealing for API Manager.
+
+- WSO2APIMLaunchConfig
+  
+  The launch configuration defines instructions for installing pre-requisites and API Manager.
+
+### Deployment Architecture
+![](WSO2AM210-All-In-One-Deployment1.png)
+
+## Approach 2
+
+### AWS Resources Used
 
 - WSO2APIMLoadBalancer
   
@@ -27,6 +55,9 @@ This CloudFormation template can be used for deploying WSO2 API Manager (API-M) 
 - WSO2APIMDBInstance (optional)
   
   A RDS MySQL database instance will be created if input parameter UseRDSDBInstance is set to true.
+
+### Deployment Architecture
+![](WSO2AM210-All-In-One-Deployment2.png)
 
 ## Input Parameters
 
@@ -82,10 +113,3 @@ This CloudFormation template can be used for deploying WSO2 API Manager (API-M) 
 
   If set to true, create a RDS database instance for data persistence. Else create a MySQL
   server instance in the virtual machine.
-
-## Deployment Architecture 1
-![](WSO2AM210-All-In-One-Deployment1.png)
-
-
-## Deployment Architecture 2
-![](WSO2AM210-All-In-One-Deployment2.png)
