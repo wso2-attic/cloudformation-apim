@@ -7,28 +7,31 @@ This CloudFormation template can be used for deploying WSO2 API Manager (API-M) 
 
 ## Approach 1
 
-### AWS Resources Used
-
-- WSO2APIMLoadBalancer
-  
-  An Elastic Load Balancer has been used for exposing API Manager Publisher, Store user interfaces, and Gateway endpoint.
-
-- WSO2APIMSecurityGroup
-  
-  This security group defines rules for disabling direct access to to the virtual machine(s) and allowing the load balancer to route HTTP requests to the API Manager.
-
-- WSO2APIMAutoscalingGroup
-  
-  An autoscaling group has been used for providing autohealing for API Manager.
-
-- WSO2APIMLaunchConfig
-  
-  The launch configuration defines instructions for installing pre-requisites and API Manager.
-
 ### Deployment Architecture
 ![](WSO2AM210-All-In-One-Deployment1.png)
 
+### AWS Resources Used
+
+- WSO2APIMLoadBalancer
+  
+  An Elastic Load Balancer has been used for exposing API Manager Publisher, Store user interfaces, and Gateway endpoint.
+
+- WSO2APIMSecurityGroup
+  
+  This security group defines rules for disabling direct access to to the virtual machine(s) and allowing the load balancer to route HTTP requests to the API Manager.
+
+- WSO2APIMAutoscalingGroup
+  
+  An autoscaling group has been used for providing autohealing for API Manager.
+
+- WSO2APIMLaunchConfig
+  
+  The launch configuration defines instructions for installing pre-requisites and API Manager.
+
 ## Approach 2
+
+### Deployment Architecture
+![](WSO2AM210-All-In-One-Deployment2.png)
 
 ### AWS Resources Used
 
@@ -48,16 +51,13 @@ This CloudFormation template can be used for deploying WSO2 API Manager (API-M) 
   
   The launch configuration defines instructions for installing pre-requisites and API Manager.
 
-- WSO2APIMDBSecurityGroup (optional)
+- WSO2APIMDBSecurityGroup
   
   This database security group will be used if input parameter UseRDSDBInstance is set to true for creating a RDS MySQL database instance.
 
-- WSO2APIMDBInstance (optional)
+- WSO2APIMDBInstance
   
   A RDS MySQL database instance will be created if input parameter UseRDSDBInstance is set to true.
-
-### Deployment Architecture
-![](WSO2AM210-All-In-One-Deployment2.png)
 
 ## Input Parameters
 
