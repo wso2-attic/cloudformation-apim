@@ -1682,6 +1682,18 @@
                 ]
             },
             "Description": "Bastion SSH Details"
+        },
+        "Credentials": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "Username: admin, ",
+                        "Password: admin"
+                    ]
+                ]
+            },
+            "Description": "WSO2 API Manager Admin Credentials. Please refer https://docs.wso2.com/display/AM210/Maintaining+Logins+and+passwords to change credentials."
         }
     },
     "Parameters": {
@@ -1835,46 +1847,43 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "ap-northeast-1": {
-                "Ubuntu140464bit": "ami-2e63924f"
+                "Ubuntu140464bit": "ami-cd0a3baa"
             },
             "ap-northeast-2": {
-                "Ubuntu140464bit": "ami-979258f9"
+                "Ubuntu140464bit": "ami-b2dc01dc"
             },
             "ap-south-1": {
-                "Ubuntu140464bit": "ami-4a90fa25"
+                "Ubuntu140464bit": "ami-60deac0f"
             },
             "ap-southeast-1": {
-                "Ubuntu140464bit": "ami-ea2bf989"
+                "Ubuntu140464bit": "ami-6701bb04"
             },
             "ap-southeast-2": {
-                "Ubuntu140464bit": "ami-396a415a"
-            },
-            "eu-central-1": {
-                "Ubuntu140464bit": "ami-4bd03b24"
-            },
-            "eu-west-1": {
-                "Ubuntu140464bit": "ami-02b62c71"
-            },
-            "eu-west-2": {
-                "Ubuntu140464bit": "ami-63342007"
-            },
-            "us-east-1": {
-                "Ubuntu140464bit": "ami-2d39803a"
-            },
-            "us-east-2": {
-                "Ubuntu140464bit": "ami-77183f12"
-            },
-            "us-west-1": {
-                "Ubuntu140464bit": "ami-992661f9"
-            },
-            "us-west-2": {
-                "Ubuntu140464bit": "ami-42569022"
+                "Ubuntu140464bit": "ami-dad0dbb9"
             },
             "ca-central-1": {
-                "Ubuntu140464bit": "ami-beea56da"
+                "Ubuntu140464bit": "ami-ef8d318b"
+            },
+            "eu-central-1": {
+                "Ubuntu140464bit": "ami-e3459a8c"
+            },
+            "eu-west-1": {
+                "Ubuntu140464bit": "ami-ba5854dc"
+            },
+            "eu-west-2": {
+                "Ubuntu140464bit": "ami-dca6b2b8"
             },
             "sa-east-1": {
-                "Ubuntu140464bit": "ami-8df695e1"
+                "Ubuntu140464bit": "ami-7380ec1f"
+            },
+            "us-east-1": {
+                "Ubuntu140464bit": "ami-51f09e47"
+            },
+            "us-east-2": {
+                "Ubuntu140464bit": "ami-bce4c3d9"
+            },
+            "us-west-1": {
+                "Ubuntu140464bit": "ami-35735555"
             }
         }
     }

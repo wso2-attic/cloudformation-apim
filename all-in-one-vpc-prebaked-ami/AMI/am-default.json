@@ -4,7 +4,8 @@
     "aws_secret_key": "",
     "name": "BASE",
     "base_ami": "ami-8fab8fea",
-    "region": "us-east-2"
+    "region": "us-east-2",
+    "buildtime": "{{ isotime \"2006-01-02-1504\" }}"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -14,10 +15,14 @@
     "source_ami": "{{user `base_ami`}}",
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "{{user `name`}}-WSO2AM-Default-{{isotime \"2006-01-02\"}}",
+    "ami_name": "{{user `name`}}-WSO2AM-Default-{{isotime \"2006-01-02-1504\"}}",
+    "ami_description": "WSO2 API Manager Default profile on Ubuntu 14.04",
     "tags": {
+      "Name": "WSO2AM-Default-Base",
       "Product": "WSO2AM",
-      "Version": "2.1.0"
+      "Version": "2.1.0",
+      "Profile": "Default",
+      "Build": "{{ user `buildtime` }}"
     },
     "ami_block_device_mappings": [{
       "device_name": "/dev/xvdf",
@@ -28,7 +33,21 @@
       "device_name": "/dev/xvdf",
       "volume_size": 10,
       "delete_on_termination": true
-    }]
+    }],
+    "ami_regions": [
+      "ap-south-1",
+      "ap-northeast-1",
+      "ap-northeast-2",
+      "ap-southeast-1",
+      "ap-southeast-2",
+      "ca-central-1",
+      "eu-west-1",
+      "eu-west-2",
+      "eu-central-1",
+      "sa-east-1",
+      "us-east-1",
+      "us-west-1"
+    ]
   }],
   "provisioners": [{
       "type": "shell",
