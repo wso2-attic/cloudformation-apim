@@ -14,4 +14,4 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-aws cloudformation delete-stack --stack-name wso2am-all-in-one-vpc
+aws cloudformation delete-stack --stack-name wso2am-all-in-one-vpc-ami
