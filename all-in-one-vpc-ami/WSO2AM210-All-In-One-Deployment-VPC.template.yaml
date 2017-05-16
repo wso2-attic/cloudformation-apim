@@ -46,21 +46,17 @@ Metadata:
   'AWS::CloudFormation::Designer':
     c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2:
       size:
-        width: 670
-        height: 530
+        width: 520
+        height: 270
       position:
-        x: -5270
-        'y': -480
+        x: -4580
+        'y': -620
       z: 1
       embeds:
-        - 0f6bf8e9-5331-491e-82f3-f8c49c78af5f
         - 21d07bfc-0717-46fa-9325-5eb52ad71c83
         - f3cdfe70-41d8-423b-8043-b5588d320330
-        - 84568a5c-d633-40e4-a970-800a21224d24
         - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
-        - 0b43d1ba-21f8-4a17-89da-f526431323bd
         - 977bd553-1eca-42e8-80ca-d06efa92fc2c
-        - 9a0cbff1-168f-4d60-a912-110365f8933b
         - e2cf773b-7ade-41a8-9edd-8f35f6d369d7
         - e803fa6d-1f40-44df-a758-8b44f434eb0f
         - a873c9a5-f1c1-4955-8485-c532254dad8e
@@ -68,16 +64,15 @@ Metadata:
         - 3f971707-256d-47c5-a68e-e5ab0728e152
     e2cf773b-7ade-41a8-9edd-8f35f6d369d7:
       size:
-        width: 130
-        height: 120
+        width: 80
+        height: 80
       position:
-        x: -5170
-        'y': -430
+        x: -4550
+        'y': -560
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
-        - d4c668f0-ab82-4cf1-a377-e2f5d792e079
-        - 6f443223-0b2a-44ac-80f6-93bceb3bb844
+        - f3b8bca6-ba9f-4547-975d-fff7b56b5d6d
     4f6d7998-3ba6-40a2-8a02-19a91c756908:
       size:
         width: 60
@@ -85,16 +80,6 @@ Metadata:
       position:
         x: -5010
         'y': -750
-      z: 2
-      parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
-      embeds: []
-    9a0cbff1-168f-4d60-a912-110365f8933b:
-      size:
-        width: 130
-        height: 120
-      position:
-        x: -5170
-        'y': -90
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -109,35 +94,23 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -5410
-        'y': -350
+        x: -4770
+        'y': -530
       z: 0
       embeds: []
       isrelatedto:
         - c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
     977bd553-1eca-42e8-80ca-d06efa92fc2c:
       size:
-        width: 120
-        height: 120
+        width: 80
+        height: 80
       position:
-        x: -5030
-        'y': -430
+        x: -4450
+        'y': -560
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
         - 0b559c64-1251-44be-86e6-e55d89462462
-    6f443223-0b2a-44ac-80f6-93bceb3bb844:
-      size:
-        width: 60
-        height: 60
-      position:
-        x: -5410
-        'y': -60
-      z: 0
-      parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
-      embeds: []
-      isrelatedto:
-        - 0f6bf8e9-5331-491e-82f3-f8c49c78af5f
     cf4ad471-855d-4129-bd88-3a21a4caab78:
       size:
         width: 60
@@ -159,8 +132,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -5000
-        'y': -400
+        x: -4440
+        'y': -550
       z: 3
       parent: 977bd553-1eca-42e8-80ca-d06efa92fc2c
       embeds: []
@@ -182,75 +155,12 @@ Metadata:
       z: 3
       parent: 9a0cbff1-168f-4d60-a912-110365f8933b
       embeds: []
-    0b43d1ba-21f8-4a17-89da-f526431323bd:
-      size:
-        width: 120
-        height: 120
-      position:
-        x: -5030
-        'y': -90
-      z: 2
-      parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
-      embeds:
-        - be0c7987-95fe-4620-b66f-10c2582e49ea
-    be0c7987-95fe-4620-b66f-10c2582e49ea:
-      size:
-        width: 60
-        height: 60
-      position:
-        x: -5000
-        'y': -60
-      z: 3
-      parent: 0b43d1ba-21f8-4a17-89da-f526431323bd
-      embeds: []
-      isrelatedto:
-        - 6f443223-0b2a-44ac-80f6-93bceb3bb844
-    0f6bf8e9-5331-491e-82f3-f8c49c78af5f:
-      size:
-        width: 60
-        height: 60
-      position:
-        x: -5250
-        'y': -60
-      z: 2
-      parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
-      embeds: []
-    32b54b15-6a0c-4f39-a18b-9efbee09569d:
-      source:
-        id: 0b43d1ba-21f8-4a17-89da-f526431323bd
-      target:
-        id: 9a0cbff1-168f-4d60-a912-110365f8933b
-      z: 2
     a585cc83-c457-4d52-85bf-8fe714d6302b:
       source:
         id: 0c6a6593-1ece-4ea6-a375-faf74b62a6b2
       target:
         id: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       z: 0
-    84568a5c-d633-40e4-a970-800a21224d24:
-      size:
-        width: 60
-        height: 60
-      position:
-        x: -5250
-        'y': -400
-      z: 2
-      parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
-      embeds: []
-    d4c668f0-ab82-4cf1-a377-e2f5d792e079:
-      size:
-        width: 60
-        height: 60
-      position:
-        x: -5140
-        'y': -400
-      z: 3
-      parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
-      embeds: []
-      ismemberof:
-        - 84568a5c-d633-40e4-a970-800a21224d24
-      dependson:
-        - 84568a5c-d633-40e4-a970-800a21224d24
     5ce139ad-4dd4-4cf0-aca5-08029aee6eec:
       source:
         id: d4c668f0-ab82-4cf1-a377-e2f5d792e079
@@ -268,8 +178,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4850
-        'y': -40
+        x: -4270
+        'y': -430
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -281,6 +191,7 @@ Metadata:
       isrelatedto:
         - c923fc1a-40b9-4c51-a288-6477f32b3219
         - a873c9a5-f1c1-4955-8485-c532254dad8e
+        - f3b8bca6-ba9f-4547-975d-fff7b56b5d6d
     c6bb6de6-531f-4bff-9b29-ad95c678e79b:
       source:
         id: 449ab838-562f-4716-ac0c-b6ff97c368b9
@@ -292,13 +203,11 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4730
-        'y': -450
+        x: -4150
+        'y': -590
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
-      dependson:
-        - 84568a5c-d633-40e4-a970-800a21224d24
       isrelatedto:
         - 84568a5c-d633-40e4-a970-800a21224d24
         - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
@@ -313,14 +222,15 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4850
-        'y': -120
+        x: -4270
+        'y': -510
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
       isconnectedto:
         - a873c9a5-f1c1-4955-8485-c532254dad8e
         - 9a0cbff1-168f-4d60-a912-110365f8933b
+        - e2cf773b-7ade-41a8-9edd-8f35f6d369d7
       isassociatedwith:
         - 449ab838-562f-4716-ac0c-b6ff97c368b9
       dependson:
@@ -349,8 +259,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4850
-        'y': -450
+        x: -4270
+        'y': -590
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -431,8 +341,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4730
-        'y': -300
+        x: -4150
+        'y': -460
       z: 3
       parent: e803fa6d-1f40-44df-a758-8b44f434eb0f
       embeds: []
@@ -454,11 +364,11 @@ Metadata:
       z: 4
     e803fa6d-1f40-44df-a758-8b44f434eb0f:
       size:
-        width: 180
-        height: 150
+        width: 80
+        height: 90
       position:
-        x: -4790
-        'y': -350
+        x: -4160
+        'y': -480
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -481,21 +391,21 @@ Metadata:
       z: 5
     f3cdfe70-41d8-423b-8043-b5588d320330:
       size:
-        width: 130
-        height: 120
+        width: 80
+        height: 80
       position:
-        x: -5170
-        'y': -280
+        x: -4550
+        'y': -460
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
     21d07bfc-0717-46fa-9325-5eb52ad71c83:
       size:
-        width: 120
-        height: 120
+        width: 80
+        height: 80
       position:
-        x: -5030
-        'y': -280
+        x: -4450
+        'y': -460
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -505,8 +415,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -5000
-        'y': -250
+        x: -4440
+        'y': -450
       z: 3
       parent: 21d07bfc-0717-46fa-9325-5eb52ad71c83
       embeds: []
@@ -530,6 +440,41 @@ Metadata:
       target:
         id: a873c9a5-f1c1-4955-8485-c532254dad8e
       z: 4
+    f3b8bca6-ba9f-4547-975d-fff7b56b5d6d:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -4540
+        'y': -550
+      z: 3
+      parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
+      embeds: []
+    df2fd95f-67f8-4dc9-b048-dbc4c8c76f49:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -4260
+        'y': -700
+      z: 0
+      embeds: []
+      ismemberof:
+        - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
+      references:
+        - f3b8bca6-ba9f-4547-975d-fff7b56b5d6d
+    9b6efb0c-8e5b-44b1-9eb9-88f6ad80f25c:
+      source:
+        id: df2fd95f-67f8-4dc9-b048-dbc4c8c76f49
+      target:
+        id: 56c87c09-c78a-4cde-887f-b8bcb87dbd35
+      z: 4
+    48871175-ffc2-44c6-91f8-d17abe6cd52a:
+      source:
+        id: df2fd95f-67f8-4dc9-b048-dbc4c8c76f49
+      target:
+        id: f3b8bca6-ba9f-4547-975d-fff7b56b5d6d
+      z: 5
 Resources:
   WSO2AM1SIMPLE1VPC:
     Type: 'AWS::EC2::VPC'
@@ -546,23 +491,12 @@ Resources:
       VpcId: !Ref WSO2AM1SIMPLE1VPC
       CidrBlock: 10.0.254.0/24
       MapPublicIpOnLaunch: true
-      AvailabilityZone: !Select 
+      AvailabilityZone: !Select
         - '0'
         - !GetAZs ''
     Metadata:
       'AWS::CloudFormation::Designer':
         id: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
-  PrivateSubnet:
-    Type: 'AWS::EC2::Subnet'
-    Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
-      CidrBlock: 10.0.1.0/24
-      AvailabilityZone: !Select 
-        - '0'
-        - !GetAZs ''
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 9a0cbff1-168f-4d60-a912-110365f8933b
   PublicInternetGateway:
     Type: 'AWS::EC2::InternetGateway'
     Properties: {}
@@ -576,16 +510,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 977bd553-1eca-42e8-80ca-d06efa92fc2c
-  PrivateNATGateway:
-    Type: 'AWS::EC2::NatGateway'
-    Properties:
-      AllocationId: !GetAtt 
-        - NATEIP
-        - AllocationId
-      SubnetId: !Ref PublicSubnet
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 6f443223-0b2a-44ac-80f6-93bceb3bb844
   EC2SRTA4ALO8:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
@@ -603,37 +527,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 0b559c64-1251-44be-86e6-e55d89462462
-  PrivateRouteTable:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 0b43d1ba-21f8-4a17-89da-f526431323bd
-  PrivateRoute:
-    Type: 'AWS::EC2::Route'
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable
-      NatGatewayId: !Ref PrivateNATGateway
-      DestinationCidrBlock: 0.0.0.0/0
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: be0c7987-95fe-4620-b66f-10c2582e49ea
-  NATEIP:
-    Type: 'AWS::EC2::EIP'
-    Properties:
-      Domain: vpc
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 0f6bf8e9-5331-491e-82f3-f8c49c78af5f
-  EC2SRTA2ZXK4:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable
-      SubnetId: !Ref PrivateSubnet
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 32b54b15-6a0c-4f39-a18b-9efbee09569d
   EC2VPCG1W38G:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
@@ -642,52 +535,11 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: a585cc83-c457-4d52-85bf-8fe714d6302b
-  BastionSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: Bastion Security Group
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: '22'
-          ToPort: '22'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: ICMP
-          FromPort: '-1'
-          ToPort: '-1'
-          CidrIp: 0.0.0.0/0
-      SecurityGroupEgress:
-        - IpProtocol: -1
-          FromPort: '0'
-          ToPort: '0'
-          CidrIp: 0.0.0.0/0
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 84568a5c-d633-40e4-a970-800a21224d24
-  BastionInstance:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      SecurityGroupIds:
-        - !Ref BastionSecurityGroup
-      ImageId: ami-7bfcd81e
-      KeyName: wso2deploymenttoolpoc
-      SubnetId: !Ref PublicSubnet
-      InstanceType: t2.micro
-      Tags:
-        - Key: Name
-          Value: WSO2AM-Bastion
-        - Key: Product
-          Value: Bastion
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: d4c668f0-ab82-4cf1-a377-e2f5d792e079
-    DependsOn:
-      - BastionSecurityGroup
   WSO2AMLC:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
       AssociatePublicIpAddress: true
-      ImageId: !FindInMap 
+      ImageId: !FindInMap
         - AWSAMIRegionMap
         - !Ref 'AWS::Region'
         - Ubuntu140464bit
@@ -701,7 +553,7 @@ Resources:
       KeyName: !Ref KeyPairName
       SecurityGroups:
         - !Ref ProductSecurityGroup
-      UserData: !Base64 
+      UserData: !Base64
         'Fn::Join':
           - |+
 
@@ -713,59 +565,59 @@ Resources:
             - >-
               sed -i "s/IP_ADDRESS/$public_ip/g"
               /opt/wso2am-2.1.0/repository/conf/carbon.xml
-            - !Join 
+            - !Join
               - ''
               - - sed -i "s/ELB_HOSTNAME/
-                - !GetAtt 
+                - !GetAtt
                   - WSO2AMELB
                   - DNSName
                 - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
-            - !Join 
+            - !Join
               - ''
               - - sed -i "s/DB_HOST/
-                - !GetAtt 
+                - !GetAtt
                   - WSO2AMDB
                   - Endpoint.Address
                 - >-
                   /g"
                   /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
-            - !Join 
+            - !Join
               - ''
               - - sed -i "s/DB_USERNAME/
                 - !Ref DBUsername
                 - >-
                   /g"
                   /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
-            - !Join 
+            - !Join
               - ''
               - - sed -i "s/DB_PASSWORD/
                 - !Ref DBPassword
                 - >-
                   /g"
                   /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
-            - !Join 
+            - !Join
               - ''
               - - sed -i "s/DB_HOST/
-                - !GetAtt 
+                - !GetAtt
                   - WSO2AMDB
                   - Endpoint.Address
                 - /g" /opt/wso2am-2.1.0/repository/conf/registry.xml
-            - !Join 
+            - !Join
               - ''
               - - sed -i "s/AWS_ACCESS_KEY/
                 - !Ref AWSAccessKeyID
                 - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join 
+            - !Join
               - ''
               - - sed -i "s/AWS_SECRET_KEY/
                 - !Ref AWSAccessKeySecret
                 - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join 
+            - !Join
               - ''
               - - sed -i "s/AWS_SECURITY_GROUP/
                 - !Ref ProductSecurityGroup
                 - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join 
+            - !Join
               - ''
               - - sed -i "s/AWS_REGION/
                 - !Ref 'AWS::Region'
@@ -776,6 +628,22 @@ Resources:
             - >-
               sed -i "s/AWS_CLUSTER_TAG_VALUE/WSO2AM210SIMPLE/g"
               /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
+            - cp -r /opt/wso2am-2.1.0/repository/deployment/server /tmp/
+            - !Join
+              - ''
+              - - echo "
+                - !Ref AMNFSMount
+                - .efs.
+                - !Ref 'AWS::Region'
+                - .amazonaws.com
+                - >-
+                  :/ /opt/wso2am-2.1.0/repository/deployment/server nfs4
+                  nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2
+                  0 0" >> /etc/fstab
+            - mount -a -t nfs4
+            - >-
+              cp -r /tmp/server/*
+              /opt/wso2am-2.1.0/repository/deployment/server/
             - /opt/wso2am-2.1.0/bin/wso2server.sh -Dsetup start
     Metadata:
       'AWS::CloudFormation::Designer':
@@ -789,9 +657,9 @@ Resources:
       GroupDescription: Product Security Group
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: '22'
-          ToPort: '22'
-          SourceSecurityGroupId: !Ref BastionSecurityGroup
+          FromPort: '2049'
+          ToPort: '2049'
+          CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: '9443'
           ToPort: '9443'
@@ -860,6 +728,10 @@ Resources:
           FromPort: '10397'
           ToPort: '10397'
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
         - IpProtocol: -1
           FromPort: '0'
@@ -869,8 +741,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 56c87c09-c78a-4cde-887f-b8bcb87dbd35
-    DependsOn:
-      - BastionSecurityGroup
   WSO2AMASGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
@@ -881,7 +751,7 @@ Resources:
       LoadBalancerNames:
         - !Ref WSO2AMELB
       VPCZoneIdentifier:
-        - !Ref PrivateSubnet
+        - !Ref PublicSubnet
       Tags:
         - Key: Name
           Value: WSO2AM-Instance
@@ -913,7 +783,7 @@ Resources:
           InstancePort: '9443'
           Protocol: HTTPS
           InstanceProtocol: HTTPS
-          SSLCertificateId: !Join 
+          SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
               - !Ref 'AWS::AccountId'
@@ -924,7 +794,7 @@ Resources:
           InstancePort: '8243'
           Protocol: HTTPS
           InstanceProtocol: HTTPS
-          SSLCertificateId: !Join 
+          SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
               - !Ref 'AWS::AccountId'
@@ -1009,7 +879,7 @@ Resources:
       VpcId: !Ref WSO2AM1SIMPLE1VPC
       CidrBlock: 10.0.252.0/24
       MapPublicIpOnLaunch: true
-      AvailabilityZone: !Select 
+      AvailabilityZone: !Select
         - '1'
         - !GetAZs ''
     Metadata:
@@ -1039,28 +909,34 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 7c399c2f-0dc5-42b7-a950-3c1c4d927ed5
+  AMNFSMount:
+    Type: 'AWS::EFS::FileSystem'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: f3b8bca6-ba9f-4547-975d-fff7b56b5d6d
+  AMMountTarget:
+    Type: 'AWS::EFS::MountTarget'
+    Properties:
+      SecurityGroups:
+        - !Ref ProductSecurityGroup
+      FileSystemId: !Ref AMNFSMount
+      SubnetId: !Ref PublicSubnet
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: df2fd95f-67f8-4dc9-b048-dbc4c8c76f49
 Outputs:
   Carbon:
-    Value: !Join 
+    Value: !Join
       - ''
       - - 'https://'
-        - !GetAtt 
+        - !GetAtt
           - WSO2AMELB
           - DNSName
         - ':9443/carbon'
     Description: WSO2 AM Carbon Console URL
-  SSH:
-    Value: !Join 
-      - ''
-      - - 'ssh -i '
-        - !Ref KeyPairName
-        - .pem ec2-user@
-        - !GetAtt 
-          - BastionInstance
-          - PublicIp
-    Description: Bastion SSH Details
   Credentials:
-    Value: !Join 
+    Value: !Join
       - ''
       - - 'Username: admin, '
         - 'Password: admin'
@@ -1233,6 +1109,6 @@ Mappings:
     us-east-1:
       Ubuntu140464bit: ami-51f09e47
     us-east-2:
-      Ubuntu140464bit: ami-bce4c3d9
+      Ubuntu140464bit: ami-81f4d3e4
     us-west-1:
       Ubuntu140464bit: ami-35735555

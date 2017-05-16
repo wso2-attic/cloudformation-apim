@@ -11,15 +11,20 @@ if [ $? != 0 ]; then
   exit 1;
 fi
 
-echo -n "AWS Access Key: "
-read -r access_key
+aws_credentials=""
+if [ ! -e ~/.aws/credentials ]; then
+  echo -n "AWS Access Key: "
+  read -r access_key
 
-echo -n "AWS Access Secret: "
-read -s secret_key
-echo
-echo 
+  echo -n "AWS Access Secret: "
+  read -s secret_key
+  echo
+  echo
 
-packer build -var "aws_access_key=${access_key}" -var "aws_secret_key=${secret_key}" am-default.json
+  aws_credentials="-var \"aws_access_key=${access_key}\" -var \"aws_secret_key=${secret_key}\""
+fi
+
+packer build $aws_credentials am-default.json
 
 popd > /dev/null 2>&1
 echo "DONE!"
