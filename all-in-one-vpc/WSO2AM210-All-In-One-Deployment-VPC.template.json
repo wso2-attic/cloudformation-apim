@@ -8,9 +8,6 @@
                         "default": "Cluster Configuration"
                     },
                     "Parameters": [
-                        "APIMClusterSize",
-                        "APIMClusterMax",
-                        "ProductInstanceType",
                         "KeyPairName",
                         "AWSAccessKeyID",
                         "AWSAccessKeySecret"
@@ -29,23 +26,12 @@
                         "default": "Database Configuration"
                     },
                     "Parameters": [
-                        "DBInstanceType",
-                        "DBSize",
                         "DBUsername",
                         "DBPassword"
                     ]
                 }
             ],
             "ParameterLabels": {
-                "APIMClusterSize": {
-                    "default": "How many instances should the APIM Cluster contain?"
-                },
-                "APIMClusterMax": {
-                    "default": "How many maximum instances should the APIM Cluster scale up to?"
-                },
-                "ProductInstanceType": {
-                    "default": "EC2 Instance type for the APIM instances"
-                },
                 "AWSAccessKeyID": {
                     "default": "AWS Access Key ID"
                 },
@@ -54,12 +40,6 @@
                 },
                 "CertificateName": {
                     "default": "Which certificate should be used at the Load Balancer for APIM?"
-                },
-                "DBInstanceType": {
-                    "default": "RDS Instance type for the APIM Database?"
-                },
-                "DBSize": {
-                    "default": "How large should APIM database should be?"
                 },
                 "DBUsername": {
                     "default": "APIM Database Master username?"
@@ -72,23 +52,19 @@
         "AWS::CloudFormation::Designer": {
             "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2": {
                 "size": {
-                    "width": 670,
+                    "width": 570,
                     "height": 530
                 },
                 "position": {
-                    "x": -5270,
-                    "y": -480
+                    "x": -5310,
+                    "y": -460
                 },
                 "z": 1,
                 "embeds": [
-                    "0f6bf8e9-5331-491e-82f3-f8c49c78af5f",
                     "21d07bfc-0717-46fa-9325-5eb52ad71c83",
                     "f3cdfe70-41d8-423b-8043-b5588d320330",
-                    "84568a5c-d633-40e4-a970-800a21224d24",
                     "56c87c09-c78a-4cde-887f-b8bcb87dbd35",
-                    "0b43d1ba-21f8-4a17-89da-f526431323bd",
                     "977bd553-1eca-42e8-80ca-d06efa92fc2c",
-                    "9a0cbff1-168f-4d60-a912-110365f8933b",
                     "e2cf773b-7ade-41a8-9edd-8f35f6d369d7",
                     "e803fa6d-1f40-44df-a758-8b44f434eb0f",
                     "a873c9a5-f1c1-4955-8485-c532254dad8e",
@@ -98,18 +74,18 @@
             },
             "e2cf773b-7ade-41a8-9edd-8f35f6d369d7": {
                 "size": {
-                    "width": 130,
-                    "height": 120
+                    "width": 160,
+                    "height": 100
                 },
                 "position": {
-                    "x": -5170,
-                    "y": -430
+                    "x": -5290,
+                    "y": -300
                 },
                 "z": 2,
                 "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
                 "embeds": [
-                    "d4c668f0-ab82-4cf1-a377-e2f5d792e079",
-                    "6f443223-0b2a-44ac-80f6-93bceb3bb844"
+                    "e0c57164-e84e-4cdb-8d02-419be3a1d4ca",
+                    "93041998-4152-4314-9580-cdcf53cf3375"
                 ]
             },
             "4f6d7998-3ba6-40a2-8a02-19a91c756908": {
@@ -120,19 +96,6 @@
                 "position": {
                     "x": -5010,
                     "y": -750
-                },
-                "z": 2,
-                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
-                "embeds": []
-            },
-            "9a0cbff1-168f-4d60-a912-110365f8933b": {
-                "size": {
-                    "width": 130,
-                    "height": 120
-                },
-                "position": {
-                    "x": -5170,
-                    "y": -90
                 },
                 "z": 2,
                 "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
@@ -153,8 +116,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": -5410,
-                    "y": -350
+                    "x": -5430,
+                    "y": -230
                 },
                 "z": 0,
                 "embeds": [],
@@ -164,33 +127,17 @@
             },
             "977bd553-1eca-42e8-80ca-d06efa92fc2c": {
                 "size": {
-                    "width": 120,
-                    "height": 120
+                    "width": 80,
+                    "height": 80
                 },
                 "position": {
-                    "x": -5030,
+                    "x": -5260,
                     "y": -430
                 },
                 "z": 2,
                 "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
                 "embeds": [
                     "0b559c64-1251-44be-86e6-e55d89462462"
-                ]
-            },
-            "6f443223-0b2a-44ac-80f6-93bceb3bb844": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": -5410,
-                    "y": -60
-                },
-                "z": 0,
-                "parent": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7",
-                "embeds": [],
-                "isrelatedto": [
-                    "0f6bf8e9-5331-491e-82f3-f8c49c78af5f"
                 ]
             },
             "cf4ad471-855d-4129-bd88-3a21a4caab78": {
@@ -221,8 +168,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": -5000,
-                    "y": -400
+                    "x": -5250,
+                    "y": -420
                 },
                 "z": 3,
                 "parent": "977bd553-1eca-42e8-80ca-d06efa92fc2c",
@@ -253,59 +200,6 @@
                 "parent": "9a0cbff1-168f-4d60-a912-110365f8933b",
                 "embeds": []
             },
-            "0b43d1ba-21f8-4a17-89da-f526431323bd": {
-                "size": {
-                    "width": 120,
-                    "height": 120
-                },
-                "position": {
-                    "x": -5030,
-                    "y": -90
-                },
-                "z": 2,
-                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
-                "embeds": [
-                    "be0c7987-95fe-4620-b66f-10c2582e49ea"
-                ]
-            },
-            "be0c7987-95fe-4620-b66f-10c2582e49ea": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": -5000,
-                    "y": -60
-                },
-                "z": 3,
-                "parent": "0b43d1ba-21f8-4a17-89da-f526431323bd",
-                "embeds": [],
-                "isrelatedto": [
-                    "6f443223-0b2a-44ac-80f6-93bceb3bb844"
-                ]
-            },
-            "0f6bf8e9-5331-491e-82f3-f8c49c78af5f": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": -5250,
-                    "y": -60
-                },
-                "z": 2,
-                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
-                "embeds": []
-            },
-            "32b54b15-6a0c-4f39-a18b-9efbee09569d": {
-                "source": {
-                    "id": "0b43d1ba-21f8-4a17-89da-f526431323bd"
-                },
-                "target": {
-                    "id": "9a0cbff1-168f-4d60-a912-110365f8933b"
-                },
-                "z": 2
-            },
             "a585cc83-c457-4d52-85bf-8fe714d6302b": {
                 "source": {
                     "id": "0c6a6593-1ece-4ea6-a375-faf74b62a6b2"
@@ -314,38 +208,6 @@
                     "id": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2"
                 },
                 "z": 0
-            },
-            "84568a5c-d633-40e4-a970-800a21224d24": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": -5250,
-                    "y": -400
-                },
-                "z": 2,
-                "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
-                "embeds": []
-            },
-            "d4c668f0-ab82-4cf1-a377-e2f5d792e079": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": -5140,
-                    "y": -400
-                },
-                "z": 3,
-                "parent": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7",
-                "embeds": [],
-                "ismemberof": [
-                    "84568a5c-d633-40e4-a970-800a21224d24"
-                ],
-                "dependson": [
-                    "84568a5c-d633-40e4-a970-800a21224d24"
-                ]
             },
             "5ce139ad-4dd4-4cf0-aca5-08029aee6eec": {
                 "source": {
@@ -371,8 +233,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": -4850,
-                    "y": -40
+                    "x": -4820,
+                    "y": -360
                 },
                 "z": 2,
                 "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
@@ -404,15 +266,12 @@
                     "height": 60
                 },
                 "position": {
-                    "x": -4730,
-                    "y": -450
+                    "x": -4820,
+                    "y": -220
                 },
                 "z": 2,
                 "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
                 "embeds": [],
-                "dependson": [
-                    "84568a5c-d633-40e4-a970-800a21224d24"
-                ],
                 "isrelatedto": [
                     "84568a5c-d633-40e4-a970-800a21224d24",
                     "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
@@ -433,15 +292,14 @@
                     "height": 60
                 },
                 "position": {
-                    "x": -4850,
-                    "y": -120
+                    "x": -4960,
+                    "y": -380
                 },
                 "z": 2,
                 "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
                 "embeds": [],
                 "isconnectedto": [
-                    "a873c9a5-f1c1-4955-8485-c532254dad8e",
-                    "9a0cbff1-168f-4d60-a912-110365f8933b"
+                    "a873c9a5-f1c1-4955-8485-c532254dad8e"
                 ],
                 "isassociatedwith": [
                     "449ab838-562f-4716-ac0c-b6ff97c368b9"
@@ -484,8 +342,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": -4850,
-                    "y": -450
+                    "x": -5100,
+                    "y": -360
                 },
                 "z": 2,
                 "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
@@ -605,8 +463,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": -4730,
-                    "y": -300
+                    "x": -5100,
+                    "y": -230
                 },
                 "z": 3,
                 "parent": "e803fa6d-1f40-44df-a758-8b44f434eb0f",
@@ -638,12 +496,12 @@
             },
             "e803fa6d-1f40-44df-a758-8b44f434eb0f": {
                 "size": {
-                    "width": 180,
-                    "height": 150
+                    "width": 80,
+                    "height": 80
                 },
                 "position": {
-                    "x": -4790,
-                    "y": -350
+                    "x": -5110,
+                    "y": -240
                 },
                 "z": 2,
                 "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
@@ -676,25 +534,27 @@
             },
             "f3cdfe70-41d8-423b-8043-b5588d320330": {
                 "size": {
-                    "width": 130,
-                    "height": 120
+                    "width": 160,
+                    "height": 100
                 },
                 "position": {
-                    "x": -5170,
-                    "y": -280
+                    "x": -5290,
+                    "y": -180
                 },
                 "z": 2,
                 "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
-                "embeds": []
+                "embeds": [
+                    "7db784b2-081c-473a-a437-4b7b32d9c298"
+                ]
             },
             "21d07bfc-0717-46fa-9325-5eb52ad71c83": {
                 "size": {
-                    "width": 120,
-                    "height": 120
+                    "width": 80,
+                    "height": 80
                 },
                 "position": {
-                    "x": -5030,
-                    "y": -280
+                    "x": -5260,
+                    "y": -30
                 },
                 "z": 2,
                 "parent": "c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2",
@@ -708,8 +568,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": -5000,
-                    "y": -250
+                    "x": -5250,
+                    "y": -20
                 },
                 "z": 3,
                 "parent": "21d07bfc-0717-46fa-9325-5eb52ad71c83",
@@ -744,6 +604,93 @@
                     "id": "a873c9a5-f1c1-4955-8485-c532254dad8e"
                 },
                 "z": 4
+            },
+            "e0c57164-e84e-4cdb-8d02-419be3a1d4ca": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5280,
+                    "y": -280
+                },
+                "z": 3,
+                "parent": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7",
+                "embeds": []
+            },
+            "93041998-4152-4314-9580-cdcf53cf3375": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5200,
+                    "y": -280
+                },
+                "z": 3,
+                "parent": "e2cf773b-7ade-41a8-9edd-8f35f6d369d7",
+                "embeds": [],
+                "ismemberof": [
+                    "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                ],
+                "references": [
+                    "e0c57164-e84e-4cdb-8d02-419be3a1d4ca"
+                ]
+            },
+            "7db784b2-081c-473a-a437-4b7b32d9c298": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -5280,
+                    "y": -160
+                },
+                "z": 3,
+                "parent": "f3cdfe70-41d8-423b-8043-b5588d320330",
+                "embeds": [],
+                "ismemberof": [
+                    "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                ],
+                "references": [
+                    "e0c57164-e84e-4cdb-8d02-419be3a1d4ca"
+                ]
+            },
+            "9e55c284-35a6-4e66-93a7-d7d0127ab0c5": {
+                "source": {
+                    "id": "93041998-4152-4314-9580-cdcf53cf3375"
+                },
+                "target": {
+                    "id": "e0c57164-e84e-4cdb-8d02-419be3a1d4ca"
+                },
+                "z": 4
+            },
+            "ea7610fe-444e-467a-adda-0246a897d7bb": {
+                "source": {
+                    "id": "7db784b2-081c-473a-a437-4b7b32d9c298"
+                },
+                "target": {
+                    "id": "e0c57164-e84e-4cdb-8d02-419be3a1d4ca"
+                },
+                "z": 5
+            },
+            "fb672c87-3b82-44d7-b297-31e20ea7d89d": {
+                "source": {
+                    "id": "7db784b2-081c-473a-a437-4b7b32d9c298"
+                },
+                "target": {
+                    "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                },
+                "z": 6
+            },
+            "ca9dbf2f-e554-476b-8774-29563b5429d7": {
+                "source": {
+                    "id": "93041998-4152-4314-9580-cdcf53cf3375"
+                },
+                "target": {
+                    "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
+                },
+                "z": 7
             }
         }
     },
@@ -784,28 +731,6 @@
                 }
             }
         },
-        "PrivateSubnet": {
-            "Type": "AWS::EC2::Subnet",
-            "Properties": {
-                "VpcId": {
-                    "Ref": "WSO2AM1SIMPLE1VPC"
-                },
-                "CidrBlock": "10.0.1.0/24",
-                "AvailabilityZone": {
-                    "Fn::Select": [
-                        "0",
-                        {
-                            "Fn::GetAZs": ""
-                        }
-                    ]
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "9a0cbff1-168f-4d60-a912-110365f8933b"
-                }
-            }
-        },
         "PublicInternetGateway": {
             "Type": "AWS::EC2::InternetGateway",
             "Properties": {},
@@ -825,25 +750,6 @@
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
                     "id": "977bd553-1eca-42e8-80ca-d06efa92fc2c"
-                }
-            }
-        },
-        "PrivateNATGateway": {
-            "Type": "AWS::EC2::NatGateway",
-            "Properties": {
-                "AllocationId": {
-                    "Fn::GetAtt": [
-                        "NATEIP",
-                        "AllocationId"
-                    ]
-                },
-                "SubnetId": {
-                    "Ref": "PublicSubnet"
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "6f443223-0b2a-44ac-80f6-93bceb3bb844"
                 }
             }
         },
@@ -880,63 +786,6 @@
                 }
             }
         },
-        "PrivateRouteTable": {
-            "Type": "AWS::EC2::RouteTable",
-            "Properties": {
-                "VpcId": {
-                    "Ref": "WSO2AM1SIMPLE1VPC"
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "0b43d1ba-21f8-4a17-89da-f526431323bd"
-                }
-            }
-        },
-        "PrivateRoute": {
-            "Type": "AWS::EC2::Route",
-            "Properties": {
-                "RouteTableId": {
-                    "Ref": "PrivateRouteTable"
-                },
-                "NatGatewayId": {
-                    "Ref": "PrivateNATGateway"
-                },
-                "DestinationCidrBlock": "0.0.0.0/0"
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "be0c7987-95fe-4620-b66f-10c2582e49ea"
-                }
-            }
-        },
-        "NATEIP": {
-            "Type": "AWS::EC2::EIP",
-            "Properties": {
-                "Domain": "vpc"
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "0f6bf8e9-5331-491e-82f3-f8c49c78af5f"
-                }
-            }
-        },
-        "EC2SRTA2ZXK4": {
-            "Type": "AWS::EC2::SubnetRouteTableAssociation",
-            "Properties": {
-                "RouteTableId": {
-                    "Ref": "PrivateRouteTable"
-                },
-                "SubnetId": {
-                    "Ref": "PrivateSubnet"
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "32b54b15-6a0c-4f39-a18b-9efbee09569d"
-                }
-            }
-        },
         "EC2VPCG1W38G": {
             "Type": "AWS::EC2::VPCGatewayAttachment",
             "Properties": {
@@ -953,76 +802,6 @@
                 }
             }
         },
-        "BastionSecurityGroup": {
-            "Type": "AWS::EC2::SecurityGroup",
-            "Properties": {
-                "GroupDescription": "Bastion Security Group",
-                "SecurityGroupIngress": [
-                    {
-                        "IpProtocol": "tcp",
-                        "FromPort": "22",
-                        "ToPort": "22",
-                        "CidrIp": "0.0.0.0/0"
-                    },
-                    {
-                        "IpProtocol": "ICMP",
-                        "FromPort": "-1",
-                        "ToPort": "-1",
-                        "CidrIp": "0.0.0.0/0"
-                    }
-                ],
-                "SecurityGroupEgress": [
-                    {
-                        "IpProtocol": -1,
-                        "FromPort": "0",
-                        "ToPort": "0",
-                        "CidrIp": "0.0.0.0/0"
-                    }
-                ],
-                "VpcId": {
-                    "Ref": "WSO2AM1SIMPLE1VPC"
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "84568a5c-d633-40e4-a970-800a21224d24"
-                }
-            }
-        },
-        "BastionInstance": {
-            "Type": "AWS::EC2::Instance",
-            "Properties": {
-                "SecurityGroupIds": [
-                    {
-                        "Ref": "BastionSecurityGroup"
-                    }
-                ],
-                "ImageId": "ami-7bfcd81e",
-                "KeyName": "wso2deploymenttoolpoc",
-                "SubnetId": {
-                    "Ref": "PublicSubnet"
-                },
-                "InstanceType": "t2.micro",
-                "Tags": [
-                    {
-                        "Key": "Name",
-                        "Value": "WSO2AM-Bastion"
-                    },
-                    {
-                        "Key": "Product",
-                        "Value": "Bastion"
-                    }
-                ]
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "d4c668f0-ab82-4cf1-a377-e2f5d792e079"
-                }
-            },
-            "DependsOn": [
-                "BastionSecurityGroup"
-            ]
-        },
         "WSO2AMLC": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
@@ -1036,9 +815,7 @@
                         "Ubuntu140464bit"
                     ]
                 },
-                "InstanceType": {
-                    "Ref": "ProductInstanceType"
-                },
+                "InstanceType": "t2.medium",
                 "BlockDeviceMappings": [
                     {
                         "DeviceName": "/dev/sda1",
@@ -1063,16 +840,51 @@
                             "\n",
                             [
                                 "#!/bin/bash",
-                                "mount -t ext4 /dev/sda1 /opt/",
                                 "apt-get update",
-                                "apt-get install unzip -y",
+                                "apt-get install unzip cron-apt nfs-common python python-pip -y",
+                                "pip install --upgrade --user awscli",
+                                "mkdir -p ~/.aws",
+                                "cat > ~/.aws/credentials << EOF",
+                                "[default]",
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "aws_access_key_id = ",
+                                            {
+                                                "Ref": "AWSAccessKeyID"
+                                            }
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "aws_secret_access_key = ",
+                                            {
+                                                "Ref": "AWSAccessKeySecret"
+                                            }
+                                        ]
+                                    ]
+                                },
+                                "EOF",
+                                "mkfs.ext4 /dev/sda1",
+                                "mount -t ext4 /dev/sda1 /opt/",
                                 "wget --no-check-certificate --no-cookies --header \"Cookie: oraclelicense=accept-securebackup-cookie\" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz -P /tmp",
                                 "tar zxvf /tmp/jdk-8u112-linux-x64.tar.gz -C /opt",
                                 "ln -s /opt/jdk1.8.0_112/ /opt/java",
                                 "export JAVA_HOME=\"/opt/java\"",
-                                "",
+                                "sed -i 's/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=30/' /opt/java/jre/lib/security/java.security",
+                                "mv /opt/java/jre/lib/security/local_policy.jar{,.orig}",
+                                "mv /opt/java/jre/lib/security/US_export_policy.jar{,.orig}",
+                                "wget --no-check-certificate --no-cookies --header \"Cookie: oraclelicense=accept-securebackup-cookie\" http://download.oracle.com/otn-pub/java/jce/7/UnlimitedJCEPolicyJDK7.zip -P /tmp",
+                                "unzip /tmp/UnlimitedJCEPolicyJDK7.zip -d /opt",
+                                "mv /opt/UnlimitedJCEPolicy/*.jar /opt/java/jre/lib/security/",
+                                "rm -rf /tmp/jdk-7u80-linux-x64.tar.gz /tmp/UnlimitedJCEPolicyJDK7.zip /opt/UnlimitedJCEPolicy",
                                 "wget --user-agent=\"testuser\" --referer=\"http://connect.wso2.com/wso2/getform/reg/new_product_download\" http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip -P /tmp",
                                 "unzip /tmp/wso2am-2.1.0.zip -d /opt",
+                                "rm -rf /tmp/wso2am-2.1.0.zip",
                                 "wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip -P /tmp",
                                 "unzip /tmp/mysql-connector-java-5.1.41.zip -d /tmp",
                                 "cp /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /opt/wso2am-2.1.0/repository/components/lib/",
@@ -1424,64 +1236,31 @@
                                         ]
                                     ]
                                 },
-                                "sed -i \"636s/false/true/g\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml",
-                                "sed -i \"658s/multicast/aws/g\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml",
+                                "sed -i \"546s/.*/<parameter name=\\\"HostnameVerifier\\\">AllowAll<\\/parameter>/\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml",
+                                "mkdir -p /mnt/efs",
                                 {
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "sed -i \"659 a\\",
-                                            "<parameter name=\\\"accessKey\\\">",
+                                            "echo \"",
                                             {
-                                                "Ref": "AWSAccessKeyID"
+                                                "Ref": "AMNFSMount"
                                             },
-                                            "<\\/parameter>\\n\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml"
-                                        ]
-                                    ]
-                                },
-                                {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "sed -i \"659 a\\",
-                                            "<parameter name=\\\"secretKey\\\">",
-                                            {
-                                                "Ref": "AWSAccessKeySecret"
-                                            },
-                                            "<\\/parameter>\\n\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml"
-                                        ]
-                                    ]
-                                },
-                                {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "sed -i \"659 a\\",
-                                            "<parameter name=\\\"securityGroup\\\">",
-                                            {
-                                                "Ref": "ProductSecurityGroup"
-                                            },
-                                            "<\\/parameter>\\n\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml"
-                                        ]
-                                    ]
-                                },
-                                {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "sed -i \"659 a\\",
-                                            "<parameter name=\\\"region\\\">",
+                                            ".efs.",
                                             {
                                                 "Ref": "AWS::Region"
                                             },
-                                            "<\\/parameter>\\n\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml"
+                                            ".amazonaws.com",
+                                            ":/ /mnt/efs nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 0 0\" >> /etc/fstab"
                                         ]
                                     ]
                                 },
-                                "sed -i \"659 a\\<parameter name=\\\"tagKey\\\">Cluster<\\/parameter>\\n\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml",
-                                "sed -i \"659 a\\<parameter name=\\\"tagValue\\\">WSO2AM210SIMPLE<\\/parameter>\\n\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml",
-                                "sed -i \"546s/.*/<parameter name=\\\"HostnameVerifier\\\">AllowAll<\\/parameter>/\" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml",
-                                "",
+                                "mount -a -t nfs4",
+                                "if [ ! -d \"/mnt/efs/synapse-configs\" ]; then",
+                                "    cp -r /opt/wso2am-2.1.0/repository/deployment/server/synapse-configs /mnt/efs/",
+                                "fi",
+                                "rm -rf /opt/wso2am-2.1.0/repository/deployment/server/synapse-configs",
+                                "ln -s /mnt/efs/synapse-configs /opt/wso2am-2.1.0/repository/deployment/server/synapse-configs",
                                 "/opt/wso2am-2.1.0/bin/wso2server.sh -Dsetup start"
                             ]
                         ]
@@ -1507,9 +1286,13 @@
                         "IpProtocol": "tcp",
                         "FromPort": "22",
                         "ToPort": "22",
-                        "SourceSecurityGroupId": {
-                            "Ref": "BastionSecurityGroup"
-                        }
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "2049",
+                        "ToPort": "2049",
+                        "CidrIp": "0.0.0.0/0"
                     },
                     {
                         "IpProtocol": "tcp",
@@ -1630,10 +1413,7 @@
                 "AWS::CloudFormation::Designer": {
                     "id": "56c87c09-c78a-4cde-887f-b8bcb87dbd35"
                 }
-            },
-            "DependsOn": [
-                "BastionSecurityGroup"
-            ]
+            }
         },
         "WSO2AMASGroup": {
             "Type": "AWS::AutoScaling::AutoScalingGroup",
@@ -1641,13 +1421,9 @@
                 "LaunchConfigurationName": {
                     "Ref": "WSO2AMLC"
                 },
-                "DesiredCapacity": {
-                    "Ref": "APIMClusterSize"
-                },
+                "DesiredCapacity": 1,
                 "MinSize": 1,
-                "MaxSize": {
-                    "Ref": "APIMClusterMax"
-                },
+                "MaxSize": 2,
                 "LoadBalancerNames": [
                     {
                         "Ref": "WSO2AMELB"
@@ -1655,7 +1431,7 @@
                 ],
                 "VPCZoneIdentifier": [
                     {
-                        "Ref": "PrivateSubnet"
+                        "Ref": "PublicSubnet"
                     }
                 ],
                 "Tags": [
@@ -1687,7 +1463,8 @@
                 }
             },
             "DependsOn": [
-                "WSO2AMLC"
+                "WSO2AMLC",
+                "WSO2AMELB"
             ]
         },
         "WSO2AMELB": {
@@ -1823,12 +1600,8 @@
                         "Ref": "ProductSecurityGroup"
                     }
                 ],
-                "DBInstanceClass": {
-                    "Ref": "DBInstanceType"
-                },
-                "AllocatedStorage": {
-                    "Ref": "DBSize"
-                },
+                "DBInstanceClass": "db.t2.micro",
+                "AllocatedStorage": 5,
                 "BackupRetentionPeriod": "0",
                 "DBInstanceIdentifier": "wso2amdb",
                 "DBName": "WSO2AM_DB",
@@ -1938,6 +1711,57 @@
                     "id": "7c399c2f-0dc5-42b7-a950-3c1c4d927ed5"
                 }
             }
+        },
+        "AMNFSMount": {
+            "Type": "AWS::EFS::FileSystem",
+            "Properties": {},
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "e0c57164-e84e-4cdb-8d02-419be3a1d4ca"
+                }
+            }
+        },
+        "EFSMtSN1": {
+            "Type": "AWS::EFS::MountTarget",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "PublicSubnet"
+                },
+                "FileSystemId": {
+                    "Ref": "AMNFSMount"
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "ProductSecurityGroup"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "93041998-4152-4314-9580-cdcf53cf3375"
+                }
+            }
+        },
+        "EFSMtSN2": {
+            "Type": "AWS::EFS::MountTarget",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "PublicSubnet2"
+                },
+                "FileSystemId": {
+                    "Ref": "AMNFSMount"
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "ProductSecurityGroup"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "7db784b2-081c-473a-a437-4b7b32d9c298"
+                }
+            }
         }
     },
     "Outputs": {
@@ -1959,26 +1783,17 @@
             },
             "Description": "WSO2 AM Carbon Console URL"
         },
-        "SSH": {
+        "Credentials": {
             "Value": {
                 "Fn::Join": [
                     "",
                     [
-                        "ssh -i ",
-                        {
-                            "Ref": "KeyPairName"
-                        },
-                        ".pem ec2-user@",
-                        {
-                            "Fn::GetAtt": [
-                                "BastionInstance",
-                                "PublicIp"
-                            ]
-                        }
+                        "Username: admin, ",
+                        "Password: admin"
                     ]
                 ]
             },
-            "Description": "Bastion SSH Details"
+            "Description": "WSO2 API Manager Admin Credentials. Please refer https://docs.wso2.com/display/AM210/Maintaining+Logins+and+passwords to change credentials."
         }
     },
     "Parameters": {
@@ -2000,119 +1815,6 @@
             "Description": "The secret access key to be used in AWS based Clustering for WSO2 Products.",
             "Type": "String",
             "MinLength": 1
-        },
-        "ProductInstanceType": {
-            "Description": "The EC2 instance type to be used for the WSO2 AM instances.",
-            "Type": "String",
-            "Default": "t2.small",
-            "AllowedValues": [
-                "t1.micro",
-                "t2.nano",
-                "t2.micro",
-                "t2.small",
-                "t2.medium",
-                "t2.large",
-                "m1.small",
-                "m1.medium",
-                "m1.large",
-                "m1.xlarge",
-                "m2.xlarge",
-                "m2.2xlarge",
-                "m2.4xlarge",
-                "m3.medium",
-                "m3.large",
-                "m3.xlarge",
-                "m3.2xlarge",
-                "m4.large",
-                "m4.xlarge",
-                "m4.2xlarge",
-                "m4.4xlarge",
-                "m4.10xlarge",
-                "c1.medium",
-                "c1.xlarge",
-                "c3.large",
-                "c3.xlarge",
-                "c3.2xlarge",
-                "c3.4xlarge",
-                "c3.8xlarge",
-                "c4.large",
-                "c4.xlarge",
-                "c4.2xlarge",
-                "c4.4xlarge",
-                "c4.8xlarge",
-                "g2.2xlarge",
-                "g2.8xlarge",
-                "r3.large",
-                "r3.xlarge",
-                "r3.2xlarge",
-                "r3.4xlarge",
-                "r3.8xlarge",
-                "i2.xlarge",
-                "i2.2xlarge",
-                "i2.4xlarge",
-                "i2.8xlarge",
-                "d2.xlarge",
-                "d2.2xlarge",
-                "d2.4xlarge",
-                "d2.8xlarge",
-                "hi1.4xlarge",
-                "hs1.8xlarge",
-                "cr1.8xlarge",
-                "cc2.8xlarge",
-                "cg1.4xlarge"
-            ]
-        },
-        "APIMClusterSize": {
-            "Description": "The number of instances of WSO2 API Manager to spawn. This can be increased later through the AutoScale Group.",
-            "Type": "Number",
-            "Default": 1
-        },
-        "APIMClusterMax": {
-            "Description": "The maximum number of instances of WSO2 API Manager to scale up to.",
-            "Type": "Number",
-            "Default": 2
-        },
-        "DBInstanceType": {
-            "Description": "The DB instance type of the RDS instance to be used  for WSO2 AM.",
-            "Type": "String",
-            "Default": "db.t2.micro",
-            "AllowedValues": [
-                "db.t1.micro",
-                "db.m1.small",
-                "db.m1.medium",
-                "db.m1.large",
-                "db.m1.xlarge",
-                "db.m2.xlarge",
-                "db.m2.2xlarge",
-                "db.m2.4xlarge",
-                "db.m3.medium",
-                "db.m3.large",
-                "db.m3.xlarge",
-                "db.m3.2xlarge",
-                "db.m4.large",
-                "db.m4.xlarge",
-                "db.m4.2xlarge",
-                "db.m4.4xlarge",
-                "db.m4.10xlarge",
-                "db.r3.large",
-                "db.r3.xlarge",
-                "db.r3.2xlarge",
-                "db.r3.4xlarge",
-                "db.r3.8xlarge",
-                "db.m2.xlarge",
-                "db.m2.2xlarge",
-                "db.m2.4xlarge",
-                "db.cr1.8xlarge",
-                "db.t2.micro",
-                "db.t2.small",
-                "db.t2.medium",
-                "db.t2.large"
-            ]
-        },
-        "DBSize": {
-            "Description": "The DB size (in GB) to be used for WSO2 AM.",
-            "Type": "Number",
-            "Default": 5
         },
         "DBUsername": {
             "Description": "The username to be used in the WSO2 AM DB.",

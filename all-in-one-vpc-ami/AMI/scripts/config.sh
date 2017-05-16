@@ -21,17 +21,17 @@ aws_access_key_id = SED_AWS_KEY
 aws_secret_access_key = SED_AWS_SECRET
 EOF
 
-cat > /usr/bin/wso2-wait-block.sh << EOF
-#!/bin/bash
-echo "Waiting WSO2 AM to launch on 9443..."
-while ! nc -z 0.0.0.0 9443; do
-  sleep 1
-done
+# cat > /usr/bin/wso2-wait-block.sh << EOF
+# #!/bin/bash
+# echo "Waiting WSO2 AM to launch on 9443..."
+# while ! nc -z 0.0.0.0 9443; do
+#   sleep 1
+# done
+#
+# echo "WSO2AM launched"
+# EOF
 
-echo "WSO2AM launched"
-EOF
-
-chmod +x /usr/bin/wso2-wait-block.sh
+# chmod +x /usr/bin/wso2-wait-block.sh
 
 echo "Mounting block device..."
 mkfs.ext4 /dev/xvdf
