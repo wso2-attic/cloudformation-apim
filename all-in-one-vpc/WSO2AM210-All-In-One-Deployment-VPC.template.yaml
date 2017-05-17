@@ -5,9 +5,6 @@ Metadata:
       - Label:
           default: Cluster Configuration
         Parameters:
-          - APIMClusterSize
-          - APIMClusterMax
-          - ProductInstanceType
           - KeyPairName
           - AWSAccessKeyID
           - AWSAccessKeySecret
@@ -18,27 +15,15 @@ Metadata:
       - Label:
           default: Database Configuration
         Parameters:
-          - DBInstanceType
-          - DBSize
           - DBUsername
           - DBPassword
     ParameterLabels:
-      APIMClusterSize:
-        default: How many instances should the APIM Cluster contain?
-      APIMClusterMax:
-        default: How many maximum instances should the APIM Cluster scale up to?
-      ProductInstanceType:
-        default: EC2 Instance type for the APIM instances
       AWSAccessKeyID:
         default: AWS Access Key ID
       AWSAccessKeySecret:
         default: AWS Access Secret Key
       CertificateName:
         default: Which certificate should be used at the Load Balancer for APIM?
-      DBInstanceType:
-        default: RDS Instance type for the APIM Database?
-      DBSize:
-        default: How large should APIM database should be?
       DBUsername:
         default: APIM Database Master username?
       DBPassword:
@@ -569,7 +554,7 @@ Resources:
         - AWSAMIRegionMap
         - !Ref 'AWS::Region'
         - Ubuntu140464bit
-      InstanceType: !Ref ProductInstanceType
+      InstanceType: t2.medium
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
           Ebs:
@@ -584,9 +569,28 @@ Resources:
           - |+
 
           - - '#!/bin/bash'
-            - mount -t ext4 /dev/sda1 /opt/
+            - set -e
             - apt-get update
-            - apt-get install unzip -y
+            - apt-get install unzip cron-apt nfs-common python python-pip -y
+            - pip install --upgrade --user awscli
+            - mkdir -p ~/.aws
+            - cat > ~/.aws/config << EOF
+            - '[default]'
+            - !Join
+              - ''
+              - - 'aws_access_key_id = '
+                - !Ref AWSAccessKeyID
+            - !Join
+              - ''
+              - - 'aws_secret_access_key = '
+                - !Ref AWSAccessKeySecret
+            - !Join
+              - ''
+              - - 'region = '
+                - !Ref 'AWS::Region'
+            - output = text
+            - EOF
+            - 'export PATH=~/.local/bin:$PATH'
             - >-
               wget --no-check-certificate --no-cookies --header "Cookie:
               oraclelicense=accept-securebackup-cookie"
@@ -595,13 +599,29 @@ Resources:
             - tar zxvf /tmp/jdk-8u112-linux-x64.tar.gz -C /opt
             - ln -s /opt/jdk1.8.0_112/ /opt/java
             - export JAVA_HOME="/opt/java"
-            - ''
+            - >-
+              sed -i
+              's/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=30/'
+              /opt/java/jre/lib/security/java.security
+            - 'mv /opt/java/jre/lib/security/local_policy.jar{,.orig}'
+            - 'mv /opt/java/jre/lib/security/US_export_policy.jar{,.orig}'
+            - >-
+              wget --no-check-certificate --no-cookies --header "Cookie:
+              oraclelicense=accept-securebackup-cookie"
+              http://download.oracle.com/otn-pub/java/jce/7/UnlimitedJCEPolicyJDK7.zip
+              -P /tmp
+            - unzip /tmp/UnlimitedJCEPolicyJDK7.zip -d /opt
+            - mv /opt/UnlimitedJCEPolicy/*.jar /opt/java/jre/lib/security/
+            - >-
+              rm -rf /tmp/jdk-7u80-linux-x64.tar.gz
+              /tmp/UnlimitedJCEPolicyJDK7.zip /opt/UnlimitedJCEPolicy
             - >-
               wget --user-agent="testuser"
               --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download"
               http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip
               -P /tmp
             - unzip /tmp/wso2am-2.1.0.zip -d /opt
+            - rm -rf /tmp/wso2am-2.1.0.zip
             - >-
               wget
               https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip
@@ -831,56 +851,90 @@ Resources:
                 - <targetPath>\/_system\/config<\/targetPath>\n\
                 - <\/mount>\n" /opt/wso2am-2.1.0/repository/conf/registry.xml
             - >-
-              sed -i "636s/false/true/g"
-              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - >-
-              sed -i "658s/multicast/aws/g"
-              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join
-              - ''
-              - - sed -i "659 a\
-                - <parameter name=\"accessKey\">
-                - !Ref AWSAccessKeyID
-                - >-
-                  <\/parameter>\n"
-                  /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join
-              - ''
-              - - sed -i "659 a\
-                - <parameter name=\"secretKey\">
-                - !Ref AWSAccessKeySecret
-                - >-
-                  <\/parameter>\n"
-                  /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join
-              - ''
-              - - sed -i "659 a\
-                - <parameter name=\"securityGroup\">
-                - !Ref ProductSecurityGroup
-                - >-
-                  <\/parameter>\n"
-                  /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join
-              - ''
-              - - sed -i "659 a\
-                - <parameter name=\"region\">
-                - !Ref 'AWS::Region'
-                - >-
-                  <\/parameter>\n"
-                  /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - >-
-              sed -i "659 a\<parameter name=\"tagKey\">Cluster<\/parameter>\n"
-              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - >-
-              sed -i "659 a\<parameter
-              name=\"tagValue\">WSO2AM210SIMPLE<\/parameter>\n"
-              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - >-
               sed -i "546s/.*/<parameter
               name=\"HostnameVerifier\">AllowAll<\/parameter>/"
               /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - ''
+            - mkdir -p /mnt/efs
+            - !Join
+              - ''
+              - - echo "
+                - !Ref AMNFSMount
+                - .efs.
+                - !Ref 'AWS::Region'
+                - .amazonaws.com
+                - >-
+                  :/ /mnt/efs nfs4
+                  nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2
+                  0 0" >> /etc/fstab
+            - mount -a -t nfs4
+            - 'if [ ! -d "/mnt/efs/synapse-configs" ]; then'
+            - '    cp -r /opt/wso2am-2.1.0/repository/deployment/server/synapse-configs /mnt/efs/'
+            - fi
+            - >-
+              rm -rf
+              /opt/wso2am-2.1.0/repository/deployment/server/synapse-configs
+            - >-
+              ln -s /mnt/efs/synapse-configs
+              /opt/wso2am-2.1.0/repository/deployment/server/synapse-configs
+            - >-
+              sed -i 's/PermitRootLogin yes/PermitRootLogin no/g'
+              /etc/ssh/sshd_config
+            - >-
+              sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g'
+              /etc/ssh/sshd_config
+            - !Join
+              - ''
+              - - sed -i "55 a\
+                - ubuntu         soft     nofile          65535\n\
+                - ubuntu         hard     nofile          65535\n\
+                - ubuntu         soft     nproc           20000\n\
+                - >-
+                  ubuntu         hard     nproc           20000\n"
+                  /etc/security/limits.conf
+            - cat <<EOT >> /etc/sysctl.conf
+            - fs.file-max = 2097152
+            - net.core.rmem_default = 524288
+            - net.core.wmem_default = 524288
+            - net.core.rmem_max = 67108864
+            - net.core.wmem_max = 67108864
+            - net.ipv4.tcp_fin_timeout = 30
+            - net.ipv4.tcp_rmem = 4096 87380 16777216
+            - net.ipv4.tcp_wmem = 4096 65536 16777216
+            - net.ipv4.ip_local_port_range = 1024 65535
+            - EOT
+            - mv /etc/apt/sources.list /etc/apt/sources.orig
+            - cat <<EOT >> /etc/apt/sources.list.d/security.sources.list
+            - 'deb http://security.ubuntu.com/ubuntu trusty-security main'
+            - 'deb-src http://security.ubuntu.com/ubuntu trusty-security main'
+            - 'deb http://security.ubuntu.com/ubuntu trusty-security universe'
+            - 'deb-src http://security.ubuntu.com/ubuntu trusty-security universe'
+            - EOT
+            - cat <<EOT >> /etc/cron-apt/action.d/5-install
+            - autoclean -q -y
+            - 'dist-upgrade -q -y -o APT::Get::Show-Upgraded=true '
+            - '    -o Dir::Etc::sourcelist=/etc/apt/sources.list.d/security.sources.list '
+            - '    -o Dir::Etc::sourceparts=nonexistent '
+            - '    -o DPkg::Options::=--force-confdef'
+            - '    -o DPkg::Options::=--force-confold'
+            - EOT
+            - apt-get update
             - /opt/wso2am-2.1.0/bin/wso2server.sh -Dsetup start
+            - echo "Waiting WSO2 AM to launch on 9443..."
+            - while ! nc -z 0.0.0.0 9443; do
+            - '  sleep 1'
+            - done
+            - echo "WSO2AM launched"
+            - >-
+              asgroupname=$(aws ec2 describe-tags --filters
+              "Name=resource-id,Values=$(curl
+              http://169.254.169.254/latest/meta-data/instance-id)"
+              "Name=key,Values=aws:autoscaling:groupName" | awk '{print $5}')
+            - >-
+              aws autoscaling set-desired-capacity --auto-scaling-group-name
+              $asgroupname --desired-capacity 2
+            - rm -rf ~/.aws
+            - echo 'export HISTTIMEFORMAT="%F %T "' >> /etc/profile.d/history.sh
+            - cat /dev/null > ~/.bash_history && history -c
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 449ab838-562f-4716-ac0c-b6ff97c368b9
@@ -981,11 +1035,13 @@ Resources:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
       LaunchConfigurationName: !Ref WSO2AMLC
-      DesiredCapacity: !Ref APIMClusterSize
+      DesiredCapacity: 1
       MinSize: 1
-      MaxSize: !Ref APIMClusterMax
+      MaxSize: 2
       LoadBalancerNames:
         - !Ref WSO2AMELB
+      VPCZoneIdentifier:
+        - !Ref PublicSubnet
       Tags:
         - Key: Name
           Value: WSO2AM-Instance
@@ -1084,8 +1140,8 @@ Resources:
     Properties:
       VPCSecurityGroups:
         - !Ref ProductSecurityGroup
-      DBInstanceClass: !Ref DBInstanceType
-      AllocatedStorage: !Ref DBSize
+      DBInstanceClass: db.t2.micro
+      AllocatedStorage: 5
       BackupRetentionPeriod: '0'
       DBInstanceIdentifier: wso2amdb
       DBName: WSO2AM_DB
@@ -1180,16 +1236,15 @@ Outputs:
           - DNSName
         - ':9443/carbon'
     Description: WSO2 AM Carbon Console URL
-  SSH:
+  Credentials:
     Value: !Join
       - ''
-      - - 'ssh -i '
-        - !Ref KeyPairName
-        - .pem ec2-user@
-        - !GetAtt
-          - BastionInstance
-          - PublicIp
-    Description: Bastion SSH Details
+      - - 'Username: admin, '
+        - 'Password: admin'
+    Description: >-
+      WSO2 API Manager Admin Credentials. Please refer
+      https://docs.wso2.com/display/AM210/Maintaining+Logins+and+passwords to
+      change credentials.
 Parameters:
   KeyPairName:
     Description: >-
@@ -1210,114 +1265,6 @@ Parameters:
       Products.
     Type: String
     MinLength: 1
-  ProductInstanceType:
-    Description: The EC2 instance type to be used for the WSO2 AM instances.
-    Type: String
-    Default: t2.small
-    AllowedValues:
-      - t1.micro
-      - t2.nano
-      - t2.micro
-      - t2.small
-      - t2.medium
-      - t2.large
-      - m1.small
-      - m1.medium
-      - m1.large
-      - m1.xlarge
-      - m2.xlarge
-      - m2.2xlarge
-      - m2.4xlarge
-      - m3.medium
-      - m3.large
-      - m3.xlarge
-      - m3.2xlarge
-      - m4.large
-      - m4.xlarge
-      - m4.2xlarge
-      - m4.4xlarge
-      - m4.10xlarge
-      - c1.medium
-      - c1.xlarge
-      - c3.large
-      - c3.xlarge
-      - c3.2xlarge
-      - c3.4xlarge
-      - c3.8xlarge
-      - c4.large
-      - c4.xlarge
-      - c4.2xlarge
-      - c4.4xlarge
-      - c4.8xlarge
-      - g2.2xlarge
-      - g2.8xlarge
-      - r3.large
-      - r3.xlarge
-      - r3.2xlarge
-      - r3.4xlarge
-      - r3.8xlarge
-      - i2.xlarge
-      - i2.2xlarge
-      - i2.4xlarge
-      - i2.8xlarge
-      - d2.xlarge
-      - d2.2xlarge
-      - d2.4xlarge
-      - d2.8xlarge
-      - hi1.4xlarge
-      - hs1.8xlarge
-      - cr1.8xlarge
-      - cc2.8xlarge
-      - cg1.4xlarge
-  APIMClusterSize:
-    Description: >-
-      The number of instances of WSO2 API Manager to spawn. This can be
-      increased later through the AutoScale Group.
-    Type: Number
-    Default: 1
-  APIMClusterMax:
-    Description: The maximum number of instances of WSO2 API Manager to scale up to.
-    Type: Number
-    Default: 2
-  DBInstanceType:
-    Description: The DB instance type of the RDS instance to be used  for WSO2 AM.
-    Type: String
-    Default: db.t2.micro
-    AllowedValues:
-      - db.t1.micro
-      - db.m1.small
-      - db.m1.medium
-      - db.m1.large
-      - db.m1.xlarge
-      - db.m2.xlarge
-      - db.m2.2xlarge
-      - db.m2.4xlarge
-      - db.m3.medium
-      - db.m3.large
-      - db.m3.xlarge
-      - db.m3.2xlarge
-      - db.m4.large
-      - db.m4.xlarge
-      - db.m4.2xlarge
-      - db.m4.4xlarge
-      - db.m4.10xlarge
-      - db.r3.large
-      - db.r3.xlarge
-      - db.r3.2xlarge
-      - db.r3.4xlarge
-      - db.r3.8xlarge
-      - db.m2.xlarge
-      - db.m2.2xlarge
-      - db.m2.4xlarge
-      - db.cr1.8xlarge
-      - db.t2.micro
-      - db.t2.small
-      - db.t2.medium
-      - db.t2.large
-  DBSize:
-    Description: The DB size (in GB) to be used for WSO2 AM.
-    Type: Number
-    Default: 5
   DBUsername:
     Description: The username to be used in the WSO2 AM DB.
     Type: String
