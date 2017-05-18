@@ -591,12 +591,27 @@ Resources:
             - output = text
             - EOF
             - 'export PATH=~/.local/bin:$PATH'
-            - >-
-              wget --no-check-certificate --no-cookies --header "Cookie:
-              oraclelicense=accept-securebackup-cookie"
-              http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz
-              -P /tmp
-            - tar zxvf /tmp/jdk-8u112-linux-x64.tar.gz -C /opt
+            - mkdir -p /mnt/efs
+            - !Join
+              - ''
+              - - echo "
+                - !Ref AMNFSMount
+                - .efs.
+                - !Ref 'AWS::Region'
+                - .amazonaws.com
+                - >-
+                  :/ /mnt/efs nfs4
+                  nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2
+                  0 0" >> /etc/fstab
+            - mount -a -t nfs4
+            - 'if [ ! -e /mnt/efs/packs/jdk-8u112-linux-x64.tar.gz ]; then'
+            - '   mkdir /mnt/efs/packs'
+            - '   wget --tries=3 --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz -P /mnt/efs/packs'
+            - '   wget --tries=3 --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jce/7/UnlimitedJCEPolicyJDK7.zip -P /mnt/efs/packs'
+            - '   wget --tries=3 --user-agent="testuser" --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download" http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip -P /mnt/efs/packs'
+            - '   wget --tries=3 https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip -P /mnt/efs/packs'
+            - fi
+            - tar zxvf /mnt/efs/packs/jdk-8u112-linux-x64.tar.gz -C /opt
             - ln -s /opt/jdk1.8.0_112/ /opt/java
             - export JAVA_HOME="/opt/java"
             - >-
@@ -605,33 +620,16 @@ Resources:
               /opt/java/jre/lib/security/java.security
             - 'mv /opt/java/jre/lib/security/local_policy.jar{,.orig}'
             - 'mv /opt/java/jre/lib/security/US_export_policy.jar{,.orig}'
-            - >-
-              wget --no-check-certificate --no-cookies --header "Cookie:
-              oraclelicense=accept-securebackup-cookie"
-              http://download.oracle.com/otn-pub/java/jce/7/UnlimitedJCEPolicyJDK7.zip
-              -P /tmp
-            - unzip /tmp/UnlimitedJCEPolicyJDK7.zip -d /opt
+            - unzip /mnt/efs/packs/UnlimitedJCEPolicyJDK7.zip -d /opt
             - mv /opt/UnlimitedJCEPolicy/*.jar /opt/java/jre/lib/security/
-            - >-
-              rm -rf /tmp/jdk-7u80-linux-x64.tar.gz
-              /tmp/UnlimitedJCEPolicyJDK7.zip /opt/UnlimitedJCEPolicy
-            - >-
-              wget --user-agent="testuser"
-              --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download"
-              http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip
-              -P /tmp
-            - unzip /tmp/wso2am-2.1.0.zip -d /opt
-            - rm -rf /tmp/wso2am-2.1.0.zip
-            - >-
-              wget
-              https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip
-              -P /tmp
-            - unzip /tmp/mysql-connector-java-5.1.41.zip -d /tmp
+            - rm -rf /opt/UnlimitedJCEPolicy
+            - unzip /mnt/efs/packs/wso2am-2.1.0.zip -d /opt
+            - unzip /mnt/efs/packs/mysql-connector-java-5.1.41.zip -d /tmp
             - >-
               cp
               /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar
               /opt/wso2am-2.1.0/repository/components/lib/
-            - ''
+            - rm -rf /tmp/mysql-connector-java-5.1.41
             - >-
               public_ip=$(curl
               http://169.254.169.254/latest/meta-data/public-ipv4)
@@ -854,19 +852,6 @@ Resources:
               sed -i "546s/.*/<parameter
               name=\"HostnameVerifier\">AllowAll<\/parameter>/"
               /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - mkdir -p /mnt/efs
-            - !Join
-              - ''
-              - - echo "
-                - !Ref AMNFSMount
-                - .efs.
-                - !Ref 'AWS::Region'
-                - .amazonaws.com
-                - >-
-                  :/ /mnt/efs nfs4
-                  nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2
-                  0 0" >> /etc/fstab
-            - mount -a -t nfs4
             - 'if [ ! -d "/mnt/efs/synapse-configs" ]; then'
             - '    cp -r /opt/wso2am-2.1.0/repository/deployment/server/synapse-configs /mnt/efs/'
             - fi
@@ -1041,7 +1026,7 @@ Resources:
       LoadBalancerNames:
         - !Ref WSO2AMELB
       VPCZoneIdentifier:
-        - !Ref PublicSubnet
+        - !Ref PublicSubnet2
       Tags:
         - Key: Name
           Value: WSO2AM-Instance
@@ -1069,11 +1054,15 @@ Resources:
         - !Ref ProductSecurityGroup
       Subnets:
         - !Ref PublicSubnet
+      LBCookieStickinessPolicy:
+        - PolicyName: LBStickyPolicy
       Listeners:
         - LoadBalancerPort: '9443'
           InstancePort: '9443'
           Protocol: HTTPS
           InstanceProtocol: HTTPS
+          PolicyNames:
+            - LBStickyPolicy
           SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
@@ -1085,6 +1074,8 @@ Resources:
           InstancePort: '8243'
           Protocol: HTTPS
           InstanceProtocol: HTTPS
+          PolicyNames:
+            - LBStickyPolicy
           SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
@@ -1096,6 +1087,8 @@ Resources:
           InstancePort: '9763'
           Protocol: HTTP
           InstanceProtocol: HTTP
+          PolicyNames:
+            - LBStickyPolicy
         - LoadBalancerPort: '10389'
           InstancePort: '10389'
           Protocol: TCP
