@@ -174,9 +174,11 @@ Metadata:
       dependson:
         - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
         - a873c9a5-f1c1-4955-8485-c532254dad8e
+        - a585cc83-c457-4d52-85bf-8fe714d6302b
       isrelatedto:
         - c923fc1a-40b9-4c51-a288-6477f32b3219
         - a873c9a5-f1c1-4955-8485-c532254dad8e
+        - e0c57164-e84e-4cdb-8d02-419be3a1d4ca
     c6bb6de6-531f-4bff-9b29-ad95c678e79b:
       source:
         id: 449ab838-562f-4716-ac0c-b6ff97c368b9
@@ -214,6 +216,8 @@ Metadata:
       embeds: []
       isconnectedto:
         - a873c9a5-f1c1-4955-8485-c532254dad8e
+        - e2cf773b-7ade-41a8-9edd-8f35f6d369d7
+        - f3cdfe70-41d8-423b-8043-b5588d320330
       isassociatedwith:
         - 449ab838-562f-4716-ac0c-b6ff97c368b9
       dependson:
@@ -249,6 +253,7 @@ Metadata:
       embeds: []
       isconnectedto:
         - e2cf773b-7ade-41a8-9edd-8f35f6d369d7
+        - f3cdfe70-41d8-423b-8043-b5588d320330
       ismemberof:
         - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
       dependson:
@@ -1026,6 +1031,7 @@ Resources:
       LoadBalancerNames:
         - !Ref WSO2AMELB
       VPCZoneIdentifier:
+        - !Ref PublicSubnet
         - !Ref PublicSubnet2
       Tags:
         - Key: Name
@@ -1054,6 +1060,7 @@ Resources:
         - !Ref ProductSecurityGroup
       Subnets:
         - !Ref PublicSubnet2
+        - !Ref PublicSubnet
       LBCookieStickinessPolicy:
         - PolicyName: LBStickyPolicy
       Listeners:
@@ -1220,6 +1227,24 @@ Resources:
       'AWS::CloudFormation::Designer':
         id: 7db784b2-081c-473a-a437-4b7b32d9c298
 Outputs:
+  Publisher:
+    Value: !Join
+      - ''
+      - - 'https://'
+        - !GetAtt
+          - WSO2AMELB
+          - DNSName
+        - ':9443/publisher'
+    Description: WSO2 API Manager Publisher URL.
+  Store:
+    Value: !Join
+      - ''
+      - - 'https://'
+        - !GetAtt
+          - WSO2AMELB
+          - DNSName
+        - ':9443/store'
+    Description: WSO2 API Manager Store URL.
   Carbon:
     Value: !Join
       - ''
@@ -1228,7 +1253,7 @@ Outputs:
           - WSO2AMELB
           - DNSName
         - ':9443/carbon'
-    Description: WSO2 AM Carbon Console URL
+    Description: WSO2 API Manager Console URL.
   Credentials:
     Value: !Join
       - ''
