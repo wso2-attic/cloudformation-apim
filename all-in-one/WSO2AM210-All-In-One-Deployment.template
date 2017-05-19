@@ -1,8 +1,11 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: WSO2 API Manager 2.1.0 All-In-One CloudFormation Template
 Parameters:
-  AvailabilityZone:
-    Description: Availability zone to be used
+  AvailabilityZone1:
+    Description: Availability zone for creating the first API-M virtual machine.
+    Type: AWS::EC2::AvailabilityZone::Name
+  AvailabilityZone2:
+    Description: Availability zone for creating the second API-M virtual machine.
     Type: AWS::EC2::AvailabilityZone::Name
   SSLCertificateId:
     Description: The identifier of the SSL certificate to be used in the load balancer. Import a SSL certificate to AWS Certificate Manager and provide the identifier here.
@@ -304,7 +307,8 @@ Resources:
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
     Properties:
       AvailabilityZones:
-        - !Ref AvailabilityZone
+        - !Ref AvailabilityZone1
+        - !Ref AvailabilityZone2
       CrossZone: 'true'
       LBCookieStickinessPolicy:
         - PolicyName: CookieBasedPolicy
@@ -344,9 +348,6 @@ Resources:
         UnhealthyThreshold: '5'
         Interval: '10'
         Timeout: '5'
-      Tags:
-        - Key: User
-          Value: imesh@wso2.com
   WSO2APIMSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
@@ -397,26 +398,20 @@ Resources:
       AllocatedStorage: 20
       DBSecurityGroups:
         - !Ref WSO2APIMDBSecurityGroup
-      Tags:
-        - Key: User
-          Value: imesh@wso2.com
     DependsOn:
       - WSO2APIMDBSecurityGroup
   WSO2APIMAutoscalingGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
       AvailabilityZones:
-        - !Ref AvailabilityZone
+        - !Ref AvailabilityZone1
+        - !Ref AvailabilityZone2
       LaunchConfigurationName: !Ref WSO2APIMLaunchConfig
       MinSize: '1'
       MaxSize: '2'
       DesiredCapacity: 1
       LoadBalancerNames:
         - !Ref WSO2APIMLoadBalancer
-      Tags:
-        - Key: User
-          Value: imesh@wso2.com
-          PropagateAtLaunch: 'true'
     CreationPolicy:
       ResourceSignal:
         Timeout: PT15M
@@ -511,7 +506,7 @@ Resources:
                   - |
                     echo "Downloading WSO2 API-M 2.1.0 distribution..."
                   - >
-                    wget --tries=3 --user-agent="testuser"
+                    wget --tries=3 --user-agent="wget"
                     --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download"
                     http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip
                   - |
@@ -678,6 +673,8 @@ Resources:
       InstanceType: m1.medium
       SecurityGroups:
         - !Ref WSO2APIMSecurityGroup
+      # Uncomment the below element to provide the SSH key name
+      # KeyName: ssh-key-name
       UserData: !Base64 
         'Fn::Join':
           - ''
