@@ -804,7 +804,6 @@
     "WSO2AMLC": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "AssociatePublicIpAddress": true,
         "ImageId": {
           "Fn::FindInMap": [
             "AWSAMIRegionMap",
@@ -1310,7 +1309,8 @@
       },
       "DependsOn": [
         "ProductSecurityGroup",
-        "WSO2AMELB"
+        "WSO2AMELB",
+        "EC2VPCG1W38G"
       ]
     },
     "ProductSecurityGroup": {
@@ -1504,7 +1504,8 @@
           "Ref": "ProductSecurityGroup"
         }],
         "Subnets": [{
-          "Ref": "PublicSubnet"
+          "Ref": "PublicSubnet",
+          "Ref": "PublicSubnet2"
         }],
         "LBCookieStickinessPolicy": [{
           "PolicyName": "LBStickyPolicy"
@@ -1843,13 +1844,14 @@
       "AllowedPattern": "[A-Za-z0-9\\-]+"
     },
     "DBPassword": {
-      "Description": "The passworf to be used in the WSO2 AM DB.",
+      "Description": "The password to be used in the WSO2 AM DB.",
       "Type": "String",
       "Default": "rootrootroot",
       "MinLength": 8,
       "NoEcho": true
     }
   },
+  "Conditions": {},
   "Mappings": {
     "AWSAMIRegionMap": {
       "ap-northeast-1": {

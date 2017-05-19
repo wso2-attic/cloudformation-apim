@@ -549,7 +549,6 @@ Resources:
   WSO2AMLC:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
-      AssociatePublicIpAddress: true
       ImageId: !FindInMap
         - AWSAMIRegionMap
         - !Ref 'AWS::Region'
@@ -926,6 +925,7 @@ Resources:
     DependsOn:
       - ProductSecurityGroup
       - WSO2AMELB
+      - EC2VPCG1W38G
   ProductSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
@@ -1053,7 +1053,7 @@ Resources:
       SecurityGroups:
         - !Ref ProductSecurityGroup
       Subnets:
-        - !Ref PublicSubnet
+        - !Ref PublicSubnet2
       LBCookieStickinessPolicy:
         - PolicyName: LBStickyPolicy
       Listeners:
@@ -1265,11 +1265,12 @@ Parameters:
     MinLength: 4
     AllowedPattern: '[A-Za-z0-9\-]+'
   DBPassword:
-    Description: The passworf to be used in the WSO2 AM DB.
+    Description: The password to be used in the WSO2 AM DB.
     Type: String
     Default: rootrootroot
     MinLength: 8
     NoEcho: true
+Conditions: {}
 Mappings:
   AWSAMIRegionMap:
     ap-northeast-1:
