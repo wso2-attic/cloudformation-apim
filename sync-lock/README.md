@@ -10,7 +10,7 @@ This is a synchronization lock for synchronizing atomic deployment operations.
    go build .
    ````
 
-2. Provide database configuration via following environment variables:
+2. Provide the database configuration using following environment variables:
 
    ````bash
    export DB_NAME=lock_db
