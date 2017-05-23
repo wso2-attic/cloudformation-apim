@@ -4,25 +4,22 @@ This is a synchronization lock for synchronizing atomic deployment operations.
 
 ## How to run
 
-1. Execute the below command to install the dependencies:
+1. Execute the below command build sync-lock:
    
    ````bash
-   npm install
+   go build .
    ````
 
-2. Execute below command to acquire a lock and set a key value pair:
+2. Execute the below command to acquire a lock:
    
    ````bash
-   npm start [key] [value]
+   ./sync-lock [cluster-name] [lock|unlock]
    ````
 
    Example usage:
    
    ````bash
-   npm start foo 1
-   Acquiring lock...
-   Lock acquired
-   Record updated [foo] = 1
-   Lock released
+   ./sync-lock api-m lock
+   
    ````
 
