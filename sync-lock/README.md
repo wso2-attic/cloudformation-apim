@@ -10,7 +10,9 @@ This is a synchronization lock for synchronizing atomic deployment operations.
    go build .
    ````
 
-2. Provide the database configuration using following environment variables:
+2. Create a new MySQL database and note down the configuration, sync-lock will create a table in this database with the name 'lock' in the first run.
+
+3. Provide the database configuration using following environment variables:
 
    ````bash
    export DB_NAME=lock_db
@@ -21,7 +23,7 @@ This is a synchronization lock for synchronizing atomic deployment operations.
    export DB_USERNAME=mysql
    ````
 
-3. Execute the below command to acquire a lock:
+4. Execute the below command to acquire a lock:
    
    ````bash
    ./sync-lock [cluster-name] lock
@@ -34,7 +36,7 @@ This is a synchronization lock for synchronizing atomic deployment operations.
    Lock [api-m] acquired
    ````
 
-4. Execute the below command to release a lock:
+5. Execute the below command to release a lock:
    
    ````bash
    ./sync-lock [cluster-name] unlock
@@ -46,3 +48,6 @@ This is a synchronization lock for synchronizing atomic deployment operations.
    ./sync-lock api-m unlock
    Lock [api-m] released
    ````
+
+## License
+Licensed under Apache 2.0
