@@ -17,12 +17,17 @@ const unlockStmt = "UNLOCK TABLES;"
 
 func getDbConnection() (*sql.DB, error) {
 	var hostname = os.Getenv("DB_HOSTNAME")
+	var port = os.Getenv("DB_PORT")
 	var username = os.Getenv("DB_USERNAME")
 	var password = os.Getenv("DB_PASSWORD")
 	var databaseName = os.Getenv("DB_NAME")
 
 	if hostname == "" {
 		err := errors.New("DB_HOSTNAME environment variable is not found")
+		return nil, err
+	}
+	if port == "" {
+		err := errors.New("DB_PORT environment variable is not found")
 		return nil, err
 	}
 	if username == "" {
@@ -38,7 +43,7 @@ func getDbConnection() (*sql.DB, error) {
 		return nil, err
 	}
 
-	db, err := sql.Open("mysql", username+":"+password+"@tcp("+hostname+":3306)/"+databaseName+"?charset=utf8")
+	db, err := sql.Open("mysql", username+":"+password+"@tcp("+hostname+":"+port+")/"+databaseName+"?charset=utf8")
 	return db, err
 }
 

@@ -10,7 +10,18 @@ This is a synchronization lock for synchronizing atomic deployment operations.
    go build .
    ````
 
-2. Execute the below command to acquire a lock:
+2. Provide database configuration via following environment variables:
+
+   ````bash
+   export DB_NAME=lock_db
+   export DB_PORT=3306
+   export DB_PASSWORD=mysql
+   export DB_HOSTNAME=127.0.0.1
+   export DB_PORT=3306
+   export DB_USERNAME=mysql
+   ````
+
+3. Execute the below command to acquire a lock:
    
    ````bash
    ./sync-lock [cluster-name] lock
@@ -23,7 +34,7 @@ This is a synchronization lock for synchronizing atomic deployment operations.
    Lock [api-m] acquired
    ````
 
-3. Execute the below command to release a lock:
+4. Execute the below command to release a lock:
    
    ````bash
    ./sync-lock [cluster-name] unlock
