@@ -86,6 +86,7 @@ class wso2am_runtime::params {
     $patches_dir              = hiera('wso2::patches_dir')
     $service_name             = hiera('wso2::service_name')
     $service_template         = hiera('wso2::service_template')
+    $autostart_service        = hiera('wso2::autostart_service')
     $usermgt_datasource       = hiera('wso2::usermgt_datasource')
     $local_reg_datasource     = hiera('wso2::local_reg_datasource')
     $clustering               = hiera('wso2::clustering')
@@ -263,6 +264,7 @@ class wso2am_runtime::params {
     $patches_dir              = 'repository/components/patches'
     $service_name             = wso2am
     $service_template         = 'wso2base/wso2service.erb'
+    $autostart_service        = 'true'
     $usermgt_datasource       = 'wso2_carbon_db'
     $local_reg_datasource     = 'wso2_carbon_db'
     $mb_store_datasource      = 'wso2_mb_store_db'

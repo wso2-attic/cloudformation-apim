@@ -1,8 +1,0 @@
-export FACTER_product_name=wso2am_runtime
-export FACTER_product_version=2.1.0
-export FACTER_product_profile=default
-export FACTER_vm_type=openstack
-export FACTER_environment=dev
-export FACTER_platform=default
-export FACTER_use_hieradata=true
-export FACTER_pattern=pattern-1

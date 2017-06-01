@@ -5,11 +5,7 @@ Metadata:
       - Label:
           default: Cluster Configuration
         Parameters:
-          - APIMClusterSize
-          - APIMClusterMax
-          - ProductInstanceType
           - KeyPairName
-          - AWSAccessKeyID
           - AWSAccessKeySecret
       - Label:
           default: Network Configuration
@@ -18,27 +14,13 @@ Metadata:
       - Label:
           default: Database Configuration
         Parameters:
-          - DBInstanceType
-          - DBSize
           - DBUsername
           - DBPassword
     ParameterLabels:
-      APIMClusterSize:
-        default: How many instances should the APIM Cluster contain?
-      APIMClusterMax:
-        default: How many maximum instances should the APIM Cluster scale up to?
-      ProductInstanceType:
-        default: EC2 Instance type for the APIM instances
-      AWSAccessKeyID:
-        default: AWS Access Key ID
       AWSAccessKeySecret:
         default: AWS Access Secret Key
       CertificateName:
         default: Which certificate should be used at the Load Balancer for APIM?
-      DBInstanceType:
-        default: RDS Instance type for the APIM Database?
-      DBSize:
-        default: How large should APIM database should be?
       DBUsername:
         default: APIM Database Master username?
       DBPassword:
@@ -46,11 +28,11 @@ Metadata:
   'AWS::CloudFormation::Designer':
     c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2:
       size:
-        width: 520
-        height: 270
+        width: 570
+        height: 530
       position:
-        x: -4580
-        'y': -620
+        x: -5310
+        'y': -460
       z: 1
       embeds:
         - 21d07bfc-0717-46fa-9325-5eb52ad71c83
@@ -64,15 +46,16 @@ Metadata:
         - 3f971707-256d-47c5-a68e-e5ab0728e152
     e2cf773b-7ade-41a8-9edd-8f35f6d369d7:
       size:
-        width: 80
-        height: 80
+        width: 160
+        height: 100
       position:
-        x: -4550
-        'y': -560
+        x: -5290
+        'y': -300
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
-        - f3b8bca6-ba9f-4547-975d-fff7b56b5d6d
+        - e0c57164-e84e-4cdb-8d02-419be3a1d4ca
+        - 93041998-4152-4314-9580-cdcf53cf3375
     4f6d7998-3ba6-40a2-8a02-19a91c756908:
       size:
         width: 60
@@ -94,8 +77,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4770
-        'y': -530
+        x: -5430
+        'y': -230
       z: 0
       embeds: []
       isrelatedto:
@@ -105,8 +88,8 @@ Metadata:
         width: 80
         height: 80
       position:
-        x: -4450
-        'y': -560
+        x: -5260
+        'y': -430
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -132,8 +115,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4440
-        'y': -550
+        x: -5250
+        'y': -420
       z: 3
       parent: 977bd553-1eca-42e8-80ca-d06efa92fc2c
       embeds: []
@@ -178,8 +161,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4270
-        'y': -430
+        x: -4820
+        'y': -360
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -188,10 +171,11 @@ Metadata:
       dependson:
         - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
         - a873c9a5-f1c1-4955-8485-c532254dad8e
+        - a585cc83-c457-4d52-85bf-8fe714d6302b
       isrelatedto:
         - c923fc1a-40b9-4c51-a288-6477f32b3219
         - a873c9a5-f1c1-4955-8485-c532254dad8e
-        - f3b8bca6-ba9f-4547-975d-fff7b56b5d6d
+        - e0c57164-e84e-4cdb-8d02-419be3a1d4ca
     c6bb6de6-531f-4bff-9b29-ad95c678e79b:
       source:
         id: 449ab838-562f-4716-ac0c-b6ff97c368b9
@@ -203,8 +187,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4150
-        'y': -590
+        x: -4820
+        'y': -220
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
@@ -222,15 +206,15 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4270
-        'y': -510
+        x: -4960
+        'y': -380
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
       isconnectedto:
         - a873c9a5-f1c1-4955-8485-c532254dad8e
-        - 9a0cbff1-168f-4d60-a912-110365f8933b
         - e2cf773b-7ade-41a8-9edd-8f35f6d369d7
+        - f3cdfe70-41d8-423b-8043-b5588d320330
       isassociatedwith:
         - 449ab838-562f-4716-ac0c-b6ff97c368b9
       dependson:
@@ -259,13 +243,14 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4270
-        'y': -590
+        x: -5100
+        'y': -360
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds: []
       isconnectedto:
         - e2cf773b-7ade-41a8-9edd-8f35f6d369d7
+        - f3cdfe70-41d8-423b-8043-b5588d320330
       ismemberof:
         - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
       dependson:
@@ -341,8 +326,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4150
-        'y': -460
+        x: -5100
+        'y': -230
       z: 3
       parent: e803fa6d-1f40-44df-a758-8b44f434eb0f
       embeds: []
@@ -365,10 +350,10 @@ Metadata:
     e803fa6d-1f40-44df-a758-8b44f434eb0f:
       size:
         width: 80
-        height: 90
+        height: 80
       position:
-        x: -4160
-        'y': -480
+        x: -5110
+        'y': -240
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -391,21 +376,22 @@ Metadata:
       z: 5
     f3cdfe70-41d8-423b-8043-b5588d320330:
       size:
-        width: 80
-        height: 80
+        width: 160
+        height: 100
       position:
-        x: -4550
-        'y': -460
+        x: -5290
+        'y': -180
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
-      embeds: []
+      embeds:
+        - 7db784b2-081c-473a-a437-4b7b32d9c298
     21d07bfc-0717-46fa-9325-5eb52ad71c83:
       size:
         width: 80
         height: 80
       position:
-        x: -4450
-        'y': -460
+        x: -5260
+        'y': -30
       z: 2
       parent: c53a8b27-6fd3-4b11-b6d2-ea1f76ba36b2
       embeds:
@@ -415,8 +401,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -4440
-        'y': -450
+        x: -5250
+        'y': -20
       z: 3
       parent: 21d07bfc-0717-46fa-9325-5eb52ad71c83
       embeds: []
@@ -440,41 +426,74 @@ Metadata:
       target:
         id: a873c9a5-f1c1-4955-8485-c532254dad8e
       z: 4
-    f3b8bca6-ba9f-4547-975d-fff7b56b5d6d:
+    e0c57164-e84e-4cdb-8d02-419be3a1d4ca:
       size:
         width: 60
         height: 60
       position:
-        x: -4540
-        'y': -550
+        x: -5280
+        'y': -280
       z: 3
       parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
       embeds: []
-    df2fd95f-67f8-4dc9-b048-dbc4c8c76f49:
+    93041998-4152-4314-9580-cdcf53cf3375:
       size:
         width: 60
         height: 60
       position:
-        x: -4260
-        'y': -700
-      z: 0
+        x: -5200
+        'y': -280
+      z: 3
+      parent: e2cf773b-7ade-41a8-9edd-8f35f6d369d7
       embeds: []
       ismemberof:
         - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
       references:
-        - f3b8bca6-ba9f-4547-975d-fff7b56b5d6d
-    9b6efb0c-8e5b-44b1-9eb9-88f6ad80f25c:
+        - e0c57164-e84e-4cdb-8d02-419be3a1d4ca
+    7db784b2-081c-473a-a437-4b7b32d9c298:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -5200
+        'y': -160
+      z: 3
+      parent: f3cdfe70-41d8-423b-8043-b5588d320330
+      embeds: []
+      ismemberof:
+        - 56c87c09-c78a-4cde-887f-b8bcb87dbd35
+      references:
+        - e0c57164-e84e-4cdb-8d02-419be3a1d4ca
+    9e55c284-35a6-4e66-93a7-d7d0127ab0c5:
       source:
-        id: df2fd95f-67f8-4dc9-b048-dbc4c8c76f49
+        id: 93041998-4152-4314-9580-cdcf53cf3375
+      target:
+        id: e0c57164-e84e-4cdb-8d02-419be3a1d4ca
+      z: 4
+    ea7610fe-444e-467a-adda-0246a897d7bb:
+      source:
+        id: 7db784b2-081c-473a-a437-4b7b32d9c298
+      target:
+        id: e0c57164-e84e-4cdb-8d02-419be3a1d4ca
+      z: 5
+    fb672c87-3b82-44d7-b297-31e20ea7d89d:
+      source:
+        id: 7db784b2-081c-473a-a437-4b7b32d9c298
+      target:
+        id: 56c87c09-c78a-4cde-887f-b8bcb87dbd35
+      z: 6
+    ca9dbf2f-e554-476b-8774-29563b5429d7:
+      source:
+        id: 93041998-4152-4314-9580-cdcf53cf3375
+      target:
+        id: 56c87c09-c78a-4cde-887f-b8bcb87dbd35
+      z: 7
+    4a8b9414-b61b-41b4-ba71-d98b35bac4df:
+      source:
+        id: 26b3ec8e-2b1d-4a13-852a-9378ab24536a
       target:
         id: 56c87c09-c78a-4cde-887f-b8bcb87dbd35
       z: 4
-    48871175-ffc2-44c6-91f8-d17abe6cd52a:
-      source:
-        id: df2fd95f-67f8-4dc9-b048-dbc4c8c76f49
-      target:
-        id: f3b8bca6-ba9f-4547-975d-fff7b56b5d6d
-      z: 5
 Resources:
   WSO2AM1SIMPLE1VPC:
     Type: 'AWS::EC2::VPC'
@@ -538,12 +557,11 @@ Resources:
   WSO2AMLC:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
-      AssociatePublicIpAddress: true
       ImageId: !FindInMap
         - AWSAMIRegionMap
         - !Ref 'AWS::Region'
         - Ubuntu140464bit
-      InstanceType: !Ref ProductInstanceType
+      InstanceType: t2.medium
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
           Ebs:
@@ -558,104 +576,127 @@ Resources:
           - |+
 
           - - '#!/bin/bash'
-            - export JAVA_HOME="/opt/java"
-            - >-
-              public_ip=$(curl
-              http://169.254.169.254/latest/meta-data/public-ipv4)
-            - >-
-              sed -i "s/IP_ADDRESS/$public_ip/g"
-              /opt/wso2am-2.1.0/repository/conf/carbon.xml
+            - set -e
             - !Join
               - ''
-              - - sed -i "s/ELB_HOSTNAME/
+              - - sed -i "s/CF_ELB_DNS_NAME/
                 - !GetAtt
                   - WSO2AMELB
                   - DNSName
-                - /g" /opt/wso2am-2.1.0/repository/conf/api-manager.xml
-            - !Join
-              - ''
-              - - sed -i "s/DB_HOST/
-                - !GetAtt
-                  - WSO2AMDB
-                  - Endpoint.Address
                 - >-
                   /g"
-                  /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
+                  /etc/puppet/hieradata/dev/wso2/wso2am_runtime/pattern-1/default.yaml
             - !Join
               - ''
-              - - sed -i "s/DB_USERNAME/
+              - - sed -i "s/CF_DB_USERNAME/
                 - !Ref DBUsername
-                - >-
-                  /g"
-                  /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
+                - /g" /etc/puppet/hieradata/dev/wso2/common.yaml
             - !Join
               - ''
-              - - sed -i "s/DB_PASSWORD/
+              - - sed -i "s/CF_DB_PASSWORD/
                 - !Ref DBPassword
-                - >-
-                  /g"
-                  /opt/wso2am-2.1.0/repository/conf/datasources/master-datasources.xml
+                - /g" /etc/puppet/hieradata/dev/wso2/common.yaml
             - !Join
               - ''
-              - - sed -i "s/DB_HOST/
+              - - sed -i "s/CF_RDS_URL/
                 - !GetAtt
                   - WSO2AMDB
                   - Endpoint.Address
-                - /g" /opt/wso2am-2.1.0/repository/conf/registry.xml
-            - !Join
-              - ''
-              - - sed -i "s/AWS_ACCESS_KEY/
-                - !Ref AWSAccessKeyID
-                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join
-              - ''
-              - - sed -i "s/AWS_SECRET_KEY/
-                - !Ref AWSAccessKeySecret
-                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join
-              - ''
-              - - sed -i "s/AWS_SECURITY_GROUP/
-                - !Ref ProductSecurityGroup
-                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - !Join
-              - ''
-              - - sed -i "s/AWS_REGION/
-                - !Ref 'AWS::Region'
-                - /g" /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - >-
-              sed -i "s/AWS_CLUSTER_TAG_NAME/Cluster/g"
-              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - >-
-              sed -i "s/AWS_CLUSTER_TAG_VALUE/WSO2AM210SIMPLE/g"
-              /opt/wso2am-2.1.0/repository/conf/axis2/axis2.xml
-            - cp -r /opt/wso2am-2.1.0/repository/deployment/server /tmp/
-            - !Join
-              - ''
-              - - echo "
-                - !Ref AMNFSMount
-                - .efs.
-                - !Ref 'AWS::Region'
-                - .amazonaws.com
-                - >-
-                  :/ /opt/wso2am-2.1.0/repository/deployment/server nfs4
-                  nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2
-                  0 0" >> /etc/fstab
+                - /g" /etc/puppet/hieradata/dev/wso2/common.yaml
             - mount -a -t nfs4
+            - export DB_NAME=WSO2AM_DB
+            - !Join
+              - ''
+              - - export DB_HOSTNAME=
+                - !GetAtt
+                  - WSO2AMDB
+                  - Endpoint.Address
+            - !Join
+              - ''
+              - - export DB_PORT=
+                - !GetAtt
+                  - WSO2AMDB
+                  - Endpoint.Port
+            - !Join
+              - ''
+              - - export DB_USERNAME=
+                - !Ref DBUsername
+            - !Join
+              - ''
+              - - export DB_PASSWORD=
+                - !Ref DBPassword
+            - echo "Waiting for Cluster lock..."
+            - bash /usr/local/bin/acquire_lock.sh
+            - export FACTER_product_name=wso2am_runtime
+            - export FACTER_product_version=2.1.0
+            - export FACTER_product_profile=default
+            - export FACTER_vm_type=openstack
+            - export FACTER_environment=dev
+            - export FACTER_platform=default
+            - export FACTER_use_hieradata=true
+            - export FACTER_pattern=pattern-1
             - >-
-              cp -r /tmp/server/*
-              /opt/wso2am-2.1.0/repository/deployment/server/
-            - /opt/wso2am-2.1.0/bin/wso2server.sh -Dsetup start
+              puppet apply --debug -e "include wso2am_runtime"
+              --modulepath=/etc/puppet/modules
+              --hiera_config=/etc/puppet/hiera.yaml
+            - !Join
+              - ''
+              - - sed -i "s/CF_DB_USERNAME/
+                - !Ref DBUsername
+                - /g" /usr/local/bin/provision_db_apim.sh
+            - !Join
+              - ''
+              - - sed -i "s/CF_DB_PASSWORD/
+                - !Ref DBPassword
+                - /g" /usr/local/bin/provision_db_apim.sh
+            - !Join
+              - ''
+              - - sed -i "s/CF_DB_HOST/
+                - !GetAtt
+                  - WSO2AMDB
+                  - Endpoint.Address
+                - /g" /usr/local/bin/provision_db_apim.sh
+            - !Join
+              - ''
+              - - sed -i "s/CF_DB_PORT/
+                - !GetAtt
+                  - WSO2AMDB
+                  - Endpoint.Port
+                - /g" /usr/local/bin/provision_db_apim.sh
+            - bash /usr/local/bin/provision_db_apim.sh
+            - echo "Releasing lock..."
+            - /usr/local/bin/sync_lock apim unlock
+            - 'if [ ! -d "/mnt/efs/synapse-configs" ]; then'
+            - '    mkdir -p /mnt/efs/synapse-configs'
+            - '    cp -r /mnt/wso2am-2.1.0/repository/deployment/server/synapse-configs /mnt/efs/synapse-configs'
+            - fi
+            - >-
+              rm -rf
+              /mnt/wso2am-2.1.0/repository/deployment/server/synapse-configs
+            - >-
+              ln -s /mnt/efs/synapse-configs/synapse-configs
+              /mnt/wso2am-2.1.0/repository/deployment/server/synapse-configs
+            - apt-get --purge remove puppet mysql-client -y
+            - rm -rf /etc/puppet
+            - /mnt/wso2am-2.1.0/bin/wso2server.sh start
+            - echo 'export HISTTIMEFORMAT="%F %T "' >> /etc/profile.d/history.sh
+            - cat /dev/null > ~/.bash_history && history -c
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 449ab838-562f-4716-ac0c-b6ff97c368b9
     DependsOn:
       - ProductSecurityGroup
       - WSO2AMELB
+      - EC2VPCG1W38G
   ProductSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Product Security Group
       SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: '2049'
           ToPort: '2049'
@@ -728,10 +769,6 @@ Resources:
           FromPort: '10397'
           ToPort: '10397'
           CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '22'
-          ToPort: '22'
-          CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
         - IpProtocol: -1
           FromPort: '0'
@@ -745,13 +782,14 @@ Resources:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
       LaunchConfigurationName: !Ref WSO2AMLC
-      DesiredCapacity: !Ref APIMClusterSize
+      DesiredCapacity: 2
       MinSize: 1
-      MaxSize: !Ref APIMClusterMax
+      MaxSize: 2
       LoadBalancerNames:
         - !Ref WSO2AMELB
       VPCZoneIdentifier:
         - !Ref PublicSubnet
+        - !Ref PublicSubnet2
       Tags:
         - Key: Name
           Value: WSO2AM-Instance
@@ -770,6 +808,7 @@ Resources:
         id: 3f971707-256d-47c5-a68e-e5ab0728e152
     DependsOn:
       - WSO2AMLC
+      - WSO2AMELB
   WSO2AMELB:
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
     Properties:
@@ -777,12 +816,17 @@ Resources:
       SecurityGroups:
         - !Ref ProductSecurityGroup
       Subnets:
+        - !Ref PublicSubnet2
         - !Ref PublicSubnet
+      LBCookieStickinessPolicy:
+        - PolicyName: LBStickyPolicy
       Listeners:
         - LoadBalancerPort: '9443'
           InstancePort: '9443'
           Protocol: HTTPS
           InstanceProtocol: HTTPS
+          PolicyNames:
+            - LBStickyPolicy
           SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
@@ -794,6 +838,8 @@ Resources:
           InstancePort: '8243'
           Protocol: HTTPS
           InstanceProtocol: HTTPS
+          PolicyNames:
+            - LBStickyPolicy
           SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
@@ -805,6 +851,8 @@ Resources:
           InstancePort: '9763'
           Protocol: HTTP
           InstanceProtocol: HTTP
+          PolicyNames:
+            - LBStickyPolicy
         - LoadBalancerPort: '10389'
           InstancePort: '10389'
           Protocol: TCP
@@ -849,8 +897,8 @@ Resources:
     Properties:
       VPCSecurityGroups:
         - !Ref ProductSecurityGroup
-      DBInstanceClass: !Ref DBInstanceType
-      AllocatedStorage: !Ref DBSize
+      DBInstanceClass: db.t2.medium
+      AllocatedStorage: 5
       BackupRetentionPeriod: '0'
       DBInstanceIdentifier: wso2amdb
       DBName: WSO2AM_DB
@@ -914,18 +962,46 @@ Resources:
     Properties: {}
     Metadata:
       'AWS::CloudFormation::Designer':
-        id: f3b8bca6-ba9f-4547-975d-fff7b56b5d6d
-  AMMountTarget:
+        id: e0c57164-e84e-4cdb-8d02-419be3a1d4ca
+  EFSMtSN1:
     Type: 'AWS::EFS::MountTarget'
     Properties:
+      SubnetId: !Ref PublicSubnet
+      FileSystemId: !Ref AMNFSMount
       SecurityGroups:
         - !Ref ProductSecurityGroup
-      FileSystemId: !Ref AMNFSMount
-      SubnetId: !Ref PublicSubnet
     Metadata:
       'AWS::CloudFormation::Designer':
-        id: df2fd95f-67f8-4dc9-b048-dbc4c8c76f49
+        id: 93041998-4152-4314-9580-cdcf53cf3375
+  EFSMtSN2:
+    Type: 'AWS::EFS::MountTarget'
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      FileSystemId: !Ref AMNFSMount
+      SecurityGroups:
+        - !Ref ProductSecurityGroup
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 7db784b2-081c-473a-a437-4b7b32d9c298
 Outputs:
+  Publisher:
+    Value: !Join
+      - ''
+      - - 'https://'
+        - !GetAtt
+          - WSO2AMELB
+          - DNSName
+        - ':9443/publisher'
+    Description: WSO2 API Manager Publisher URL.
+  Store:
+    Value: !Join
+      - ''
+      - - 'https://'
+        - !GetAtt
+          - WSO2AMELB
+          - DNSName
+        - ':9443/store'
+    Description: WSO2 API Manager Store URL.
   Carbon:
     Value: !Join
       - ''
@@ -934,7 +1010,7 @@ Outputs:
           - WSO2AMELB
           - DNSName
         - ':9443/carbon'
-    Description: WSO2 AM Carbon Console URL
+    Description: WSO2 API Manager Console URL.
   Credentials:
     Value: !Join
       - ''
@@ -954,124 +1030,6 @@ Parameters:
     Description: A previously uploaded certificate to use at the Load Balancer Listeners.
     Type: String
     MinLength: 1
-  AWSAccessKeyID:
-    Description: The access key ID to be used in AWS based Clustering for WSO2 Products.
-    Type: String
-    MinLength: 16
-  AWSAccessKeySecret:
-    Description: >-
-      The secret access key to be used in AWS based Clustering for WSO2
-      Products.
-    Type: String
-    MinLength: 1
-  ProductInstanceType:
-    Description: The EC2 instance type to be used for the WSO2 AM instances.
-    Type: String
-    Default: t2.small
-    AllowedValues:
-      - t1.micro
-      - t2.nano
-      - t2.micro
-      - t2.small
-      - t2.medium
-      - t2.large
-      - m1.small
-      - m1.medium
-      - m1.large
-      - m1.xlarge
-      - m2.xlarge
-      - m2.2xlarge
-      - m2.4xlarge
-      - m3.medium
-      - m3.large
-      - m3.xlarge
-      - m3.2xlarge
-      - m4.large
-      - m4.xlarge
-      - m4.2xlarge
-      - m4.4xlarge
-      - m4.10xlarge
-      - c1.medium
-      - c1.xlarge
-      - c3.large
-      - c3.xlarge
-      - c3.2xlarge
-      - c3.4xlarge
-      - c3.8xlarge
-      - c4.large
-      - c4.xlarge
-      - c4.2xlarge
-      - c4.4xlarge
-      - c4.8xlarge
-      - g2.2xlarge
-      - g2.8xlarge
-      - r3.large
-      - r3.xlarge
-      - r3.2xlarge
-      - r3.4xlarge
-      - r3.8xlarge
-      - i2.xlarge
-      - i2.2xlarge
-      - i2.4xlarge
-      - i2.8xlarge
-      - d2.xlarge
-      - d2.2xlarge
-      - d2.4xlarge
-      - d2.8xlarge
-      - hi1.4xlarge
-      - hs1.8xlarge
-      - cr1.8xlarge
-      - cc2.8xlarge
-      - cg1.4xlarge
-  APIMClusterSize:
-    Description: >-
-      The number of instances of WSO2 API Manager to spawn. This can be
-      increased later through the AutoScale Group.
-    Type: Number
-    Default: 1
-  APIMClusterMax:
-    Description: The maximum number of instances of WSO2 API Manager to scale up to.
-    Type: Number
-    Default: 2
-  DBInstanceType:
-    Description: The DB instance type of the RDS instance to be used  for WSO2 AM.
-    Type: String
-    Default: db.t2.micro
-    AllowedValues:
-      - db.t1.micro
-      - db.m1.small
-      - db.m1.medium
-      - db.m1.large
-      - db.m1.xlarge
-      - db.m2.xlarge
-      - db.m2.2xlarge
-      - db.m2.4xlarge
-      - db.m3.medium
-      - db.m3.large
-      - db.m3.xlarge
-      - db.m3.2xlarge
-      - db.m4.large
-      - db.m4.xlarge
-      - db.m4.2xlarge
-      - db.m4.4xlarge
-      - db.m4.10xlarge
-      - db.r3.large
-      - db.r3.xlarge
-      - db.r3.2xlarge
-      - db.r3.4xlarge
-      - db.r3.8xlarge
-      - db.m2.xlarge
-      - db.m2.2xlarge
-      - db.m2.4xlarge
-      - db.cr1.8xlarge
-      - db.t2.micro
-      - db.t2.small
-      - db.t2.medium
-      - db.t2.large
-  DBSize:
-    Description: The DB size (in GB) to be used for WSO2 AM.
-    Type: Number
-    Default: 5
   DBUsername:
     Description: The username to be used in the WSO2 AM DB.
     Type: String
@@ -1079,36 +1037,39 @@ Parameters:
     MinLength: 4
     AllowedPattern: '[A-Za-z0-9\-]+'
   DBPassword:
-    Description: The passworf to be used in the WSO2 AM DB.
+    Description: The password to be used in the WSO2 AM DB.
     Type: String
     Default: rootrootroot
     MinLength: 8
     NoEcho: true
+Conditions: {}
 Mappings:
   AWSAMIRegionMap:
     ap-northeast-1:
-      Ubuntu140464bit: ami-cd0a3baa
+      Ubuntu140464bit: ami-2e63924f
     ap-northeast-2:
-      Ubuntu140464bit: ami-b2dc01dc
+      Ubuntu140464bit: ami-979258f9
     ap-south-1:
-      Ubuntu140464bit: ami-60deac0f
+      Ubuntu140464bit: ami-4a90fa25
     ap-southeast-1:
-      Ubuntu140464bit: ami-6701bb04
+      Ubuntu140464bit: ami-ea2bf989
     ap-southeast-2:
-      Ubuntu140464bit: ami-dad0dbb9
-    ca-central-1:
-      Ubuntu140464bit: ami-ef8d318b
+      Ubuntu140464bit: ami-396a415a
     eu-central-1:
-      Ubuntu140464bit: ami-e3459a8c
+      Ubuntu140464bit: ami-4bd03b24
     eu-west-1:
-      Ubuntu140464bit: ami-ba5854dc
+      Ubuntu140464bit: ami-02b62c71
     eu-west-2:
-      Ubuntu140464bit: ami-dca6b2b8
-    sa-east-1:
-      Ubuntu140464bit: ami-7380ec1f
+      Ubuntu140464bit: ami-63342007
     us-east-1:
-      Ubuntu140464bit: ami-51f09e47
+      Ubuntu140464bit: ami-a9e2a9bf
     us-east-2:
-      Ubuntu140464bit: ami-81f4d3e4
+      Ubuntu140464bit: ami-323f1957
     us-west-1:
-      Ubuntu140464bit: ami-35735555
+      Ubuntu140464bit: ami-992661f9
+    us-west-2:
+      Ubuntu140464bit: ami-42569022
+    ca-central-1:
+      Ubuntu140464bit: ami-beea56da
+    sa-east-1:
+      Ubuntu140464bit: ami-8df695e1

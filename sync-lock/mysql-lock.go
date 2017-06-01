@@ -8,11 +8,11 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const createStmt = "CREATE TABLE IF NOT EXISTS `lock` (`key` VARCHAR(200) NOT NULL, `value` int(1) NOT NULL, PRIMARY KEY (`key`))"
-const insertStmt = "INSERT INTO `lock`(`key`, `value`) VALUES (?, ?);"
-const updateStmt = "UPDATE `lock` SET value = ? WHERE `key` = ?"
-const selectStmt = "SELECT `value` FROM `lock` WHERE `key` = ? FOR UPDATE"
-const lockStmt = "LOCK TABLES `lock` WRITE"
+const createStmt = "CREATE TABLE IF NOT EXISTS `CF_LOCK` (`key` VARCHAR(200) NOT NULL, `value` int(1) NOT NULL, PRIMARY KEY (`key`))"
+const insertStmt = "INSERT INTO `CF_LOCK`(`key`, `value`) VALUES (?, ?);"
+const updateStmt = "UPDATE `CF_LOCK` SET value = ? WHERE `key` = ?"
+const selectStmt = "SELECT `value` FROM `CF_LOCK` WHERE `key` = ? FOR UPDATE"
+const lockStmt = "LOCK TABLES `CF_LOCK` WRITE"
 const unlockStmt = "UNLOCK TABLES;"
 
 func getDbConnection() (*sql.DB, error) {

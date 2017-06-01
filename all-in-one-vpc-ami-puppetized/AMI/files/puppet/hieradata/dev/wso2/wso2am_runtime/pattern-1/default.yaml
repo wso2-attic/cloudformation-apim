@@ -39,6 +39,9 @@ wso2::mgt_hostname: CF_ELB_DNS_NAME
 wso2::product_profile: default
 wso2::pack_filename: wso2am-2.1.0.zip
 
+# Prevent Puppet from starting the Service automatically.
+wso2::autostart_service: true
+
 wso2::apim_traffic_manager:
   host: CF_ELB_DNS_NAME
   port: 9443
@@ -242,7 +245,7 @@ wso2::usermgt_datasource: wso2_user_db
 wso2::mb_store_datasource: wso2_mb_store_db
 
 wso2::file_list:
-#  - "repository/components/lib/%{hiera('wso2::datasources::mysql::connector_jar')}"
+  - "repository/components/lib/%{hiera('wso2::datasources::mysql::connector_jar')}"
   - "repository/resources/security/%{hiera('wso2::trust_store')}"
   - "repository/resources/security/%{hiera('wso2::key_store')}"
 

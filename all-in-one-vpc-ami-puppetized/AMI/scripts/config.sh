@@ -14,9 +14,7 @@ echo "Installing packages..."
 wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
 dpkg -i puppetlabs-release-trusty.deb
 apt-get update
-apt-get install -y unzip cron-apt nfs-common puppet facter
-
-chmod +x /tmp/wait-for-9443.sh
+apt-get install -y unzip cron-apt nfs-common puppet facter zip unzip mysql-client
 
 echo "Mounting block device..."
 mkfs.ext4 /dev/xvdf
@@ -26,8 +24,6 @@ mount -a
 
 echo "Setting up Puppet..."
 cp -r /tmp/puppet/* /etc/puppet/
-mkdir -p /etc/facter/facts.d
-mv /tmp/wso2-facts.txt /etc/facter/facts.d/
 
 puppet module install puppetlabs/stdlib
 puppet module install 7terminals-java
@@ -41,16 +37,17 @@ unzip /tmp/mysql-connector-java-5.1.41.zip -d /tmp
 mkdir -p /etc/puppet/modules/wso2am_runtime/files/configs/repository/components/lib
 cp /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /etc/puppet/modules/wso2am_runtime/files/configs/repository/components/lib
 
-# export FACTER_product_name=wso2am_runtime
-# export FACTER_product_version=2.1.0
-# export FACTER_product_profile=default
-# export FACTER_vm_type=openstack
-# export FACTER_environment=dev
-# export FACTER_platform=default
-# export FACTER_use_hieradata=true
-# export FACTER_pattern=pattern-1
-#
-# puppet apply --debug -e "include wso2am_runtime" --modulepath=/etc/puppet/modules --hiera_config=/etc/puppet/hiera.yaml
+tar zxvf /etc/puppet/files/packs/jdk-8u131-linux-x64.tar.gz -C /opt
+ln -s /opt/jdk1.8.0_131/ /opt/java
+
+cp /tmp/set_java_home.sh /etc/profile.d/set_java_home.sh
+mv /tmp/sync_lock-linux-x64 /usr/local/bin/sync_lock
+chmod +x /usr/local/bin/sync_lock
+mv /tmp/acquire_lock.sh /usr/local/bin/acquire_lock.sh
+chmod +x /usr/local/bin/acquire_lock.sh
+
+mv /tmp/provision_db_apim.sh /usr/local/bin/
+chmod +x /usr/local/bin/provision_db_apim.sh
 
 echo "Performing AMI Hardening Tasks..."
 # JDK Hardening: Name lookup cache

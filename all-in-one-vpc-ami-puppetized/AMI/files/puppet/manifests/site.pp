@@ -19,7 +19,6 @@
 # Default node definition
 node "default" {
   if $::use_hieradata == "true" {
-    require wso2base::java
     hiera_include('classes')
 
   } else {
