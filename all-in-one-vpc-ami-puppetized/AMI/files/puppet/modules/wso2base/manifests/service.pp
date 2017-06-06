@@ -24,7 +24,8 @@ class wso2base::service {
 
   # Start the service
   # TODO: start the service only if configuration changes are applied that needs a restart to be effective
-  if ($vm_type != 'docker') and ($autostart_service == 'true') {
+  if ($vm_type != 'docker') and ($autostart_service) {
+    notify {"starting wso2 service automatically: ${autostart_service}":}
     service { $service_name:
       ensure     => running,
       hasstatus  => true,

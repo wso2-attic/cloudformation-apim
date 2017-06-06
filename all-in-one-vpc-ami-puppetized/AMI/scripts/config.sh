@@ -49,6 +49,19 @@ chmod +x /usr/local/bin/acquire_lock.sh
 mv /tmp/provision_db_apim.sh /usr/local/bin/
 chmod +x /usr/local/bin/provision_db_apim.sh
 
+# cp /etc/puppet/files/packs/jdk-8u131-linux-x64.tar.gz /etc/puppet/modules/wso2base/files
+# export FACTER_product_name=wso2am_runtime
+# export FACTER_product_version=2.1.0
+# export FACTER_product_profile=default
+# export FACTER_vm_type=openstack
+# export FACTER_environment=dev
+# export FACTER_platform=default
+# export FACTER_use_hieradata=true
+# export FACTER_pattern=pattern-1
+#
+# puppet apply --debug -e "include wso2am_runtime" --modulepath=/etc/puppet/modules --hiera_config=/etc/puppet/hiera.yaml
+
+
 echo "Performing AMI Hardening Tasks..."
 # JDK Hardening: Name lookup cache
 sed -i 's/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=30/' /opt/java/jre/lib/security/java.security
