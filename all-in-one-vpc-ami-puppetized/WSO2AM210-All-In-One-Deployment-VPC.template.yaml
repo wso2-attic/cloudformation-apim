@@ -577,6 +577,18 @@ Resources:
 
           - - '#!/bin/bash'
             - set -e
+            - mkdir -p /mnt/efs
+            - !Join
+              - ''
+              - - echo "
+                - !Ref AMNFSMount
+                - .efs.
+                - !Ref 'AWS::Region'
+                - .amazonaws.com
+                - >-
+                  :/ /mnt/efs nfs4
+                  nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2
+                  0 0" >> /etc/fstab
             - !Join
               - ''
               - - sed -i "s/CF_ELB_DNS_NAME/
@@ -636,7 +648,7 @@ Resources:
             - export FACTER_use_hieradata=true
             - export FACTER_pattern=pattern-1
             - >-
-              puppet apply --debug -e "include wso2am_runtime"
+              puppet apply -e "include wso2am_runtime"
               --modulepath=/etc/puppet/modules
               --hiera_config=/etc/puppet/hiera.yaml
             - !Join
@@ -1064,7 +1076,7 @@ Mappings:
     us-east-1:
       Ubuntu140464bit: ami-a9e2a9bf
     us-east-2:
-      Ubuntu140464bit: ami-323f1957
+      Ubuntu140464bit: ami-151d3b70
     us-west-1:
       Ubuntu140464bit: ami-992661f9
     us-west-2:
