@@ -1717,7 +1717,7 @@
             "Properties": {
                 "ImageId": {
                     "Fn::FindInMap": [
-                        "AWSAnanlyticsAMIRegionMap",
+                        "AWSAnalyticsAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
                         },
