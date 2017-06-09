@@ -1682,7 +1682,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "WSO2AM-Instance",
+                        "Value": "WSO2AM-Analytics-Instance",
                         "PropagateAtLaunch": "true"
                     },
                     {
