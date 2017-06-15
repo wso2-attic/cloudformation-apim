@@ -31,11 +31,14 @@ puppet module install 7terminals-java
 echo "Downloading packs..."
 wget --tries=3 -q --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz -P /etc/puppet/files/packs
 wget --tries=3 -q --user-agent="testuser" --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download" http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip -P /etc/puppet/modules/wso2am_runtime/files
+wget --tries=3 -q --user-agent="testuser" --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download" http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-analytics-2.1.0.zip -P /etc/puppet/modules/wso2am_analytics/files
 
 wget --tries=3 -q https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip -P /tmp
 unzip -q /tmp/mysql-connector-java-5.1.41.zip -d /tmp
 mkdir -p /etc/puppet/modules/wso2am_runtime/files/configs/repository/components/lib
+mkdir -p /etc/puppet/modules/wso2am_analytics/files/configs/repository/components/lib
 cp /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /etc/puppet/modules/wso2am_runtime/files/configs/repository/components/lib
+cp /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /etc/puppet/modules/wso2am_analytics/files/configs/repository/components/lib
 
 tar zxf /etc/puppet/files/packs/jdk-8u131-linux-x64.tar.gz -C /opt
 ln -s /opt/jdk1.8.0_131/ /opt/java
@@ -49,8 +52,11 @@ chmod +x /usr/local/bin/acquire_lock.sh
 mv /tmp/provision_db_apim.sh /usr/local/bin/
 chmod +x /usr/local/bin/provision_db_apim.sh
 
+mv /tmp/provision_db_analytics.sh /usr/local/bin/
+chmod +x /usr/local/bin/provision_db_analytics.sh
+
 # cp /etc/puppet/files/packs/jdk-8u131-linux-x64.tar.gz /etc/puppet/modules/wso2base/files
-# export FACTER_product_name=wso2am_runtime
+# export FACTER_product_name=wso2am_analytics
 # export FACTER_product_version=2.1.0
 # export FACTER_product_profile=default
 # export FACTER_vm_type=openstack
@@ -59,8 +65,7 @@ chmod +x /usr/local/bin/provision_db_apim.sh
 # export FACTER_use_hieradata=true
 # export FACTER_pattern=pattern-1
 #
-# puppet apply --debug -e "include wso2am_runtime" --modulepath=/etc/puppet/modules --hiera_config=/etc/puppet/hiera.yaml
-
+# puppet apply --debug -e "include wso2am_analytics" --modulepath=/etc/puppet/modules --hiera_config=/etc/puppet/hiera.yaml
 
 echo "Performing AMI Hardening Tasks..."
 # JDK Hardening: Name lookup cache

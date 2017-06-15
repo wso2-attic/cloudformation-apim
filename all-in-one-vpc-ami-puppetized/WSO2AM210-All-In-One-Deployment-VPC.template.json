@@ -765,7 +765,22 @@
                                                     "DNSName"
                                                 ]
                                             },
-                                            "/g\" /etc/puppet/hieradata/dev/wso2/wso2am_runtime/pattern-1/default.yaml"
+                                            "/g\" /etc/puppet/hieradata/dev/wso2/wso2am_runtime/pattern-2/default.yaml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"s/CF_ANALYTICS_ELB_LIST/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMAnalyticsELBThriftSN1",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /etc/puppet/hieradata/dev/wso2/wso2am_runtime/pattern-2/default.yaml"
                                         ]
                                     ]
                                 },
@@ -869,7 +884,7 @@
                                 "export FACTER_environment=dev",
                                 "export FACTER_platform=default",
                                 "export FACTER_use_hieradata=true",
-                                "export FACTER_pattern=pattern-1",
+                                "export FACTER_pattern=pattern-2",
                                 "puppet apply -e \"include wso2am_runtime\" --modulepath=/etc/puppet/modules --hiera_config=/etc/puppet/hiera.yaml",
                                 {
                                     "Fn::Join": [
@@ -1097,7 +1112,7 @@
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
                 "LaunchConfigurationName": {
-                    "Ref": "WSO2AMLCSN1"
+                    "Ref": "WSO2AMLC"
                 },
                 "DesiredCapacity": 1,
                 "MinSize": 1,
@@ -1140,7 +1155,9 @@
             },
             "DependsOn": [
                 "WSO2AMLC",
-                "WSO2AMELB"
+                "WSO2AMELB",
+                "WSO2AMAnalyticsASGSN1",
+                "WSO2AMAnalyticsASGSN2"
             ],
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -1152,7 +1169,7 @@
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
                 "LaunchConfigurationName": {
-                    "Ref": "WSO2AMLCSN2"
+                    "Ref": "WSO2AMLC"
                 },
                 "DesiredCapacity": 1,
                 "MinSize": 1,
@@ -1195,7 +1212,9 @@
             },
             "DependsOn": [
                 "WSO2AMLC",
-                "WSO2AMELB"
+                "WSO2AMELB",
+                "WSO2AMAnalyticsASGSN1",
+                "WSO2AMAnalyticsASGSN2"
             ],
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -1564,6 +1583,15 @@
                 }
             }
         },
+        "AMAnalyticsNFSMount": {
+            "Type": "AWS::EFS::FileSystem",
+            "Properties": {},
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "d7b7f81e-7749-44d4-97ed-b875c515f79e"
+                }
+            }
+        },
         "EFSMtSN1": {
             "Type": "AWS::EFS::MountTarget",
             "Properties": {
@@ -1593,6 +1621,48 @@
                 },
                 "FileSystemId": {
                     "Ref": "AMNFSMount"
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "ProductSecurityGroup"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "3aeba790-9453-45f7-8f83-fa2c7d4b4fec"
+                }
+            }
+        },
+        "AnalyticsEFSMtSN1": {
+            "Type": "AWS::EFS::MountTarget",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "PublicSubnet"
+                },
+                "FileSystemId": {
+                    "Ref": "AMAnalyticsNFSMount"
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "ProductSecurityGroup"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "0b210515-5ed5-4cc2-a75c-84d1c95157a3"
+                }
+            }
+        },
+        "AnalyticsEFSMtSN2": {
+            "Type": "AWS::EFS::MountTarget",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "PublicSubnet2"
+                },
+                "FileSystemId": {
+                    "Ref": "AMAnalyticsNFSMount"
                 },
                 "SecurityGroups": [
                     {
@@ -1653,7 +1723,12 @@
             },
             "DependsOn": [
                 "WSO2AMAnalyticsLC",
-                "WSO2AMAnalyticsELB"
+                "WSO2AMAnalyticsELB",
+                "WSO2AMAnalyticsELBThriftSN1",
+                "WSO2AMAnalyticsELBThriftSN2",
+                "WSO2AMELBThriftSN1",
+                "WSO2AMELBThriftSN2",
+                "WSO2AMELB"
             ],
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -1708,7 +1783,12 @@
             },
             "DependsOn": [
                 "WSO2AMAnalyticsLC",
-                "WSO2AMAnalyticsELB"
+                "WSO2AMAnalyticsELB",
+                "WSO2AMAnalyticsELBThriftSN1",
+                "WSO2AMAnalyticsELBThriftSN2",
+                "WSO2AMELBThriftSN1",
+                "WSO2AMELBThriftSN2",
+                "WSO2AMELB"
             ],
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -1761,7 +1841,7 @@
                                         [
                                             "echo \"",
                                             {
-                                                "Ref": "AMNFSMount"
+                                                "Ref": "AMAnalyticsNFSMount"
                                             },
                                             ".efs.",
                                             {
@@ -1776,14 +1856,14 @@
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "sed -i \"s/CF_ELB_DNS_NAME/",
+                                            "sed -i \"s/CF_ANALYTICS_ELB_DNS_NAME/",
                                             {
                                                 "Fn::GetAtt": [
                                                     "WSO2AMELB",
                                                     "DNSName"
                                                 ]
                                             },
-                                            "/g\" /etc/puppet/hieradata/dev/wso2/wso2am_runtime/pattern-1/default.yaml"
+                                            "/g\" /etc/puppet/hieradata/dev/wso2/wso2am_analytics/pattern-1/default.yaml"
                                         ]
                                     ]
                                 },
@@ -1880,7 +1960,7 @@
                                 },
                                 "echo \"Waiting for Cluster lock...\"",
                                 "bash /usr/local/bin/acquire_lock.sh",
-                                "export FACTER_product_name=wso2am_runtime",
+                                "export FACTER_product_name=wso2am_analytics",
                                 "export FACTER_product_version=2.1.0",
                                 "export FACTER_product_profile=default",
                                 "export FACTER_vm_type=openstack",
@@ -1888,7 +1968,7 @@
                                 "export FACTER_platform=default",
                                 "export FACTER_use_hieradata=true",
                                 "export FACTER_pattern=pattern-1",
-                                "puppet apply -e \"include wso2am_runtime\" --modulepath=/etc/puppet/modules --hiera_config=/etc/puppet/hiera.yaml",
+                                "puppet apply -e \"include wso2am_analytics\" --modulepath=/etc/puppet/modules --hiera_config=/etc/puppet/hiera.yaml",
                                 {
                                     "Fn::Join": [
                                         "",
@@ -1897,7 +1977,7 @@
                                             {
                                                 "Ref": "DBUsername"
                                             },
-                                            "/g\" /usr/local/bin/provision_db_apim.sh"
+                                            "/g\" /usr/local/bin/provision_db_analytics.sh"
                                         ]
                                     ]
                                 },
@@ -1909,7 +1989,7 @@
                                             {
                                                 "Ref": "DBPassword"
                                             },
-                                            "/g\" /usr/local/bin/provision_db_apim.sh"
+                                            "/g\" /usr/local/bin/provision_db_analytics.sh"
                                         ]
                                     ]
                                 },
@@ -1924,7 +2004,7 @@
                                                     "Endpoint.Address"
                                                 ]
                                             },
-                                            "/g\" /usr/local/bin/provision_db_apim.sh"
+                                            "/g\" /usr/local/bin/provision_db_analytics.sh"
                                         ]
                                     ]
                                 },
@@ -1939,22 +2019,22 @@
                                                     "Endpoint.Port"
                                                 ]
                                             },
-                                            "/g\" /usr/local/bin/provision_db_apim.sh"
+                                            "/g\" /usr/local/bin/provision_db_analytics.sh"
                                         ]
                                     ]
                                 },
-                                "bash /usr/local/bin/provision_db_apim.sh",
+                                "bash /usr/local/bin/provision_db_analytics.sh",
                                 "echo \"Releasing lock...\"",
                                 "/usr/local/bin/sync_lock apim unlock",
                                 "if [ ! -d \"/mnt/efs/synapse-configs\" ]; then",
                                 "    mkdir -p /mnt/efs/synapse-configs",
-                                "    cp -r /mnt/wso2am-2.1.0/repository/deployment/server/synapse-configs /mnt/efs/synapse-configs",
+                                "    cp -r /mnt/wso2am-analytics-2.1.0/repository/deployment/server/synapse-configs /mnt/efs/synapse-configs",
                                 "fi",
-                                "rm -rf /mnt/wso2am-2.1.0/repository/deployment/server/synapse-configs",
-                                "ln -s /mnt/efs/synapse-configs/synapse-configs /mnt/wso2am-2.1.0/repository/deployment/server/synapse-configs",
+                                "rm -rf /mnt/wso2am-analytics-2.1.0/repository/deployment/server/synapse-configs",
+                                "ln -s /mnt/efs/synapse-configs/synapse-configs /mnt/wso2am-analytics-2.1.0/repository/deployment/server/synapse-configs",
                                 "apt-get --purge remove puppet mysql-client -y",
                                 "rm -rf /etc/puppet",
-                                "/mnt/wso2am-2.1.0/bin/wso2server.sh start",
+                                "/mnt/wso2am-analytics-2.1.0/bin/wso2server.sh start",
                                 "echo 'export HISTTIMEFORMAT=\"%F %T \"' >> /etc/profile.d/history.sh",
                                 "cat /dev/null > ~/.bash_history && history -c"
                             ]
@@ -2340,7 +2420,7 @@
                 "Ubuntu140464bit": "ami-a9e2a9bf"
             },
             "us-east-2": {
-                "Ubuntu140464bit": "ami-151d3b70"
+                "Ubuntu140464bit": "ami-4fb5932a"
             },
             "us-west-1": {
                 "Ubuntu140464bit": "ami-992661f9"
@@ -2384,7 +2464,7 @@
                 "Ubuntu140464bit": "ami-a9e2a9bf"
             },
             "us-east-2": {
-                "Ubuntu140464bit": "ami-151d3b70"
+                "Ubuntu140464bit": "ami-4fb5932a"
             },
             "us-west-1": {
                 "Ubuntu140464bit": "ami-992661f9"

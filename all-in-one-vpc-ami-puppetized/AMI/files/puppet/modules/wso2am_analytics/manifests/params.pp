@@ -34,9 +34,14 @@ class wso2am_analytics::params {
     $portal                   = hiera('wso2::portal')
     $type_mapping_string_type_mysql = hiera('wso2::type_mapping_string_type_mysql')
 
-    $java_prefs_system_root   = hiera('java_prefs_system_root')
-    $java_prefs_user_root     = hiera('java_prefs_user_root')
-    $java_home                = hiera('java_home')
+    $install_java             = hiera('wso2base::java::install_java')
+    $java_install_dir         = hiera('wso2base::java::java_install_dir')
+    $java_source_file         = hiera('wso2base::java::java_source_file')
+    $java_user                = hiera('wso2base::java::wso2_user')
+    $java_group               = hiera('wso2base::java::wso2_group')
+    $java_prefs_system_root   = hiera('wso2base::java::prefs_system_root')
+    $java_prefs_user_root     = hiera('wso2base::java::prefs_user_root')
+    $java_home                = hiera('wso2base::java::java_home')
 
     # system configuration data
     $packages                 = hiera_array('packages')
@@ -70,6 +75,7 @@ class wso2am_analytics::params {
     $patches_dir              = hiera('wso2::patches_dir')
     $service_name             = hiera('wso2::service_name')
     $service_template         = hiera('wso2::service_template')
+    $autostart_service        = hiera('wso2::autostart_service')
     $usermgt_datasource       = hiera('wso2::usermgt_datasource')
     $local_reg_datasource     = hiera('wso2::local_reg_datasource')
     $clustering               = hiera('wso2::clustering')
