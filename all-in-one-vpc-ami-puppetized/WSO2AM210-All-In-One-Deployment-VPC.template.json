@@ -1088,6 +1088,18 @@
                         "FromPort": "10397",
                         "ToPort": "10397",
                         "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "7611",
+                        "ToPort": "7611",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "7711",
+                        "ToPort": "7711",
+                        "CidrIp": "0.0.0.0/0"
                     }
                 ],
                 "SecurityGroupEgress": [
@@ -1486,6 +1498,33 @@
                 }
             }
         },
+        "WSO2AMAnalyticsDB": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "VPCSecurityGroups": [
+                    {
+                        "Ref": "ProductSecurityGroup"
+                    }
+                ],
+                "DBInstanceClass": "db.t2.medium",
+                "AllocatedStorage": 5,
+                "BackupRetentionPeriod": "0",
+                "DBInstanceIdentifier": "wso2amanalyticsdb",
+                "DBName": "WSO2AMAnalytics_DB",
+                "Engine": "MySQL",
+                "MasterUsername": {
+                    "Ref": "DBUsername"
+                },
+                "MasterUserPassword": {
+                    "Ref": "DBPassword"
+                },
+                "MultiAZ": "false",
+                "StorageType": "gp2",
+                "DBSubnetGroupName": {
+                    "Ref": "RDSDBSG412ZQ"
+                }
+            }
+        },
         "RDSDBSG412ZQ": {
             "Type": "AWS::RDS::DBSubnetGroup",
             "Properties": {
@@ -1833,7 +1872,6 @@
                             "\n",
                             [
                                 "#!/bin/bash",
-                                "set -e",
                                 "mkdir -p /mnt/efs",
                                 {
                                     "Fn::Join": [
@@ -1861,6 +1899,21 @@
                                                 "Fn::GetAtt": [
                                                     "WSO2AMELB",
                                                     "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /etc/puppet/hieradata/dev/wso2/wso2am_analytics/pattern-1/default.yaml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"s/CF_ANALYTICS_RDS_HOST/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMAnalyticsDB",
+                                                    "Endpoint.Address"
                                                 ]
                                             },
                                             "/g\" /etc/puppet/hieradata/dev/wso2/wso2am_analytics/pattern-1/default.yaml"
@@ -2000,7 +2053,7 @@
                                             "sed -i \"s/CF_DB_HOST/",
                                             {
                                                 "Fn::GetAtt": [
-                                                    "WSO2AMDB",
+                                                    "WSO2AMAnalyticsDB",
                                                     "Endpoint.Address"
                                                 ]
                                             },
@@ -2015,7 +2068,7 @@
                                             "sed -i \"s/CF_DB_PORT/",
                                             {
                                                 "Fn::GetAtt": [
-                                                    "WSO2AMDB",
+                                                    "WSO2AMAnalyticsDB",
                                                     "Endpoint.Port"
                                                 ]
                                             },
@@ -2420,7 +2473,7 @@
                 "Ubuntu140464bit": "ami-a9e2a9bf"
             },
             "us-east-2": {
-                "Ubuntu140464bit": "ami-4fb5932a"
+                "Ubuntu140464bit": "ami-f7bc9a92"
             },
             "us-west-1": {
                 "Ubuntu140464bit": "ami-992661f9"
@@ -2464,7 +2517,7 @@
                 "Ubuntu140464bit": "ami-a9e2a9bf"
             },
             "us-east-2": {
-                "Ubuntu140464bit": "ami-4fb5932a"
+                "Ubuntu140464bit": "ami-f7bc9a92"
             },
             "us-west-1": {
                 "Ubuntu140464bit": "ami-992661f9"

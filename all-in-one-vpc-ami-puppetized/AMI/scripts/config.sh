@@ -2,6 +2,8 @@
 
 # Exit on fail
 set -e
+## TODO: Should use different DB for analytics
+## TODO: Should check why offset is not being applied
 
 sleep 30
 
