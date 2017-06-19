@@ -1,5 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "WSO2 AM with Analytics",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -788,6 +789,36 @@
                                     "Fn::Join": [
                                         "",
                                         [
+                                            "sed -i \"s/CF_ANALYTICS_ELB_LIST/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMAnalyticsELBThriftSN1",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /etc/puppet/hieradata/dev/wso2/wso2am_runtime/pattern-2/default.yaml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "sed -i \"s/CF_ELB_THRIFT_DNS_NAME/",
+                                            {
+                                                "Fn::GetAtt": [
+                                                    "WSO2AMELBThriftSN1",
+                                                    "DNSName"
+                                                ]
+                                            },
+                                            "/g\" /etc/puppet/hieradata/dev/wso2/wso2am_runtime/pattern-2/default.yaml"
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "Fn::Join": [
+                                        "",
+                                        [
                                             "sed -i \"s/CF_DB_USERNAME/",
                                             {
                                                 "Ref": "DBUsername"
@@ -1341,18 +1372,6 @@
                         "InstanceProtocol": "TCP"
                     },
                     {
-                        "LoadBalancerPort": "9611",
-                        "InstancePort": "9611",
-                        "Protocol": "TCP",
-                        "InstanceProtocol": "TCP"
-                    },
-                    {
-                        "LoadBalancerPort": "9711",
-                        "InstancePort": "9711",
-                        "Protocol": "TCP",
-                        "InstanceProtocol": "TCP"
-                    },
-                    {
                         "LoadBalancerPort": "10397",
                         "InstancePort": "10397",
                         "Protocol": "TCP",
@@ -1392,14 +1411,30 @@
                 ],
                 "Listeners": [
                     {
-                        "LoadBalancerPort": "9611",
-                        "InstancePort": "9611",
-                        "Protocol": "TCP",
-                        "InstanceProtocol": "TCP"
-                    },
-                    {
                         "LoadBalancerPort": "9711",
                         "InstancePort": "9711",
+                        "Protocol": "SSL",
+                        "InstanceProtocol": "SSL",
+                        "SSLCertificateId": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:iam::",
+                                    {
+                                        "Ref": "AWS::AccountId"
+                                    },
+                                    ":server-certificate",
+                                    "/",
+                                    {
+                                        "Ref": "CertificateName"
+                                    }
+                                ]
+                            ]
+                        }
+                    },
+                    {
+                        "LoadBalancerPort": "9611",
+                        "InstancePort": "9611",
                         "Protocol": "TCP",
                         "InstanceProtocol": "TCP"
                     }
@@ -1437,14 +1472,30 @@
                 ],
                 "Listeners": [
                     {
-                        "LoadBalancerPort": "9611",
-                        "InstancePort": "9611",
-                        "Protocol": "TCP",
-                        "InstanceProtocol": "TCP"
-                    },
-                    {
                         "LoadBalancerPort": "9711",
                         "InstancePort": "9711",
+                        "Protocol": "SSL",
+                        "InstanceProtocol": "SSL",
+                        "SSLCertificateId": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:iam::",
+                                    {
+                                        "Ref": "AWS::AccountId"
+                                    },
+                                    ":server-certificate",
+                                    "/",
+                                    {
+                                        "Ref": "CertificateName"
+                                    }
+                                ]
+                            ]
+                        }
+                    },
+                    {
+                        "LoadBalancerPort": "9611",
+                        "InstancePort": "9611",
                         "Protocol": "TCP",
                         "InstanceProtocol": "TCP"
                     }
@@ -2213,18 +2264,6 @@
                         "InstanceProtocol": "TCP"
                     },
                     {
-                        "LoadBalancerPort": "9611",
-                        "InstancePort": "9611",
-                        "Protocol": "TCP",
-                        "InstanceProtocol": "TCP"
-                    },
-                    {
-                        "LoadBalancerPort": "9711",
-                        "InstancePort": "9711",
-                        "Protocol": "TCP",
-                        "InstanceProtocol": "TCP"
-                    },
-                    {
                         "LoadBalancerPort": "10397",
                         "InstancePort": "10397",
                         "Protocol": "TCP",
@@ -2262,11 +2301,6 @@
                         "Ref": "PublicSubnet"
                     }
                 ],
-                "LBCookieStickinessPolicy": [
-                    {
-                        "PolicyName": "LBStickyPolicy"
-                    }
-                ],
                 "Listeners": [
                     {
                         "LoadBalancerPort": "7611",
@@ -2277,8 +2311,24 @@
                     {
                         "LoadBalancerPort": "7711",
                         "InstancePort": "7711",
-                        "Protocol": "TCP",
-                        "InstanceProtocol": "TCP"
+                        "Protocol": "SSL",
+                        "InstanceProtocol": "SSL",
+                        "SSLCertificateId": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:iam::",
+                                    {
+                                        "Ref": "AWS::AccountId"
+                                    },
+                                    ":server-certificate",
+                                    "/",
+                                    {
+                                        "Ref": "CertificateName"
+                                    }
+                                ]
+                            ]
+                        }
                     }
                 ],
                 "HealthCheck": {
@@ -2312,11 +2362,6 @@
                         "Ref": "PublicSubnet2"
                     }
                 ],
-                "LBCookieStickinessPolicy": [
-                    {
-                        "PolicyName": "LBStickyPolicy"
-                    }
-                ],
                 "Listeners": [
                     {
                         "LoadBalancerPort": "7611",
@@ -2327,8 +2372,24 @@
                     {
                         "LoadBalancerPort": "7711",
                         "InstancePort": "7711",
-                        "Protocol": "TCP",
-                        "InstanceProtocol": "TCP"
+                        "Protocol": "SSL",
+                        "InstanceProtocol": "SSL",
+                        "SSLCertificateId": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:iam::",
+                                    {
+                                        "Ref": "AWS::AccountId"
+                                    },
+                                    ":server-certificate",
+                                    "/",
+                                    {
+                                        "Ref": "CertificateName"
+                                    }
+                                ]
+                            ]
+                        }
                     }
                 ],
                 "HealthCheck": {
@@ -2473,7 +2534,7 @@
                 "Ubuntu140464bit": "ami-a9e2a9bf"
             },
             "us-east-2": {
-                "Ubuntu140464bit": "ami-6f8bad0a"
+                "Ubuntu140464bit": "ami-f389af96"
             },
             "us-west-1": {
                 "Ubuntu140464bit": "ami-992661f9"

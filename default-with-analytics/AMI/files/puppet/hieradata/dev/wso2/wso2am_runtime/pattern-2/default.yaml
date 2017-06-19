@@ -46,7 +46,7 @@ wso2::autostart_service: false
 wso2base::java::install_java: false
 
 wso2::apim_traffic_manager:
-  host: CF_ELB_DNS_NAME
+  host: CF_ELB_THRIFT_DNS_NAME
   port: 9443
   receiver_url_port: 9611
   auth_url_port: 9711
