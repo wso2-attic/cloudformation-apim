@@ -2,6 +2,8 @@
   "variables": {
     "aws_access_key": "",
     "aws_secret_key": "",
+    "product": "",
+    "version": "",
     "name": "BASE",
     "base_ami": "ami-8fab8fea",
     "region": "us-east-2",
@@ -15,13 +17,13 @@
     "source_ami": "{{user `base_ami`}}",
     "instance_type": "t2.medium",
     "ssh_username": "ubuntu",
-    "ami_name": "{{user `name`}}-WSO2AM-Default-{{isotime \"2006-01-02-1504\"}}",
-    "ami_description": "WSO2 API Manager Default profile on Ubuntu 14.04",
+    "ami_name": "{{user `name`}}-{{user `product`}}-{{user `version`}}-{{isotime \"2006-01-02-1504\"}}",
+    "ami_description": "WSO2 {{user `product`}} Default profile on Ubuntu 14.04",
     "tags": {
-      "Name": "WSO2AM-Default-Base",
-      "Product": "WSO2AM",
-      "Version": "2.1.0",
-      "Profile": "Default",
+      "Name": "{{user `name`}}-{{user `product`}}-{{user `version`}}",
+      "Product": "WSO2-{{user `product`}}",
+      "Version": "{{user `version`}}",
+      "Profile": "default",
       "Build": "{{ user `buildtime` }}"
     },
     "ami_block_device_mappings": [{
@@ -51,6 +53,7 @@
     },
     {
       "type": "shell",
+      "environment_vars": ["CF_PRODUCT={{ user `product` }}"],
       "execute_command": "sudo su - -c '{{ .Vars }} {{ .Path }}'",
       "script": "scripts/config.sh"
     }

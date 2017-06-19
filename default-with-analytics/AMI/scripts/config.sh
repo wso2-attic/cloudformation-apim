@@ -2,8 +2,6 @@
 
 # Exit on fail
 set -e
-## TODO: Should use different DB for analytics
-## TODO: Should check why offset is not being applied
 
 sleep 30
 
@@ -31,31 +29,50 @@ puppet module install puppetlabs/stdlib
 puppet module install 7terminals-java
 
 echo "Downloading packs..."
+# JDK
 wget --tries=3 -q --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz -P /etc/puppet/files/packs
-wget --tries=3 -q --user-agent="testuser" --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download" http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip -P /etc/puppet/modules/wso2am_runtime/files
-wget --tries=3 -q --user-agent="testuser" --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download" http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-analytics-2.1.0.zip -P /etc/puppet/modules/wso2am_analytics/files
 
+# MySQL Connector
 wget --tries=3 -q https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip -P /tmp
 unzip -q /tmp/mysql-connector-java-5.1.41.zip -d /tmp
-mkdir -p /etc/puppet/modules/wso2am_runtime/files/configs/repository/components/lib
-mkdir -p /etc/puppet/modules/wso2am_analytics/files/configs/repository/components/lib
-cp /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /etc/puppet/modules/wso2am_runtime/files/configs/repository/components/lib
-cp /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /etc/puppet/modules/wso2am_analytics/files/configs/repository/components/lib
 
+if [ "$CF_PRODUCT" == "APIM" ]; then
+  # Download pack
+  wget --tries=3 -q --user-agent="testuser" --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download" http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-2.1.0.zip -P /etc/puppet/modules/wso2am_runtime/files
+
+  # Copy MySQL Connector Lib
+  mkdir -p /etc/puppet/modules/wso2am_runtime/files/configs/repository/components/lib
+  cp /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /etc/puppet/modules/wso2am_runtime/files/configs/repository/components/lib
+
+  # Copy DB provisioning script
+  mv /tmp/provision_db_apim.sh /usr/local/bin/
+  chmod +x /usr/local/bin/provision_db_apim.sh
+fi
+
+if [ "$CF_PRODUCT" == "APIM-ANALYTICS" ]; then
+  # Download pack
+  wget --tries=3 -q --user-agent="testuser" --referer="http://connect.wso2.com/wso2/getform/reg/new_product_download" http://product-dist.wso2.com/products/api-manager/2.1.0/wso2am-analytics-2.1.0.zip -P /etc/puppet/modules/wso2am_analytics/files
+
+  # Copy MySQL Connector Lib
+  mkdir -p /etc/puppet/modules/wso2am_analytics/files/configs/repository/components/lib
+  cp /tmp/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /etc/puppet/modules/wso2am_analytics/files/configs/repository/components/lib
+
+  # Copy DB provisioning script
+  mv /tmp/provision_db_analytics.sh /usr/local/bin/
+  chmod +x /usr/local/bin/provision_db_analytics.sh
+fi
+
+# Setup JDK
 tar zxf /etc/puppet/files/packs/jdk-8u131-linux-x64.tar.gz -C /opt
 ln -s /opt/jdk1.8.0_131/ /opt/java
 
 cp /tmp/set_java_home.sh /etc/profile.d/set_java_home.sh
+
+# Copy deployment management lock binary
 mv /tmp/sync_lock-linux-x64 /usr/local/bin/sync_lock
 chmod +x /usr/local/bin/sync_lock
 mv /tmp/acquire_lock.sh /usr/local/bin/acquire_lock.sh
 chmod +x /usr/local/bin/acquire_lock.sh
-
-mv /tmp/provision_db_apim.sh /usr/local/bin/
-chmod +x /usr/local/bin/provision_db_apim.sh
-
-mv /tmp/provision_db_analytics.sh /usr/local/bin/
-chmod +x /usr/local/bin/provision_db_analytics.sh
 
 # cp /etc/puppet/files/packs/jdk-8u131-linux-x64.tar.gz /etc/puppet/modules/wso2base/files
 # export FACTER_product_name=wso2am_analytics
