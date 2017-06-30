@@ -2135,7 +2135,7 @@
                 "Ubuntu140464bit": "ami-a9e2a9bf"
             },
             "us-east-2": {
-                "Ubuntu140464bit": "ami-1c260779"
+                "Ubuntu140464bit": "ami-c93312ac"
             },
             "us-west-1": {
                 "Ubuntu140464bit": "ami-992661f9"
@@ -2179,7 +2179,7 @@
                 "Ubuntu140464bit": "ami-a9e2a9bf"
             },
             "us-east-2": {
-                "Ubuntu140464bit": "ami-2c2b0a49"
+                "Ubuntu140464bit": "ami-c53011a0"
             },
             "us-west-1": {
                 "Ubuntu140464bit": "ami-992661f9"

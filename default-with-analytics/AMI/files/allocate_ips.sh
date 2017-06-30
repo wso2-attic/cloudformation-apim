@@ -5,6 +5,7 @@ instance_id=$(curl http://169.254.169.254/latest/meta-data/instance-id)
 aws ec2 attach-network-interface --network-interface-id CF_ENI_ID --instance-id $instance_id --device-index 1
 aws ec2 associate-address --allocation-id CF_ALLOC_ID --network-interface-id CF_ENI_ID
 
+sleep 60
 # Setup device
 ifup eth1
 
