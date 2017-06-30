@@ -14,7 +14,8 @@ echo "Installing packages..."
 wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
 dpkg -i puppetlabs-release-trusty.deb
 apt-get update
-apt-get install -y unzip zip cron-apt nfs-common puppet facter mysql-client
+apt-get install -y unzip zip cron-apt nfs-common puppet facter mysql-client python python-pip
+pip install --upgrade --user awscli
 
 echo "Mounting block device..."
 mkfs.ext4 /dev/xvdf
@@ -35,6 +36,11 @@ wget --tries=3 -q --no-check-certificate --no-cookies --header "Cookie: oracleli
 # MySQL Connector
 wget --tries=3 -q https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.41.zip -P /tmp
 unzip -q /tmp/mysql-connector-java-5.1.41.zip -d /tmp
+
+# IP Allocation script
+mv /tmp/allocate_ips.sh /usr/local/bin/
+mv /tmp/eth1.cfg /etc/network/interfaces.d/ 
+chmod +x /usr/local/bin/allocate_ips.sh
 
 if [ "$CF_PRODUCT" == "APIM" ]; then
   # Download pack
