@@ -67,7 +67,7 @@ wso2::environments:
     password: "%{hiera('wso2::super_admin::password')}"
 
 wso2::apim_keymanager:
-  host: CF_ELB_DNS_NAME
+  host: CF_APIM_IP
   port: 9443
   username: "%{hiera('wso2::super_admin::username')}"
   password: "%{hiera('wso2::super_admin::password')}"
