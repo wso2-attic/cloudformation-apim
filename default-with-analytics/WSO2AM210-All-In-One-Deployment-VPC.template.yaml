@@ -56,7 +56,7 @@ Resources:
     DependsOn: EC2VPCG1W38G
     Properties:
       VpcId: !Ref WSO2AM1SIMPLE1VPC
-  EC2SRTA4ALO8:
+  PublicSubnetRouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
       RouteTableId: !Ref PublicRouteTable
