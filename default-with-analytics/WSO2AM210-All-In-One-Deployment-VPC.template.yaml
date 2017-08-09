@@ -40,6 +40,14 @@ Resources:
       AvailabilityZone: !Select
         - '0'
         - !GetAZs ''
+  PublicSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      CidrBlock: 10.0.252.0/24
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
   PublicInternetGateway:
     Type: 'AWS::EC2::InternetGateway'
     Properties: {}
@@ -53,6 +61,11 @@ Resources:
     Properties:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnet
+  PublicSubnetRouteTableAssociation2:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet2
   PublicRoute:
     Type: 'AWS::EC2::Route'
     Properties:
@@ -463,30 +476,6 @@ Resources:
       SubnetIds:
         - !Ref PublicSubnet
         - !Ref PublicSubnet2
-  PublicSubnet2:
-    Type: 'AWS::EC2::Subnet'
-    Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
-      CidrBlock: 10.0.252.0/24
-      MapPublicIpOnLaunch: true
-      AvailabilityZone: !Select
-        - '1'
-        - !GetAZs ''
-  PublicRouteTable2:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
-  PublicRoute2:
-    Type: 'AWS::EC2::Route'
-    Properties:
-      RouteTableId: !Ref PublicRouteTable2
-      GatewayId: !Ref PublicInternetGateway
-      DestinationCidrBlock: 0.0.0.0/0
-  EC2SRTA21VEF:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
-    Properties:
-      RouteTableId: !Ref PublicRouteTable2
-      SubnetId: !Ref PublicSubnet2
   AMNFSMount:
     Type: 'AWS::EFS::FileSystem'
     Properties: {}
