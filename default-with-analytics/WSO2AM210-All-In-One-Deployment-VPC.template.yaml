@@ -45,6 +45,7 @@ Resources:
     Properties: {}
   PublicRouteTable:
     Type: 'AWS::EC2::RouteTable'
+    DependsOn: EC2VPCG1W38G
     Properties:
       VpcId: !Ref WSO2AM1SIMPLE1VPC
   EC2SRTA4ALO8:
