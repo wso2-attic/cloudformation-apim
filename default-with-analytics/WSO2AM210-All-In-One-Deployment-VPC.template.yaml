@@ -139,6 +139,25 @@ Resources:
           FromPort: '0'
           ToPort: '0'
           CidrIp: 0.0.0.0/0
+  WSO2AMAnalyticsSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref WSO2AMVPC
+      GroupDescription: WSO2 API Manager Analytics Security Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '7612'
+          ToPort: '7612'
+          SourceSecurityGroupId: !Ref ELBSecurityGroup
+        - IpProtocol: tcp
+          FromPort: '7712'
+          ToPort: '7712'
+          SourceSecurityGroupId: !Ref ELBSecurityGroup
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: '0'
+          ToPort: '0'
+          CidrIp: 0.0.0.0/0
   WSO2AMLC:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
