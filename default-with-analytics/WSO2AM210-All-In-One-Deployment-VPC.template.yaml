@@ -345,56 +345,6 @@ Resources:
           UnhealthyThreshold: '5'
           Interval: '10'
           Timeout: '5'
-  WSO2AMELBThriftSN1:
-    Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
-    Properties:
-      CrossZone: true
-      SecurityGroups:
-        - !Ref ProductSecurityGroup
-      Subnets:
-        - !Ref PublicSubnet
-      Listeners:
-        - LoadBalancerPort: '9611'
-          InstancePort: '9611'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '9711'
-          InstancePort: '9711'
-          Protocol: TCP
-          InstanceProtocol: TCP
-      HealthCheck:
-        Target: 'TCP:9763'
-        HealthyThreshold: '3'
-        UnhealthyThreshold: '5'
-        Interval: '10'
-        Timeout: '5'
-    DependsOn:
-      - ProductSecurityGroup
-  WSO2AMELBThriftSN2:
-    Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
-    Properties:
-      CrossZone: true
-      SecurityGroups:
-        - !Ref ProductSecurityGroup
-      Subnets:
-        - !Ref PublicSubnet2
-      Listeners:
-        - LoadBalancerPort: '9611'
-          InstancePort: '9611'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '9711'
-          InstancePort: '9711'
-          Protocol: TCP
-          InstanceProtocol: TCP
-      HealthCheck:
-        Target: 'TCP:9763'
-        HealthyThreshold: '3'
-        UnhealthyThreshold: '5'
-        Interval: '10'
-        Timeout: '5'
-    DependsOn:
-      - ProductSecurityGroup
   WSO2AMDB:
     Type: 'AWS::RDS::DBInstance'
     Properties:
