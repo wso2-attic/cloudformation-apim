@@ -306,10 +306,10 @@ Resources:
     Properties:
       CrossZone: true
       SecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref ELBSecurityGroup
       Subnets:
-        - !Ref PublicSubnet2
         - !Ref PublicSubnet
+        - !Ref PublicSubnet2
       LBCookieStickinessPolicy:
         - PolicyName: LBStickyPolicy
       Listeners:
@@ -339,48 +339,12 @@ Resources:
               - ':server-certificate'
               - /
               - !Ref CertificateName
-        - LoadBalancerPort: '9763'
-          InstancePort: '9763'
-          Protocol: HTTP
-          InstanceProtocol: HTTP
-          PolicyNames:
-            - LBStickyPolicy
-        - LoadBalancerPort: '10389'
-          InstancePort: '10389'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '8000'
-          InstancePort: '8000'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '5701'
-          InstancePort: '5701'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '5672'
-          InstancePort: '5672'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '9611'
-          InstancePort: '9611'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '9711'
-          InstancePort: '9711'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '10397'
-          InstancePort: '10397'
-          Protocol: TCP
-          InstanceProtocol: TCP
       HealthCheck:
-        Target: 'TCP:9763'
-        HealthyThreshold: '3'
-        UnhealthyThreshold: '5'
-        Interval: '10'
-        Timeout: '5'
-    DependsOn:
-      - ProductSecurityGroup
+          Target: 'TCP:9443'
+          HealthyThreshold: '3'
+          UnhealthyThreshold: '5'
+          Interval: '10'
+          Timeout: '5'
   WSO2AMELBThriftSN1:
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
     Properties:
