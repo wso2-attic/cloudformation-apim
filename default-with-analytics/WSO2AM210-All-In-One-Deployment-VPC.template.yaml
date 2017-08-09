@@ -729,68 +729,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 5b8cc21a-467b-4303-8e31-1d78bce1866f
-  WSO2AMASGroupSN1:
-    Type: 'AWS::AutoScaling::AutoScalingGroup'
-    Properties:
-      LaunchConfigurationName: !Ref WSO2AMLCSN1
-      DesiredCapacity: 1
-      MinSize: 1
-      MaxSize: 1
-      LoadBalancerNames:
-        - !Ref WSO2AMELB
-        - !Ref WSO2AMELBThriftSN1
-      VPCZoneIdentifier:
-        - !Ref PublicSubnet
-      Tags:
-        - Key: Name
-          Value: WSO2AM-Instance
-          PropagateAtLaunch: 'true'
-        - Key: Product
-          Value: WSO2AM
-          PropagateAtLaunch: 'true'
-        - Key: Version
-          Value: 2.1.0
-          PropagateAtLaunch: 'true'
-        - Key: Cluster
-          Value: WSO2AM210SIMPLE
-          PropagateAtLaunch: 'true'
-    DependsOn:
-      - WSO2AMLC
-      - WSO2AMELB
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 93b3c6a7-f22f-4e8c-8832-8aa5dd38d72d
-  WSO2AMASGroupSN2:
-    Type: 'AWS::AutoScaling::AutoScalingGroup'
-    Properties:
-      LaunchConfigurationName: !Ref WSO2AMLCSN2
-      DesiredCapacity: 1
-      MinSize: 1
-      MaxSize: 1
-      LoadBalancerNames:
-        - !Ref WSO2AMELB
-        - !Ref WSO2AMELBThriftSN2
-      VPCZoneIdentifier:
-        - !Ref PublicSubnet2
-      Tags:
-        - Key: Name
-          Value: WSO2AM-Instance
-          PropagateAtLaunch: 'true'
-        - Key: Product
-          Value: WSO2AM
-          PropagateAtLaunch: 'true'
-        - Key: Version
-          Value: 2.1.0
-          PropagateAtLaunch: 'true'
-        - Key: Cluster
-          Value: WSO2AM210SIMPLE
-          PropagateAtLaunch: 'true'
-    DependsOn:
-      - WSO2AMLC
-      - WSO2AMELB
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: d342cd60-ac6a-47de-a209-dbd7aaa8f1ce
   WSO2AMELB:
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
     Properties:
