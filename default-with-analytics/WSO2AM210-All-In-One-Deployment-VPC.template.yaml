@@ -119,7 +119,7 @@ Resources:
   WSO2AMSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      VpcId: !Ref WSO2AMVPC
+      VpcId: !Ref WSO2AM1SIMPLE1VPC
       GroupDescription: WSO2 API Manager Security Group
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -142,7 +142,7 @@ Resources:
   WSO2AMAnalyticsSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      VpcId: !Ref WSO2AMVPC
+      VpcId: !Ref WSO2AM1SIMPLE1VPC
       GroupDescription: WSO2 API Manager Analytics Security Group
       SecurityGroupIngress:
         - IpProtocol: tcp
