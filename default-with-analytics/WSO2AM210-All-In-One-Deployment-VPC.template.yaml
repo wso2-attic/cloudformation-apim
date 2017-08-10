@@ -248,7 +248,7 @@ Resources:
             - !Join 
               - ''
               - - echo "
-                - !Ref AMNFSMount
+                - !Ref WSO2AMNFSMount
                 - .efs.
                 - !Ref 'AWS::Region'
                 - .amazonaws.com
@@ -443,7 +443,7 @@ Resources:
             - !Join 
               - ''
               - - echo "
-                - !Ref AMNFSMount
+                - !Ref WSO2AMNFSMount
                 - .efs.
                 - !Ref 'AWS::Region'
                 - .amazonaws.com
@@ -732,21 +732,21 @@ Resources:
     Type: 'AWS::EFS::MountTarget'
     Properties:
       SubnetId: !Ref PrivateSubnet
-      FileSystemId: !Ref AMNFSMount
+      FileSystemId: !Ref WSO2AMNFSMount
       SecurityGroups:
         - !Ref EFSSecurityGroup
   WSO2EFSMtSN2:
     Type: 'AWS::EFS::MountTarget'
     Properties:
       SubnetId: !Ref PrivateSubnet2
-      FileSystemId: !Ref AMNFSMount
+      FileSystemId: !Ref WSO2AMNFSMount
       SecurityGroups:
         - !Ref EFSSecurityGroup
   WSO2AnalyticsEFSMtSN1:
     Type: 'AWS::EFS::MountTarget'
     Properties:
       SubnetId: !Ref PrivateSubnet
-      FileSystemId: !Ref AMAnalyticsNFSMount
+      FileSystemId: !Ref WSO2AMAnalyticsNFSMount
       SecurityGroups:
         - !Ref EFSSecurityGroup
   WSO2AMAnalyticsASGSN1:
@@ -838,7 +838,7 @@ Resources:
             - !Join 
               - ''
               - - echo "
-                - !Ref AMAnalyticsNFSMount
+                - !Ref WSO2AMAnalyticsNFSMount
                 - .efs.
                 - !Ref 'AWS::Region'
                 - .amazonaws.com
