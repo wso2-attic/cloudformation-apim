@@ -1103,31 +1103,34 @@ Resources:
                 Resource: '*'
   AMEIP1:
     Type: 'AWS::EC2::EIP'
-    Properties: {}
+    Properties:
+      Domain: vpc
   AMEIPAssociation1:
     Type: 'AWS::EC2::EIPAssociation'
     Properties:
-      AllocationId: !GetAtt 
+      AllocationId: !GetAtt
         - AMEIP1
         - AllocationId
       NetworkInterfaceId: !Ref AMENI1
   AMEIP2:
     Type: 'AWS::EC2::EIP'
-    Properties: {}
+    Properties:
+      Domain: vpc
   AMEIPAssociation2:
     Type: 'AWS::EC2::EIPAssociation'
     Properties:
-      AllocationId: !GetAtt 
+      AllocationId: !GetAtt
         - AMEIP2
         - AllocationId
       NetworkInterfaceId: !Ref AMENI2
   AnalyticsEIP1:
     Type: 'AWS::EC2::EIP'
-    Properties: {}
+    Properties:
+      Domain: vpc
   AnalyticsEIPAssociation1:
     Type: 'AWS::EC2::EIPAssociation'
     Properties:
-      AllocationId: !GetAtt 
+      AllocationId: !GetAtt
         - AnalyticsEIP1
         - AllocationId
       NetworkInterfaceId: !Ref AnalyticsENI1
