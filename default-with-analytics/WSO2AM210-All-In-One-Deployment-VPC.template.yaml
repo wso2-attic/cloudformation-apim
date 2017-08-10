@@ -53,7 +53,6 @@ Resources:
           - !GetAZs ''
   PublicInternetGateway:
     Type: 'AWS::EC2::InternetGateway'
-    Properties: {}
   PublicRouteTable:
     Type: 'AWS::EC2::RouteTable'
     Properties:
@@ -727,10 +726,8 @@ Resources:
         - !Ref PublicSubnet2
   AMNFSMount:
     Type: 'AWS::EFS::FileSystem'
-    Properties: {}
   AMAnalyticsNFSMount:
     Type: 'AWS::EFS::FileSystem'
-    Properties: {}
   EFSMtSN1:
     Type: 'AWS::EFS::MountTarget'
     Properties:
