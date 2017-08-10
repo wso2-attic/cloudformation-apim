@@ -646,13 +646,19 @@ Resources:
       LBCookieStickinessPolicy:
         - PolicyName: LBStickyPolicy
       Listeners:
+        - LoadBalancerPort: '9763'
+          InstancePort: '9763'
+          Protocol: HTTP
+          InstanceProtocol: HTTP
+          PolicyNames:
+            - LBStickyPolicy
         - LoadBalancerPort: '9443'
           InstancePort: '9443'
           Protocol: HTTPS
           InstanceProtocol: HTTPS
           PolicyNames:
             - LBStickyPolicy
-          SSLCertificateId: !Join 
+          SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
               - !Ref 'AWS::AccountId'
@@ -665,45 +671,19 @@ Resources:
           InstanceProtocol: HTTPS
           PolicyNames:
             - LBStickyPolicy
-          SSLCertificateId: !Join 
+          SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
               - !Ref 'AWS::AccountId'
               - ':server-certificate'
               - /
               - !Ref CertificateName
-        - LoadBalancerPort: '9763'
-          InstancePort: '9763'
-          Protocol: HTTP
-          InstanceProtocol: HTTP
-          PolicyNames:
-            - LBStickyPolicy
-        - LoadBalancerPort: '10389'
-          InstancePort: '10389'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '8000'
-          InstancePort: '8000'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '5701'
-          InstancePort: '5701'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '5672'
-          InstancePort: '5672'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '10397'
-          InstancePort: '10397'
-          Protocol: TCP
-          InstanceProtocol: TCP
       HealthCheck:
-        Target: 'TCP:9763'
-        HealthyThreshold: '3'
-        UnhealthyThreshold: '5'
-        Interval: '10'
-        Timeout: '5'
+          Target: 'TCP:9763'
+          HealthyThreshold: '3'
+          UnhealthyThreshold: '5'
+          Interval: '10'
+          Timeout: '5'
     DependsOn:
       - ELBSecurityGroup
   WSO2AMDB:
@@ -1001,7 +981,7 @@ Resources:
           InstanceProtocol: HTTPS
           PolicyNames:
             - LBStickyPolicy
-          SSLCertificateId: !Join 
+          SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
               - !Ref 'AWS::AccountId'
@@ -1014,7 +994,7 @@ Resources:
           InstanceProtocol: HTTPS
           PolicyNames:
             - LBStickyPolicy
-          SSLCertificateId: !Join 
+          SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
               - !Ref 'AWS::AccountId'
