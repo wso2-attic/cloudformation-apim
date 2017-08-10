@@ -749,13 +749,6 @@ Resources:
       FileSystemId: !Ref AMAnalyticsNFSMount
       SecurityGroups:
         - !Ref EFSSecurityGroup
-  AnalyticsEFSMtSN2:
-    Type: 'AWS::EFS::MountTarget'
-    Properties:
-      SubnetId: !Ref PublicSubnet2
-      FileSystemId: !Ref AMAnalyticsNFSMount
-      SecurityGroups:
-        - !Ref EFSSecurityGroup
   WSO2AMAnalyticsASGSN1:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
