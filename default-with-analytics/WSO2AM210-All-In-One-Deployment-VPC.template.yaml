@@ -100,6 +100,10 @@ Resources:
       GroupDescription: ELB Security Group
       SecurityGroupIngress:
         - IpProtocol: tcp
+          FromPort: '9763'
+          ToPort: '9763'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
           FromPort: '9443'
           ToPort: '9443'
           CidrIp: 0.0.0.0/0
@@ -108,6 +112,10 @@ Resources:
           ToPort: '8243'
           CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: '9763'
+          ToPort: '9763'
+          CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: '9443'
           ToPort: '9443'
@@ -122,6 +130,10 @@ Resources:
       VpcId: !Ref WSO2AM1SIMPLE1VPC
       GroupDescription: WSO2 API Manager Security Group
       SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '9763'
+          ToPort: '9763'
+          SourceSecurityGroupId: !Ref ELBSecurityGroup
         - IpProtocol: tcp
           FromPort: '9443'
           ToPort: '9443'
@@ -313,6 +325,12 @@ Resources:
       LBCookieStickinessPolicy:
         - PolicyName: LBStickyPolicy
       Listeners:
+        - LoadBalancerPort: '9763'
+          InstancePort: '9763'
+          Protocol: HTTP
+          InstanceProtocol: HTTP
+          PolicyNames:
+            - LBStickyPolicy
         - LoadBalancerPort: '9443'
           InstancePort: '9443'
           Protocol: HTTPS
@@ -340,7 +358,7 @@ Resources:
               - /
               - !Ref CertificateName
       HealthCheck:
-          Target: 'TCP:9443'
+          Target: 'TCP:9763'
           HealthyThreshold: '3'
           UnhealthyThreshold: '5'
           Interval: '10'
