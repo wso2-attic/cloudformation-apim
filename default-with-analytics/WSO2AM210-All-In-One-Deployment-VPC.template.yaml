@@ -66,6 +66,22 @@ Resources:
     Properties:
       InternetGatewayId: !Ref PublicInternetGateway
       VpcId: !Ref WSO2AM1SIMPLE1VPC
+  PrivateSubnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs ''
+  PrivateSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
   AMLCNode1:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
