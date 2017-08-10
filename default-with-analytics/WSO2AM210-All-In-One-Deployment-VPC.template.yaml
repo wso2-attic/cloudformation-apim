@@ -61,6 +61,7 @@ Resources:
       RouteTableId: !Ref PublicRouteTable
       GatewayId: !Ref PublicInternetGateway
       DestinationCidrBlock: 0.0.0.0/0
+    DependsOn: EC2VPCG1W38G
   EC2VPCG1W38G:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
