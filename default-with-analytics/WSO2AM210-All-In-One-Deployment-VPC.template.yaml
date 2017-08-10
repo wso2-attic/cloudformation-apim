@@ -747,7 +747,7 @@ Resources:
   EC2SRTA21VEF:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      RouteTableId: !Ref PublicRouteTable2
+      RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnet2
   AMNFSMount:
     Type: 'AWS::EFS::FileSystem'
