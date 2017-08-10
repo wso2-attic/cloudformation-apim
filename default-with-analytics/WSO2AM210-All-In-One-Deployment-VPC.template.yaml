@@ -29,7 +29,7 @@ Metadata:
       DBPassword:
         default: APIM Database Master password
 Resources:
-  WSO2AM1SIMPLE1VPC:
+  WSO2AMVPC:
     Type: 'AWS::EC2::VPC'
     Properties:
       CidrBlock: 10.0.0.0/16
@@ -38,7 +38,7 @@ Resources:
   PublicSubnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      VpcId: !Ref WSO2AMVPC
       CidrBlock: 10.0.254.0/24
       AvailabilityZone: !Select 
         - '0'
@@ -46,7 +46,7 @@ Resources:
   PublicSubnet2:
       Type: 'AWS::EC2::Subnet'
       Properties:
-        VpcId: !Ref WSO2AM1SIMPLE1VPC
+        VpcId: !Ref WSO2AMVPC
         CidrBlock: 10.0.252.0/24
         MapPublicIpOnLaunch: true
         AvailabilityZone: !Select
@@ -58,7 +58,7 @@ Resources:
   PublicRouteTable:
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      VpcId: !Ref WSO2AMVPC
   PublicSubnetRouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
@@ -80,11 +80,11 @@ Resources:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
       InternetGatewayId: !Ref PublicInternetGateway
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      VpcId: !Ref WSO2AMVPC
   PrivateSubnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      VpcId: !Ref WSO2AMVPC
       CidrBlock: 10.0.1.0/24
       AvailabilityZone: !Select
         - '0'
@@ -92,7 +92,7 @@ Resources:
   PrivateSubnet2:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      VpcId: !Ref WSO2AMVPC
       CidrBlock: 10.0.2.0/24
       AvailabilityZone: !Select
         - '1'
@@ -581,7 +581,7 @@ Resources:
           FromPort: '0'
           ToPort: '0'
           CidrIp: 0.0.0.0/0
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      VpcId: !Ref WSO2AMVPC
   WSO2AMASGroupSN1:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
