@@ -731,21 +731,21 @@ Resources:
   WSO2EFSMtSN1:
     Type: 'AWS::EFS::MountTarget'
     Properties:
-      SubnetId: !Ref PublicSubnet
+      SubnetId: !Ref PrivateSubnet
       FileSystemId: !Ref AMNFSMount
       SecurityGroups:
         - !Ref EFSSecurityGroup
   WSO2EFSMtSN2:
     Type: 'AWS::EFS::MountTarget'
     Properties:
-      SubnetId: !Ref PublicSubnet2
+      SubnetId: !Ref PrivateSubnet2
       FileSystemId: !Ref AMNFSMount
       SecurityGroups:
         - !Ref EFSSecurityGroup
   WSO2AnalyticsEFSMtSN1:
     Type: 'AWS::EFS::MountTarget'
     Properties:
-      SubnetId: !Ref PublicSubnet
+      SubnetId: !Ref PrivateSubnet
       FileSystemId: !Ref AMAnalyticsNFSMount
       SecurityGroups:
         - !Ref EFSSecurityGroup
