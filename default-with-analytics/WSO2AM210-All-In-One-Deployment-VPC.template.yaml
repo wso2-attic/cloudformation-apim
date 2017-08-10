@@ -698,7 +698,7 @@ Resources:
       Engine: MySQL
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
-      MultiAZ: 'false'
+      MultiAZ: 'true'
       StorageType: gp2
       DBSubnetGroupName: !Ref WSO2AMDBSubnetGroup
   WSO2AMAnalyticsDB:
@@ -714,7 +714,7 @@ Resources:
       Engine: MySQL
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
-      MultiAZ: 'false'
+      MultiAZ: 'true'
       StorageType: gp2
       DBSubnetGroupName: !Ref WSO2AMDBSubnetGroup
   WSO2AMDBSubnetGroup:
