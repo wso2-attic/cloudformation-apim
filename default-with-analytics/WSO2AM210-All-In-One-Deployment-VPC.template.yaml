@@ -744,16 +744,6 @@ Resources:
       AvailabilityZone: !Select 
         - '1'
         - !GetAZs ''
-  PublicRouteTable2:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
-  PublicRoute2:
-    Type: 'AWS::EC2::Route'
-    Properties:
-      RouteTableId: !Ref PublicRouteTable2
-      GatewayId: !Ref PublicInternetGateway
-      DestinationCidrBlock: 0.0.0.0/0
   EC2SRTA21VEF:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
