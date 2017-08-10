@@ -29,7 +29,7 @@ Metadata:
       DBPassword:
         default: APIM Database Master password
 Resources:
-  WSO2AM1SIMPLE1VPC:
+  WSO2AMVPC:
     Type: 'AWS::EC2::VPC'
     Properties:
       CidrBlock: 10.0.0.0/16
@@ -38,35 +38,156 @@ Resources:
   PublicSubnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      VpcId: !Ref WSO2AMVPC
       CidrBlock: 10.0.254.0/24
-      MapPublicIpOnLaunch: true
       AvailabilityZone: !Select 
         - '0'
         - !GetAZs ''
+  PublicSubnet2:
+      Type: 'AWS::EC2::Subnet'
+      Properties:
+        VpcId: !Ref WSO2AMVPC
+        CidrBlock: 10.0.252.0/24
+        AvailabilityZone: !Select
+          - '1'
+          - !GetAZs ''
   PublicInternetGateway:
     Type: 'AWS::EC2::InternetGateway'
     Properties: {}
   PublicRouteTable:
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
-  EC2SRTA4ALO8:
+      VpcId: !Ref WSO2AMVPC
+  PublicSubnetRouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnet
+  PublicSubnetRouteTableAssociation2:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet2
   PublicRoute:
     Type: 'AWS::EC2::Route'
     Properties:
       RouteTableId: !Ref PublicRouteTable
       GatewayId: !Ref PublicInternetGateway
       DestinationCidrBlock: 0.0.0.0/0
-  EC2VPCG1W38G:
+    DependsOn: VPCInternetGatewayAttachment
+  VPCInternetGatewayAttachment:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
       InternetGatewayId: !Ref PublicInternetGateway
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      VpcId: !Ref WSO2AMVPC
+  PrivateSubnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref WSO2AMVPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs ''
+  PrivateSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref WSO2AMVPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
+  DBSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref WSO2AMVPC
+      GroupDescription: DB Security Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '3306'
+          ToPort: '3306'
+          CidrIp: 0.0.0.0/0
+  EFSSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref WSO2AMVPC
+      GroupDescription: EFS Security Group
+  ELBSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref WSO2AMVPC
+      GroupDescription: ELB Security Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '9763'
+          ToPort: '9763'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '9443'
+          ToPort: '9443'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '8243'
+          ToPort: '8243'
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: '9763'
+          ToPort: '9763'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '9443'
+          ToPort: '9443'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '8243'
+          ToPort: '8243'
+          CidrIp: 0.0.0.0/0
+  WSO2AMSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref WSO2AMVPC
+      GroupDescription: WSO2 API Manager Security Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '9763'
+          ToPort: '9763'
+          SourceSecurityGroupId: !Ref ELBSecurityGroup
+        - IpProtocol: tcp
+          FromPort: '9443'
+          ToPort: '9443'
+          SourceSecurityGroupId: !Ref ELBSecurityGroup
+        - IpProtocol: tcp
+          FromPort: '8243'
+          ToPort: '8243'
+          SourceSecurityGroupId: !Ref ELBSecurityGroup
+        - IpProtocol: tcp
+          FromPort: '5672'
+          ToPort: '5672'
+          SourceSecurityGroupId: !Ref ELBSecurityGroup
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: '0'
+          ToPort: '0'
+          CidrIp: 0.0.0.0/0
+  WSO2AMAnalyticsSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref WSO2AMVPC
+      GroupDescription: WSO2 API Manager Analytics Security Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '7612'
+          ToPort: '7612'
+          SourceSecurityGroupId: !Ref ELBSecurityGroup
+        - IpProtocol: tcp
+          FromPort: '7712'
+          ToPort: '7712'
+          SourceSecurityGroupId: !Ref ELBSecurityGroup
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: '0'
+          ToPort: '0'
+          CidrIp: 0.0.0.0/0
   AMLCNode1:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
@@ -83,7 +204,7 @@ Resources:
             DeleteOnTermination: 'true'
       KeyName: !Ref KeyPairName
       SecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref WSO2AMSecurityGroup
       IamInstanceProfile: !Ref AWSCliInstanceProfile
       UserData: !Base64 
         'Fn::Join':
@@ -259,9 +380,9 @@ Resources:
             - echo 'export HISTTIMEFORMAT="%F %T "' >> /etc/profile.d/history.sh
             - cat /dev/null > ~/.bash_history && history -c
     DependsOn:
-      - ProductSecurityGroup
+      - WSO2AMSecurityGroup
       - WSO2AMELB
-      - EC2VPCG1W38G
+      - VPCInternetGatewayAttachment
   AMLCNode2:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
@@ -278,7 +399,7 @@ Resources:
             DeleteOnTermination: 'true'
       KeyName: !Ref KeyPairName
       SecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref WSO2AMSecurityGroup
       IamInstanceProfile: !Ref AWSCliInstanceProfile
       UserData: !Base64 
         'Fn::Join':
@@ -454,104 +575,9 @@ Resources:
             - echo 'export HISTTIMEFORMAT="%F %T "' >> /etc/profile.d/history.sh
             - cat /dev/null > ~/.bash_history && history -c
     DependsOn:
-      - ProductSecurityGroup
+      - WSO2AMSecurityGroup
       - WSO2AMELB
-      - EC2VPCG1W38G
-  ProductSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: Product Security Group
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: '22'
-          ToPort: '22'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '2049'
-          ToPort: '2049'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '9443'
-          ToPort: '9443'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '5701'
-          ToPort: '5701'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '9763'
-          ToPort: '9763'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '8243'
-          ToPort: '8243'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '8280'
-          ToPort: '8280'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '443'
-          ToPort: '443'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '80'
-          ToPort: '80'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '3306'
-          ToPort: '3306'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: ICMP
-          FromPort: '-1'
-          ToPort: '-1'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '3306'
-          ToPort: '3306'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '10389'
-          ToPort: '10389'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '8000'
-          ToPort: '8000'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '5701'
-          ToPort: '5701'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '5672'
-          ToPort: '5672'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '9611'
-          ToPort: '9611'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '9711'
-          ToPort: '9711'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '10397'
-          ToPort: '10397'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '7611'
-          ToPort: '7611'
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '7711'
-          ToPort: '7711'
-          CidrIp: 0.0.0.0/0
-      SecurityGroupEgress:
-        - IpProtocol: -1
-          FromPort: '0'
-          ToPort: '0'
-          CidrIp: 0.0.0.0/0
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
+      - VPCInternetGatewayAttachment
   WSO2AMASGroupSN1:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
@@ -613,20 +639,26 @@ Resources:
     Properties:
       CrossZone: true
       SecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref ELBSecurityGroup
       Subnets:
         - !Ref PublicSubnet2
         - !Ref PublicSubnet
       LBCookieStickinessPolicy:
         - PolicyName: LBStickyPolicy
       Listeners:
+        - LoadBalancerPort: '9763'
+          InstancePort: '9763'
+          Protocol: HTTP
+          InstanceProtocol: HTTP
+          PolicyNames:
+            - LBStickyPolicy
         - LoadBalancerPort: '9443'
           InstancePort: '9443'
           Protocol: HTTPS
           InstanceProtocol: HTTPS
           PolicyNames:
             - LBStickyPolicy
-          SSLCertificateId: !Join 
+          SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
               - !Ref 'AWS::AccountId'
@@ -639,52 +671,26 @@ Resources:
           InstanceProtocol: HTTPS
           PolicyNames:
             - LBStickyPolicy
-          SSLCertificateId: !Join 
+          SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
               - !Ref 'AWS::AccountId'
               - ':server-certificate'
               - /
               - !Ref CertificateName
-        - LoadBalancerPort: '9763'
-          InstancePort: '9763'
-          Protocol: HTTP
-          InstanceProtocol: HTTP
-          PolicyNames:
-            - LBStickyPolicy
-        - LoadBalancerPort: '10389'
-          InstancePort: '10389'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '8000'
-          InstancePort: '8000'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '5701'
-          InstancePort: '5701'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '5672'
-          InstancePort: '5672'
-          Protocol: TCP
-          InstanceProtocol: TCP
-        - LoadBalancerPort: '10397'
-          InstancePort: '10397'
-          Protocol: TCP
-          InstanceProtocol: TCP
       HealthCheck:
-        Target: 'TCP:9763'
-        HealthyThreshold: '3'
-        UnhealthyThreshold: '5'
-        Interval: '10'
-        Timeout: '5'
+          Target: 'TCP:9763'
+          HealthyThreshold: '3'
+          UnhealthyThreshold: '5'
+          Interval: '10'
+          Timeout: '5'
     DependsOn:
-      - ProductSecurityGroup
+      - ELBSecurityGroup
   WSO2AMDB:
     Type: 'AWS::RDS::DBInstance'
     Properties:
       VPCSecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref DBSecurityGroup
       DBInstanceClass: db.t2.medium
       AllocatedStorage: 5
       BackupRetentionPeriod: '0'
@@ -700,7 +706,7 @@ Resources:
     Type: 'AWS::RDS::DBInstance'
     Properties:
       VPCSecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref DBSecurityGroup
       DBInstanceClass: db.t2.medium
       AllocatedStorage: 5
       BackupRetentionPeriod: '0'
@@ -719,30 +725,6 @@ Resources:
       SubnetIds:
         - !Ref PublicSubnet
         - !Ref PublicSubnet2
-  PublicSubnet2:
-    Type: 'AWS::EC2::Subnet'
-    Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
-      CidrBlock: 10.0.252.0/24
-      MapPublicIpOnLaunch: true
-      AvailabilityZone: !Select 
-        - '1'
-        - !GetAZs ''
-  PublicRouteTable2:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref WSO2AM1SIMPLE1VPC
-  PublicRoute2:
-    Type: 'AWS::EC2::Route'
-    Properties:
-      RouteTableId: !Ref PublicRouteTable2
-      GatewayId: !Ref PublicInternetGateway
-      DestinationCidrBlock: 0.0.0.0/0
-  EC2SRTA21VEF:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
-    Properties:
-      RouteTableId: !Ref PublicRouteTable2
-      SubnetId: !Ref PublicSubnet2
   AMNFSMount:
     Type: 'AWS::EFS::FileSystem'
     Properties: {}
@@ -755,28 +737,28 @@ Resources:
       SubnetId: !Ref PublicSubnet
       FileSystemId: !Ref AMNFSMount
       SecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref EFSSecurityGroup
   EFSMtSN2:
     Type: 'AWS::EFS::MountTarget'
     Properties:
       SubnetId: !Ref PublicSubnet2
       FileSystemId: !Ref AMNFSMount
       SecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref EFSSecurityGroup
   AnalyticsEFSMtSN1:
     Type: 'AWS::EFS::MountTarget'
     Properties:
       SubnetId: !Ref PublicSubnet
       FileSystemId: !Ref AMAnalyticsNFSMount
       SecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref EFSSecurityGroup
   AnalyticsEFSMtSN2:
     Type: 'AWS::EFS::MountTarget'
     Properties:
       SubnetId: !Ref PublicSubnet2
       FileSystemId: !Ref AMAnalyticsNFSMount
       SecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref EFSSecurityGroup
   WSO2AMAnalyticsASGSN1:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
@@ -821,7 +803,7 @@ Resources:
             DeleteOnTermination: 'true'
       KeyName: !Ref KeyPairName
       SecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref WSO2AMAnalyticsSecurityGroup
       IamInstanceProfile: !Ref AWSCliInstanceProfile
       UserData: !Base64 
         'Fn::Join':
@@ -978,15 +960,15 @@ Resources:
             - echo 'export HISTTIMEFORMAT="%F %T "' >> /etc/profile.d/history.sh
             - cat /dev/null > ~/.bash_history && history -c
     DependsOn:
-      - ProductSecurityGroup
+      - WSO2AMAnalyticsSecurityGroup
       - WSO2AMAnalyticsELB
-      - EC2VPCG1W38G
+      - VPCInternetGatewayAttachment
   WSO2AMAnalyticsELB:
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
     Properties:
       CrossZone: true
       SecurityGroups:
-        - !Ref ProductSecurityGroup
+        - !Ref ELBSecurityGroup
       Subnets:
         - !Ref PublicSubnet2
         - !Ref PublicSubnet
@@ -999,7 +981,7 @@ Resources:
           InstanceProtocol: HTTPS
           PolicyNames:
             - LBStickyPolicy
-          SSLCertificateId: !Join 
+          SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
               - !Ref 'AWS::AccountId'
@@ -1012,7 +994,7 @@ Resources:
           InstanceProtocol: HTTPS
           PolicyNames:
             - LBStickyPolicy
-          SSLCertificateId: !Join 
+          SSLCertificateId: !Join
             - ''
             - - 'arn:aws:iam::'
               - !Ref 'AWS::AccountId'
@@ -1052,28 +1034,28 @@ Resources:
         Interval: '10'
         Timeout: '5'
     DependsOn:
-      - ProductSecurityGroup
+      - ELBSecurityGroup
   AMENI1:
     Type: 'AWS::EC2::NetworkInterface'
     Properties:
       Description: AM ENI for Node1
       SubnetId: !Ref PublicSubnet
       GroupSet:
-        - !Ref ProductSecurityGroup
+        - !Ref WSO2AMSecurityGroup
   AMENI2:
     Type: 'AWS::EC2::NetworkInterface'
     Properties:
       Description: AM ENI for Node2
       SubnetId: !Ref PublicSubnet2
       GroupSet:
-        - !Ref ProductSecurityGroup
+        - !Ref WSO2AMSecurityGroup
   AnalyticsENI1:
     Type: 'AWS::EC2::NetworkInterface'
     Properties:
       Description: Analytics ENI for Node1
       SubnetId: !Ref PublicSubnet
       GroupSet:
-        - !Ref ProductSecurityGroup
+        - !Ref WSO2AMAnalyticsSecurityGroup
   AWSCliInstanceProfile:
     Type: 'AWS::IAM::InstanceProfile'
     Properties:
