@@ -700,7 +700,7 @@ Resources:
       MasterUserPassword: !Ref DBPassword
       MultiAZ: 'true'
       StorageType: gp2
-      DBSubnetGroupName: !Ref WSO2AMDBSubnetGroup
+      DBSubnetGroupName: !Ref DBSubnetGroup
   WSO2AMAnalyticsDB:
     Type: 'AWS::RDS::DBInstance'
     Properties:
@@ -716,8 +716,8 @@ Resources:
       MasterUserPassword: !Ref DBPassword
       MultiAZ: 'true'
       StorageType: gp2
-      DBSubnetGroupName: !Ref WSO2AMDBSubnetGroup
-  WSO2AMDBSubnetGroup:
+      DBSubnetGroupName: !Ref DBSubnetGroup
+  DBSubnetGroup:
     Type: 'AWS::RDS::DBSubnetGroup'
     Properties:
       DBSubnetGroupDescription: DB Subnet Group
