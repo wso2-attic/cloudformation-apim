@@ -722,8 +722,8 @@ Resources:
     Properties:
       DBSubnetGroupDescription: DB Subnet Group
       SubnetIds:
-        - !Ref PublicSubnet
-        - !Ref PublicSubnet2
+        - !Ref PrivateSubnet
+        - !Ref PrivateSubnet2
   AMNFSMount:
     Type: 'AWS::EFS::FileSystem'
   AMAnalyticsNFSMount:
