@@ -40,7 +40,6 @@ Resources:
     Properties:
       VpcId: !Ref WSO2AM1SIMPLE1VPC
       CidrBlock: 10.0.254.0/24
-      MapPublicIpOnLaunch: true
       AvailabilityZone: !Select 
         - '0'
         - !GetAZs ''
