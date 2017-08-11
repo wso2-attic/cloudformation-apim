@@ -53,7 +53,6 @@ Resources:
           - !GetAZs ''
   PublicInternetGateway:
     Type: 'AWS::EC2::InternetGateway'
-    Properties: {}
   PublicRouteTable:
     Type: 'AWS::EC2::RouteTable'
     Properties:
@@ -165,9 +164,9 @@ Resources:
           ToPort: '5672'
           SourceSecurityGroupId: !Ref ELBSecurityGroup
       SecurityGroupEgress:
-        - IpProtocol: -1
-          FromPort: '0'
-          ToPort: '0'
+        - IpProtocol: tcp
+          FromPort: '3306'
+          ToPort: '3306'
           CidrIp: 0.0.0.0/0
   WSO2AMAnalyticsSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
@@ -184,9 +183,9 @@ Resources:
           ToPort: '7712'
           SourceSecurityGroupId: !Ref ELBSecurityGroup
       SecurityGroupEgress:
-        - IpProtocol: -1
-          FromPort: '0'
-          ToPort: '0'
+        - IpProtocol: tcp
+          FromPort: '3306'
+          ToPort: '3306'
           CidrIp: 0.0.0.0/0
   AMLCNode1:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
@@ -249,7 +248,7 @@ Resources:
             - !Join 
               - ''
               - - echo "
-                - !Ref AMNFSMount
+                - !Ref WSO2AMNFSMount
                 - .efs.
                 - !Ref 'AWS::Region'
                 - .amazonaws.com
@@ -444,7 +443,7 @@ Resources:
             - !Join 
               - ''
               - - echo "
-                - !Ref AMNFSMount
+                - !Ref WSO2AMNFSMount
                 - .efs.
                 - !Ref 'AWS::Region'
                 - .amazonaws.com
@@ -699,9 +698,9 @@ Resources:
       Engine: MySQL
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
-      MultiAZ: 'false'
+      MultiAZ: 'true'
       StorageType: gp2
-      DBSubnetGroupName: !Ref WSO2AMDBSubnetGroup
+      DBSubnetGroupName: !Ref DBSubnetGroup
   WSO2AMAnalyticsDB:
     Type: 'AWS::RDS::DBInstance'
     Properties:
@@ -715,48 +714,39 @@ Resources:
       Engine: MySQL
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
-      MultiAZ: 'false'
+      MultiAZ: 'true'
       StorageType: gp2
-      DBSubnetGroupName: !Ref WSO2AMDBSubnetGroup
-  WSO2AMDBSubnetGroup:
+      DBSubnetGroupName: !Ref DBSubnetGroup
+  DBSubnetGroup:
     Type: 'AWS::RDS::DBSubnetGroup'
     Properties:
       DBSubnetGroupDescription: DB Subnet Group
       SubnetIds:
-        - !Ref PublicSubnet
-        - !Ref PublicSubnet2
-  AMNFSMount:
+        - !Ref PrivateSubnet
+        - !Ref PrivateSubnet2
+  WSO2AMNFSMount:
     Type: 'AWS::EFS::FileSystem'
-    Properties: {}
-  AMAnalyticsNFSMount:
+  WSO2AMAnalyticsNFSMount:
     Type: 'AWS::EFS::FileSystem'
-    Properties: {}
-  EFSMtSN1:
+  WSO2EFSMtSN1:
     Type: 'AWS::EFS::MountTarget'
     Properties:
-      SubnetId: !Ref PublicSubnet
-      FileSystemId: !Ref AMNFSMount
+      SubnetId: !Ref PrivateSubnet
+      FileSystemId: !Ref WSO2AMNFSMount
       SecurityGroups:
         - !Ref EFSSecurityGroup
-  EFSMtSN2:
+  WSO2EFSMtSN2:
     Type: 'AWS::EFS::MountTarget'
     Properties:
-      SubnetId: !Ref PublicSubnet2
-      FileSystemId: !Ref AMNFSMount
+      SubnetId: !Ref PrivateSubnet2
+      FileSystemId: !Ref WSO2AMNFSMount
       SecurityGroups:
         - !Ref EFSSecurityGroup
-  AnalyticsEFSMtSN1:
+  WSO2AnalyticsEFSMtSN1:
     Type: 'AWS::EFS::MountTarget'
     Properties:
-      SubnetId: !Ref PublicSubnet
-      FileSystemId: !Ref AMAnalyticsNFSMount
-      SecurityGroups:
-        - !Ref EFSSecurityGroup
-  AnalyticsEFSMtSN2:
-    Type: 'AWS::EFS::MountTarget'
-    Properties:
-      SubnetId: !Ref PublicSubnet2
-      FileSystemId: !Ref AMAnalyticsNFSMount
+      SubnetId: !Ref PrivateSubnet
+      FileSystemId: !Ref WSO2AMAnalyticsNFSMount
       SecurityGroups:
         - !Ref EFSSecurityGroup
   WSO2AMAnalyticsASGSN1:
@@ -848,7 +838,7 @@ Resources:
             - !Join 
               - ''
               - - echo "
-                - !Ref AMAnalyticsNFSMount
+                - !Ref WSO2AMAnalyticsNFSMount
                 - .efs.
                 - !Ref 'AWS::Region'
                 - .amazonaws.com
