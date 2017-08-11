@@ -164,9 +164,9 @@ Resources:
           ToPort: '5672'
           SourceSecurityGroupId: !Ref ELBSecurityGroup
       SecurityGroupEgress:
-        - IpProtocol: -1
-          FromPort: '0'
-          ToPort: '0'
+        - IpProtocol: tcp
+          FromPort: '3306'
+          ToPort: '3306'
           CidrIp: 0.0.0.0/0
   WSO2AMAnalyticsSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
@@ -183,9 +183,9 @@ Resources:
           ToPort: '7712'
           SourceSecurityGroupId: !Ref ELBSecurityGroup
       SecurityGroupEgress:
-        - IpProtocol: -1
-          FromPort: '0'
-          ToPort: '0'
+        - IpProtocol: tcp
+          FromPort: '3306'
+          ToPort: '3306'
           CidrIp: 0.0.0.0/0
   AMLCNode1:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
