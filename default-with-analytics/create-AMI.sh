@@ -44,14 +44,36 @@ if [ "$product" != "APIM" ] && [ "$product" != "APIM-ANALYTICS" ]; then
 fi
 
 pushd AMI > /dev/null 2>&1
-packer validate $packer_file
+if [[ "$OSTYPE" == *"darwin"* ]]; then
+  aws_access_key=${AWS_ACCESS_KEY_ID? "Environment variable AWS_ACCESS_KEY_ID is not set"}
+  aws_secret_access_key=${AWS_SECRET_ACCESS_KEY? "Environment variable AWS_SECRET_ACCESS_KEY is not set"}
+
+  echo "Starting packer validation with docker..."
+  docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+             -i -t -v $(pwd):/opt/ -w /opt/ hashicorp/packer:light validate \
+             /opt/$packer_file
+else
+  packer validate $packer_file
+fi
 echo
 
 if [ $? != 0 ]; then
   exit 1;
 fi
 
-if [ "$OSTYPE" == "linux-gnu" ]; then
+if [[ "$OSTYPE" == *"darwin"* ]]; then
+  aws_access_key=${AWS_ACCESS_KEY_ID? "Environment variable AWS_ACCESS_KEY_ID is not set"}
+  aws_secret_access_key=${AWS_SECRET_ACCESS_KEY? "Environment variable AWS_SECRET_ACCESS_KEY is not set"}
+
+  echo "Starting packer build with docker..."
+  docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+             -i -t -v $(pwd):/opt/ -w /opt/ hashicorp/packer:light build \
+             -var "product=${product}" \
+             -var "version=${version}" \
+             /opt/$packer_file
+else
   aws_credentials=""
   if [ ! -e ~/.aws/credentials ]; then
     echo -n "AWS Access Key: "
@@ -64,20 +86,7 @@ if [ "$OSTYPE" == "linux-gnu" ]; then
 
     aws_credentials="-var \"aws_access_key=${access_key}\" -var \"aws_secret_key=${secret_key}\""
   fi
-
   packer build $aws_credentials -var "product=${product}" -var "version=${version}" $packer_file
-
-elif [ "$OSTYPE" == "darwin" ]; then
-  aws_access_key=${AWS_ACCESS_KEY_ID? "Environment variable AWS_ACCESS_KEY_ID is not set"}
-  aws_secret_access_key=${AWS_SECRET_ACCESS_KEY? "Environment variable AWS_SECRET_ACCESS_KEY is not set"}
-
-  echo "Starting packer build with docker..."
-  docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-             -i -t -v $(pwd):/opt/ -w /opt/ hashicorp/packer:light build \
-             -var "product=${product}" \
-             -var "version=${version}" \
-             /opt/$packer_file
 fi
 
 popd > /dev/null 2>&1
