@@ -222,7 +222,7 @@ Resources:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
       ImageId: !FindInMap 
-        - AWSAMIRegionMap
+        - WSO2APIMAMIRegionMap
         - !Ref 'AWS::Region'
         - Ubuntu140464bit
       InstanceType: t2.medium
@@ -417,7 +417,7 @@ Resources:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
       ImageId: !FindInMap 
-        - AWSAMIRegionMap
+        - WSO2APIMAMIRegionMap
         - !Ref 'AWS::Region'
         - Ubuntu140464bit
       InstanceType: t2.medium
@@ -812,7 +812,7 @@ Resources:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
       ImageId: !FindInMap 
-        - AWSAnalyticsAMIRegionMap
+        - WSO2APIMAnalyticsAMIRegionMap
         - !Ref 'AWS::Region'
         - Ubuntu140464bit
       InstanceType: t2.medium
@@ -1198,7 +1198,7 @@ Parameters:
     NoEcho: true
 Conditions: {}
 Mappings:
-  AWSAMIRegionMap:
+  WSO2APIMAMIRegionMap:
     ap-northeast-1:
       Ubuntu140464bit: ami-to-be-added
     ap-northeast-2:
@@ -1227,7 +1227,7 @@ Mappings:
       Ubuntu140464bit: ami-to-be-added
     sa-east-1:
       Ubuntu140464bit: ami-to-be-added
-  AWSAnalyticsAMIRegionMap:
+  WSO2APIMAnalyticsAMIRegionMap:
     ap-northeast-1:
       Ubuntu140464bit: ami-to-be-added
     ap-northeast-2:
