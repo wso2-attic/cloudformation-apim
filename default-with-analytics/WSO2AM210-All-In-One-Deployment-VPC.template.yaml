@@ -29,122 +29,122 @@ Metadata:
       DBPassword:
         default: APIM Database Master password
 Resources:
-  WSO2AMVPC:
+  WSO2APIMVPC:
     Type: 'AWS::EC2::VPC'
     Properties:
       CidrBlock: 10.0.0.0/16
       EnableDnsSupport: true
       EnableDnsHostnames: true
-  PublicSubnet:
+  WSO2APIMPublicSubnet1:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref WSO2AMVPC
+      VpcId: !Ref WSO2APIMVPC
       CidrBlock: 10.0.254.0/24
       AvailabilityZone: !Select 
         - '0'
         - !GetAZs ''
-  PublicSubnet2:
+  WSO2APIMPublicSubnet2:
       Type: 'AWS::EC2::Subnet'
       Properties:
-        VpcId: !Ref WSO2AMVPC
+        VpcId: !Ref WSO2APIMVPC
         CidrBlock: 10.0.252.0/24
         AvailabilityZone: !Select
           - '1'
           - !GetAZs ''
-  PublicInternetGateway:
+  WSO2APIMPublicInternetGateway:
     Type: 'AWS::EC2::InternetGateway'
-  PublicRouteTable:
+  WSO2APIMPublicRouteTable:
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !Ref WSO2AMVPC
-  PublicSubnetRouteTableAssociation:
+      VpcId: !Ref WSO2APIMVPC
+  WSO2APIMPublicSubnet1RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      RouteTableId: !Ref PublicRouteTable
-      SubnetId: !Ref PublicSubnet
-  PublicSubnetRouteTableAssociation2:
+      RouteTableId: !Ref WSO2APIMPublicRouteTable
+      SubnetId: !Ref WSO2APIMPublicSubnet1
+  WSO2APIMPublicSubnet2RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      RouteTableId: !Ref PublicRouteTable
-      SubnetId: !Ref PublicSubnet2
-  PublicRoute:
+      RouteTableId: !Ref WSO2APIMPublicRouteTable
+      SubnetId: !Ref WSO2APIMPublicSubnet2
+  WSO2APIMPublicRoute:
     Type: 'AWS::EC2::Route'
     Properties:
-      RouteTableId: !Ref PublicRouteTable
-      GatewayId: !Ref PublicInternetGateway
+      RouteTableId: !Ref WSO2APIMPublicRouteTable
+      GatewayId: !Ref WSO2APIMPublicInternetGateway
       DestinationCidrBlock: 0.0.0.0/0
-    DependsOn: VPCInternetGatewayAttachment
-  VPCInternetGatewayAttachment:
+    DependsOn: WSO2APIMVPCInternetGatewayAttachment
+  WSO2APIMVPCInternetGatewayAttachment:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
-      InternetGatewayId: !Ref PublicInternetGateway
-      VpcId: !Ref WSO2AMVPC
-  PrivateSubnet:
+      InternetGatewayId: !Ref WSO2APIMPublicInternetGateway
+      VpcId: !Ref WSO2APIMVPC
+  WSO2APIMPrivateSubnet1:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref WSO2AMVPC
+      VpcId: !Ref WSO2APIMVPC
       CidrBlock: 10.0.1.0/24
       AvailabilityZone: !Select
         - '0'
         - !GetAZs ''
-  PrivateSubnet2:
+  WSO2APIMPrivateSubnet2:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref WSO2AMVPC
+      VpcId: !Ref WSO2APIMVPC
       CidrBlock: 10.0.2.0/24
       AvailabilityZone: !Select
         - '1'
         - !GetAZs ''
-  PrivateSubnetRouteTable:
+  WSO2APIMPrivateSubnetRouteTable:
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !Ref WSO2AMVPC
-  PrivateRoute:
+      VpcId: !Ref WSO2APIMVPC
+  WSO2APIMPrivateRoute:
     Type: 'AWS::EC2::Route'
     Properties:
       DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NATGateway
-      RouteTableId: !Ref PrivateSubnetRouteTable
-  PrivateSubnetRouteTableAssociation:
+      NatGatewayId: !Ref WSO2APIMNATGateway
+      RouteTableId: !Ref WSO2APIMPrivateSubnetRouteTable
+  WSO2APIMPrivateSubnet1RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      RouteTableId: !Ref PrivateSubnetRouteTable
-      SubnetId: !Ref PrivateSubnet
-  PrivateSubnet2RouteTableAssociation:
+      RouteTableId: !Ref WSO2APIMPrivateSubnetRouteTable
+      SubnetId: !Ref WSO2APIMPrivateSubnet1
+  WSO2APIMPrivateSubnet2RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      RouteTableId: !Ref PrivateSubnetRouteTable
-      SubnetId: !Ref PrivateSubnet2
-  NATGateway:
+      RouteTableId: !Ref WSO2APIMPrivateSubnetRouteTable
+      SubnetId: !Ref WSO2APIMPrivateSubnet2
+  WSO2APIMNATGateway:
     Type: 'AWS::EC2::NatGateway'
     Properties:
       AllocationId: !GetAtt
-        - EIP
+        - WSO2APIMEIP
         - AllocationId
-      SubnetId: !Ref PublicSubnet
-  EIP:
+      SubnetId: !Ref WSO2APIMPublicSubnet1
+  WSO2APIMEIP:
     Type: 'AWS::EC2::EIP'
     Properties:
       Domain: vpc
-  DBSecurityGroup:
+  WSO2APIMDBInstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      VpcId: !Ref WSO2AMVPC
+      VpcId: !Ref WSO2APIMVPC
       GroupDescription: DB Security Group
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '3306'
           ToPort: '3306'
           CidrIp: 0.0.0.0/0
-  EFSSecurityGroup:
+  WSO2APIMEFSSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      VpcId: !Ref WSO2AMVPC
+      VpcId: !Ref WSO2APIMVPC
       GroupDescription: EFS Security Group
-  ELBSecurityGroup:
+  WSO2APIMLoadBalancerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      VpcId: !Ref WSO2AMVPC
+      VpcId: !Ref WSO2APIMVPC
       GroupDescription: ELB Security Group
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -172,57 +172,57 @@ Resources:
           FromPort: '8243'
           ToPort: '8243'
           CidrIp: 0.0.0.0/0
-  WSO2AMSecurityGroup:
+  WSO2APIMSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      VpcId: !Ref WSO2AMVPC
+      VpcId: !Ref WSO2APIMVPC
       GroupDescription: WSO2 API Manager Security Group
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '9763'
           ToPort: '9763'
-          SourceSecurityGroupId: !Ref ELBSecurityGroup
+          SourceSecurityGroupId: !Ref WSO2APIMLoadBalancerSecurityGroup
         - IpProtocol: tcp
           FromPort: '9443'
           ToPort: '9443'
-          SourceSecurityGroupId: !Ref ELBSecurityGroup
+          SourceSecurityGroupId: !Ref WSO2APIMLoadBalancerSecurityGroup
         - IpProtocol: tcp
           FromPort: '8243'
           ToPort: '8243'
-          SourceSecurityGroupId: !Ref ELBSecurityGroup
+          SourceSecurityGroupId: !Ref WSO2APIMLoadBalancerSecurityGroup
         - IpProtocol: tcp
           FromPort: '5672'
           ToPort: '5672'
-          SourceSecurityGroupId: !Ref ELBSecurityGroup
+          SourceSecurityGroupId: !Ref WSO2APIMLoadBalancerSecurityGroup
       SecurityGroupEgress:
         - IpProtocol: tcp
           FromPort: '3306'
           ToPort: '3306'
           CidrIp: 0.0.0.0/0
-  WSO2AMAnalyticsSecurityGroup:
+  WSO2APIMAnalyticsSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      VpcId: !Ref WSO2AMVPC
+      VpcId: !Ref WSO2APIMVPC
       GroupDescription: WSO2 API Manager Analytics Security Group
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '7612'
           ToPort: '7612'
-          SourceSecurityGroupId: !Ref ELBSecurityGroup
+          SourceSecurityGroupId: !Ref WSO2APIMLoadBalancerSecurityGroup
         - IpProtocol: tcp
           FromPort: '7712'
           ToPort: '7712'
-          SourceSecurityGroupId: !Ref ELBSecurityGroup
+          SourceSecurityGroupId: !Ref WSO2APIMLoadBalancerSecurityGroup
       SecurityGroupEgress:
         - IpProtocol: tcp
           FromPort: '3306'
           ToPort: '3306'
           CidrIp: 0.0.0.0/0
-  AMLCNode1:
+  WSO2APIMNode1LaunchConfiguration:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
       ImageId: !FindInMap 
-        - AWSAMIRegionMap
+        - WSO2APIMAMIRegionMap
         - !Ref 'AWS::Region'
         - Ubuntu140464bit
       InstanceType: t2.medium
@@ -234,8 +234,8 @@ Resources:
             DeleteOnTermination: 'true'
       KeyName: !Ref KeyPairName
       SecurityGroups:
-        - !Ref WSO2AMSecurityGroup
-      IamInstanceProfile: !Ref AWSCliInstanceProfile
+        - !Ref WSO2APIMSecurityGroup
+      IamInstanceProfile: !Ref WSO2APIMAWSCLIInstanceProfile
       UserData: !Base64 
         'Fn::Join':
           - |+
@@ -246,13 +246,13 @@ Resources:
             - !Join 
               - ''
               - - sed -i "s/CF_ENI_ID/
-                - !Ref AMENI1
+                - !Ref WSO2APIMNode1NetworkInterface
                 - /g" /usr/local/bin/allocate_ips.sh
             - !Join 
               - ''
               - - sed -i "s/CF_ALLOC_ID/
                 - !GetAtt 
-                  - AMEIP1
+                  - WSO2APIMNode1EIP
                   - AllocationId
                 - /g" /usr/local/bin/allocate_ips.sh
             - >-
@@ -262,7 +262,7 @@ Resources:
               - ''
               - - sed -i "s/CF_ENI_PRIVATE_IP/
                 - !GetAtt 
-                  - AMENI1
+                  - WSO2APIMNode1NetworkInterface
                   - PrimaryPrivateIpAddress
                 - /g" /usr/local/bin/allocate_ips.sh
             - mkdir -p ~/.aws
@@ -279,7 +279,7 @@ Resources:
             - !Join 
               - ''
               - - echo "
-                - !Ref WSO2AMNFSMount
+                - !Ref WSO2APIMEFSFileSystem
                 - .efs.
                 - !Ref 'AWS::Region'
                 - .amazonaws.com
@@ -291,7 +291,7 @@ Resources:
               - ''
               - - sed -i "s/CF_ELB_DNS_NAME/
                 - !GetAtt 
-                  - WSO2AMELB
+                  - WSO2APIMLoadBalancer
                   - DNSName
                 - >-
                   /g"
@@ -300,7 +300,7 @@ Resources:
               - ''
               - - sed -i "s/CF_APIM_IP/
                 - !GetAtt 
-                  - AMENI1
+                  - WSO2APIMNode1NetworkInterface
                   - PrimaryPrivateIpAddress
                 - >-
                   /g"
@@ -309,7 +309,7 @@ Resources:
               - ''
               - - sed -i "s/CF_ANALYTICS_IP/
                 - !GetAtt 
-                  - AnalyticsENI1
+                  - WSO2APIMAnalyticsNode1NetworkInterface
                   - PrimaryPrivateIpAddress
                 - >-
                   /g"
@@ -328,22 +328,22 @@ Resources:
               - ''
               - - sed -i "s/CF_RDS_URL/
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Address
                 - /g" /etc/puppet/hieradata/dev/wso2/common.yaml
             - mount -a -t nfs4
-            - export DB_NAME=WSO2AM_DB
+            - export DB_NAME=WSO2APIM_DB
             - !Join 
               - ''
               - - export DB_HOSTNAME=
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Address
             - !Join 
               - ''
               - - export DB_PORT=
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Port
             - !Join 
               - ''
@@ -381,14 +381,14 @@ Resources:
               - ''
               - - sed -i "s/CF_DB_HOST/
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Address
                 - /g" /usr/local/bin/provision_db_apim.sh
             - !Join 
               - ''
               - - sed -i "s/CF_DB_PORT/
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Port
                 - /g" /usr/local/bin/provision_db_apim.sh
             - bash /usr/local/bin/provision_db_apim.sh
@@ -410,14 +410,14 @@ Resources:
             - echo 'export HISTTIMEFORMAT="%F %T "' >> /etc/profile.d/history.sh
             - cat /dev/null > ~/.bash_history && history -c
     DependsOn:
-      - WSO2AMSecurityGroup
-      - WSO2AMELB
-      - VPCInternetGatewayAttachment
-  AMLCNode2:
+      - WSO2APIMSecurityGroup
+      - WSO2APIMLoadBalancer
+      - WSO2APIMVPCInternetGatewayAttachment
+  WSO2APIMNode2LaunchConfiguration:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
       ImageId: !FindInMap 
-        - AWSAMIRegionMap
+        - WSO2APIMAMIRegionMap
         - !Ref 'AWS::Region'
         - Ubuntu140464bit
       InstanceType: t2.medium
@@ -429,8 +429,8 @@ Resources:
             DeleteOnTermination: 'true'
       KeyName: !Ref KeyPairName
       SecurityGroups:
-        - !Ref WSO2AMSecurityGroup
-      IamInstanceProfile: !Ref AWSCliInstanceProfile
+        - !Ref WSO2APIMSecurityGroup
+      IamInstanceProfile: !Ref WSO2APIMAWSCLIInstanceProfile
       UserData: !Base64 
         'Fn::Join':
           - |+
@@ -441,13 +441,13 @@ Resources:
             - !Join 
               - ''
               - - sed -i "s/CF_ENI_ID/
-                - !Ref AMENI2
+                - !Ref WSO2APIMNode2NetworkInterface
                 - /g" /usr/local/bin/allocate_ips.sh
             - !Join 
               - ''
               - - sed -i "s/CF_ALLOC_ID/
                 - !GetAtt 
-                  - AMEIP2
+                  - WSO2APIMNode2EIP
                   - AllocationId
                 - /g" /usr/local/bin/allocate_ips.sh
             - >-
@@ -457,7 +457,7 @@ Resources:
               - ''
               - - sed -i "s/CF_ENI_PRIVATE_IP/
                 - !GetAtt 
-                  - AMENI2
+                  - WSO2APIMNode2NetworkInterface
                   - PrimaryPrivateIpAddress
                 - /g" /usr/local/bin/allocate_ips.sh
             - mkdir -p ~/.aws
@@ -474,7 +474,7 @@ Resources:
             - !Join 
               - ''
               - - echo "
-                - !Ref WSO2AMNFSMount
+                - !Ref WSO2APIMEFSFileSystem
                 - .efs.
                 - !Ref 'AWS::Region'
                 - .amazonaws.com
@@ -486,7 +486,7 @@ Resources:
               - ''
               - - sed -i "s/CF_ELB_DNS_NAME/
                 - !GetAtt 
-                  - WSO2AMELB
+                  - WSO2APIMLoadBalancer
                   - DNSName
                 - >-
                   /g"
@@ -495,7 +495,7 @@ Resources:
               - ''
               - - sed -i "s/CF_APIM_IP/
                 - !GetAtt 
-                  - AMENI2
+                  - WSO2APIMNode2NetworkInterface
                   - PrimaryPrivateIpAddress
                 - >-
                   /g"
@@ -504,7 +504,7 @@ Resources:
               - ''
               - - sed -i "s/CF_ANALYTICS_IP/
                 - !GetAtt 
-                  - AnalyticsENI1
+                  - WSO2APIMAnalyticsNode1NetworkInterface
                   - PrimaryPrivateIpAddress
                 - >-
                   /g"
@@ -523,22 +523,22 @@ Resources:
               - ''
               - - sed -i "s/CF_RDS_URL/
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Address
                 - /g" /etc/puppet/hieradata/dev/wso2/common.yaml
             - mount -a -t nfs4
-            - export DB_NAME=WSO2AM_DB
+            - export DB_NAME=WSO2APIM_DB
             - !Join 
               - ''
               - - export DB_HOSTNAME=
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Address
             - !Join 
               - ''
               - - export DB_PORT=
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Port
             - !Join 
               - ''
@@ -576,14 +576,14 @@ Resources:
               - ''
               - - sed -i "s/CF_DB_HOST/
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Address
                 - /g" /usr/local/bin/provision_db_apim.sh
             - !Join 
               - ''
               - - sed -i "s/CF_DB_PORT/
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Port
                 - /g" /usr/local/bin/provision_db_apim.sh
             - bash /usr/local/bin/provision_db_apim.sh
@@ -605,74 +605,74 @@ Resources:
             - echo 'export HISTTIMEFORMAT="%F %T "' >> /etc/profile.d/history.sh
             - cat /dev/null > ~/.bash_history && history -c
     DependsOn:
-      - WSO2AMSecurityGroup
-      - WSO2AMELB
-      - VPCInternetGatewayAttachment
-  WSO2AMASGroupSN1:
+      - WSO2APIMSecurityGroup
+      - WSO2APIMLoadBalancer
+      - WSO2APIMVPCInternetGatewayAttachment
+  WSO2APIMNode1AutoScalingGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
-      LaunchConfigurationName: !Ref AMLCNode1
+      LaunchConfigurationName: !Ref WSO2APIMNode1LaunchConfiguration
       DesiredCapacity: 1
       MinSize: 1
       MaxSize: 1
       LoadBalancerNames:
-        - !Ref WSO2AMELB
+        - !Ref WSO2APIMLoadBalancer
       VPCZoneIdentifier:
-        - !Ref PublicSubnet
+        - !Ref WSO2APIMPublicSubnet1
       Tags:
         - Key: Name
-          Value: WSO2AM-Instance
+          Value: WSO2APIM-Instance
           PropagateAtLaunch: 'true'
         - Key: Product
-          Value: WSO2AM
+          Value: WSO2APIM
           PropagateAtLaunch: 'true'
         - Key: Version
           Value: 2.1.0
           PropagateAtLaunch: 'true'
         - Key: Cluster
-          Value: WSO2AM210SIMPLE
+          Value: WSO2APIM210SIMPLE
           PropagateAtLaunch: 'true'
     DependsOn:
-      - AMLCNode2
-      - WSO2AMELB
-      - WSO2AMAnalyticsASGSN1
-  WSO2AMASGroupSN2:
+      - WSO2APIMNode2LaunchConfiguration
+      - WSO2APIMLoadBalancer
+      - WSO2APIMAnalyticsAutoScalingGroup
+  WSO2APIMNode2AutoScalingGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
-      LaunchConfigurationName: !Ref AMLCNode2
+      LaunchConfigurationName: !Ref WSO2APIMNode2LaunchConfiguration
       DesiredCapacity: 1
       MinSize: 1
       MaxSize: 1
       LoadBalancerNames:
-        - !Ref WSO2AMELB
+        - !Ref WSO2APIMLoadBalancer
       VPCZoneIdentifier:
-        - !Ref PublicSubnet2
+        - !Ref WSO2APIMPublicSubnet2
       Tags:
         - Key: Name
-          Value: WSO2AM-Instance
+          Value: WSO2APIM-Instance
           PropagateAtLaunch: 'true'
         - Key: Product
-          Value: WSO2AM
+          Value: WSO2APIM
           PropagateAtLaunch: 'true'
         - Key: Version
           Value: 2.1.0
           PropagateAtLaunch: 'true'
         - Key: Cluster
-          Value: WSO2AM210SIMPLE
+          Value: WSO2APIM210SIMPLE
           PropagateAtLaunch: 'true'
     DependsOn:
-      - AMLCNode2
-      - WSO2AMELB
-      - WSO2AMAnalyticsASGSN1
-  WSO2AMELB:
+      - WSO2APIMNode2LaunchConfiguration
+      - WSO2APIMLoadBalancer
+      - WSO2APIMAnalyticsAutoScalingGroup
+  WSO2APIMLoadBalancer:
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
     Properties:
       CrossZone: true
       SecurityGroups:
-        - !Ref ELBSecurityGroup
+        - !Ref WSO2APIMLoadBalancerSecurityGroup
       Subnets:
-        - !Ref PublicSubnet2
-        - !Ref PublicSubnet
+        - !Ref WSO2APIMPublicSubnet2
+        - !Ref WSO2APIMPublicSubnet1
       LBCookieStickinessPolicy:
         - PolicyName: LBStickyPolicy
       Listeners:
@@ -715,104 +715,104 @@ Resources:
           Interval: '10'
           Timeout: '5'
     DependsOn:
-      - ELBSecurityGroup
-  WSO2AMDB:
+      - WSO2APIMLoadBalancerSecurityGroup
+  WSO2APIMDBInstance:
     Type: 'AWS::RDS::DBInstance'
     Properties:
       VPCSecurityGroups:
-        - !Ref DBSecurityGroup
+        - !Ref WSO2APIMDBInstanceSecurityGroup
       DBInstanceClass: db.t2.medium
       AllocatedStorage: 5
       BackupRetentionPeriod: '0'
-      DBInstanceIdentifier: wso2amdb
-      DBName: WSO2AM_DB
+      DBInstanceIdentifier: WSO2APIMDBInstance
+      DBName: WSO2APIM_DB
       Engine: MySQL
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
       MultiAZ: 'true'
       StorageType: gp2
-      DBSubnetGroupName: !Ref DBSubnetGroup
-  WSO2AMAnalyticsDB:
+      DBSubnetGroupName: !Ref WSO2APIMDBSubnetGroup
+  WSO2APIMAnalyticsDBInstance:
     Type: 'AWS::RDS::DBInstance'
     Properties:
       VPCSecurityGroups:
-        - !Ref DBSecurityGroup
+        - !Ref WSO2APIMDBInstanceSecurityGroup
       DBInstanceClass: db.t2.medium
       AllocatedStorage: 5
       BackupRetentionPeriod: '0'
-      DBInstanceIdentifier: wso2amanalyticsdb
-      DBName: WSO2AMAnalytics_DB
+      DBInstanceIdentifier: WSO2APIMAnalyticsDBInstance
+      DBName: WSO2APIMAnalytics_DB
       Engine: MySQL
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
       MultiAZ: 'true'
       StorageType: gp2
-      DBSubnetGroupName: !Ref DBSubnetGroup
-  DBSubnetGroup:
+      DBSubnetGroupName: !Ref WSO2APIMDBSubnetGroup
+  WSO2APIMDBSubnetGroup:
     Type: 'AWS::RDS::DBSubnetGroup'
     Properties:
       DBSubnetGroupDescription: DB Subnet Group
       SubnetIds:
-        - !Ref PrivateSubnet
-        - !Ref PrivateSubnet2
-  WSO2AMNFSMount:
+        - !Ref WSO2APIMPrivateSubnet1
+        - !Ref WSO2APIMPrivateSubnet2
+  WSO2APIMEFSFileSystem:
     Type: 'AWS::EFS::FileSystem'
-  WSO2AMAnalyticsNFSMount:
+  WSO2APIMAnalyticsEFSFileSystem:
     Type: 'AWS::EFS::FileSystem'
-  WSO2EFSMtSN1:
+  WSO2APIMPrivateSubnetEFSMountTarget:
     Type: 'AWS::EFS::MountTarget'
     Properties:
-      SubnetId: !Ref PrivateSubnet
-      FileSystemId: !Ref WSO2AMNFSMount
+      SubnetId: !Ref WSO2APIMPrivateSubnet1
+      FileSystemId: !Ref WSO2APIMEFSFileSystem
       SecurityGroups:
-        - !Ref EFSSecurityGroup
-  WSO2EFSMtSN2:
+        - !Ref WSO2APIMEFSSecurityGroup
+  WSO2APIMPublicSubnetEFSMountTarget:
     Type: 'AWS::EFS::MountTarget'
     Properties:
-      SubnetId: !Ref PrivateSubnet2
-      FileSystemId: !Ref WSO2AMNFSMount
+      SubnetId: !Ref WSO2APIMPrivateSubnet2
+      FileSystemId: !Ref WSO2APIMEFSFileSystem
       SecurityGroups:
-        - !Ref EFSSecurityGroup
-  WSO2AnalyticsEFSMtSN1:
+        - !Ref WSO2APIMEFSSecurityGroup
+  WSO2APIMAnalyticsEFSMountTarget:
     Type: 'AWS::EFS::MountTarget'
     Properties:
-      SubnetId: !Ref PrivateSubnet
-      FileSystemId: !Ref WSO2AMAnalyticsNFSMount
+      SubnetId: !Ref WSO2APIMPrivateSubnet1
+      FileSystemId: !Ref WSO2APIMAnalyticsEFSFileSystem
       SecurityGroups:
-        - !Ref EFSSecurityGroup
-  WSO2AMAnalyticsASGSN1:
+        - !Ref WSO2APIMEFSSecurityGroup
+  WSO2APIMAnalyticsAutoScalingGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
-      LaunchConfigurationName: !Ref WSO2AMAnalyticsLC
+      LaunchConfigurationName: !Ref WSO2APIMAnalyticsLaunchConfiguration
       DesiredCapacity: 1
       MinSize: 1
       MaxSize: 1
       LoadBalancerNames:
-        - !Ref WSO2AMAnalyticsELB
+        - !Ref WSO2APIMAnalyticsLoadBalancer
       VPCZoneIdentifier:
-        - !Ref PublicSubnet
+        - !Ref WSO2APIMPublicSubnet1
       Tags:
         - Key: Name
-          Value: WSO2AM-Analytics-Instance
+          Value: WSO2APIM-Analytics-Instance
           PropagateAtLaunch: 'true'
         - Key: Product
-          Value: WSO2AM-Analytics
+          Value: WSO2APIM-Analytics
           PropagateAtLaunch: 'true'
         - Key: Version
           Value: 2.1.0
           PropagateAtLaunch: 'true'
         - Key: Cluster
-          Value: WSO2AMAnalytics210SIMPLE
+          Value: WSO2APIMAnalytics210SIMPLE
           PropagateAtLaunch: 'true'
     DependsOn:
-      - WSO2AMAnalyticsLC
-      - WSO2AMAnalyticsELB
-      - WSO2AMELB
-  WSO2AMAnalyticsLC:
+      - WSO2APIMAnalyticsLaunchConfiguration
+      - WSO2APIMAnalyticsLoadBalancer
+      - WSO2APIMLoadBalancer
+  WSO2APIMAnalyticsLaunchConfiguration:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
       ImageId: !FindInMap 
-        - AWSAnalyticsAMIRegionMap
+        - WSO2APIMAnalyticsAMIRegionMap
         - !Ref 'AWS::Region'
         - Ubuntu140464bit
       InstanceType: t2.medium
@@ -824,8 +824,8 @@ Resources:
             DeleteOnTermination: 'true'
       KeyName: !Ref KeyPairName
       SecurityGroups:
-        - !Ref WSO2AMAnalyticsSecurityGroup
-      IamInstanceProfile: !Ref AWSCliInstanceProfile
+        - !Ref WSO2APIMAnalyticsSecurityGroup
+      IamInstanceProfile: !Ref WSO2APIMAWSCLIInstanceProfile
       UserData: !Base64 
         'Fn::Join':
           - |+
@@ -836,13 +836,13 @@ Resources:
             - !Join 
               - ''
               - - sed -i "s/CF_ENI_ID/
-                - !Ref AnalyticsENI1
+                - !Ref WSO2APIMAnalyticsNode1NetworkInterface
                 - /g" /usr/local/bin/allocate_ips.sh
             - !Join 
               - ''
               - - sed -i "s/CF_ALLOC_ID/
                 - !GetAtt 
-                  - AnalyticsEIP1
+                  - WSO2APIMAnalyticsNode1EIP
                   - AllocationId
                 - /g" /usr/local/bin/allocate_ips.sh
             - >-
@@ -852,7 +852,7 @@ Resources:
               - ''
               - - sed -i "s/CF_ENI_PRIVATE_IP/
                 - !GetAtt 
-                  - AnalyticsENI1
+                  - WSO2APIMAnalyticsNode1NetworkInterface
                   - PrimaryPrivateIpAddress
                 - /g" /usr/local/bin/allocate_ips.sh
             - mkdir -p ~/.aws
@@ -869,7 +869,7 @@ Resources:
             - !Join 
               - ''
               - - echo "
-                - !Ref WSO2AMAnalyticsNFSMount
+                - !Ref WSO2APIMAnalyticsEFSFileSystem
                 - .efs.
                 - !Ref 'AWS::Region'
                 - .amazonaws.com
@@ -881,7 +881,7 @@ Resources:
               - ''
               - - sed -i "s/CF_ANALYTICS_ELB_DNS_NAME/
                 - !GetAtt 
-                  - WSO2AMELB
+                  - WSO2APIMLoadBalancer
                   - DNSName
                 - >-
                   /g"
@@ -890,7 +890,7 @@ Resources:
               - ''
               - - sed -i "s/CF_ANALYTICS_RDS_HOST/
                 - !GetAtt 
-                  - WSO2AMAnalyticsDB
+                  - WSO2APIMAnalyticsDBInstance
                   - Endpoint.Address
                 - >-
                   /g"
@@ -909,22 +909,22 @@ Resources:
               - ''
               - - sed -i "s/CF_RDS_URL/
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Address
                 - /g" /etc/puppet/hieradata/dev/wso2/common.yaml
             - mount -a -t nfs4
-            - export DB_NAME=WSO2AM_DB
+            - export DB_NAME=WSO2APIM_DB
             - !Join 
               - ''
               - - export DB_HOSTNAME=
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Address
             - !Join 
               - ''
               - - export DB_PORT=
                 - !GetAtt 
-                  - WSO2AMDB
+                  - WSO2APIMDBInstance
                   - Endpoint.Port
             - !Join 
               - ''
@@ -962,14 +962,14 @@ Resources:
               - ''
               - - sed -i "s/CF_DB_HOST/
                 - !GetAtt 
-                  - WSO2AMAnalyticsDB
+                  - WSO2APIMAnalyticsDBInstance
                   - Endpoint.Address
                 - /g" /usr/local/bin/provision_db_analytics.sh
             - !Join 
               - ''
               - - sed -i "s/CF_DB_PORT/
                 - !GetAtt 
-                  - WSO2AMAnalyticsDB
+                  - WSO2APIMAnalyticsDBInstance
                   - Endpoint.Port
                 - /g" /usr/local/bin/provision_db_analytics.sh
             - bash /usr/local/bin/provision_db_analytics.sh
@@ -981,18 +981,18 @@ Resources:
             - echo 'export HISTTIMEFORMAT="%F %T "' >> /etc/profile.d/history.sh
             - cat /dev/null > ~/.bash_history && history -c
     DependsOn:
-      - WSO2AMAnalyticsSecurityGroup
-      - WSO2AMAnalyticsELB
-      - VPCInternetGatewayAttachment
-  WSO2AMAnalyticsELB:
+      - WSO2APIMAnalyticsSecurityGroup
+      - WSO2APIMAnalyticsLoadBalancer
+      - WSO2APIMVPCInternetGatewayAttachment
+  WSO2APIMAnalyticsLoadBalancer:
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
     Properties:
       CrossZone: true
       SecurityGroups:
-        - !Ref ELBSecurityGroup
+        - !Ref WSO2APIMLoadBalancerSecurityGroup
       Subnets:
-        - !Ref PublicSubnet2
-        - !Ref PublicSubnet
+        - !Ref WSO2APIMPublicSubnet2
+        - !Ref WSO2APIMPublicSubnet1
       LBCookieStickinessPolicy:
         - PolicyName: LBStickyPolicy
       Listeners:
@@ -1055,36 +1055,36 @@ Resources:
         Interval: '10'
         Timeout: '5'
     DependsOn:
-      - ELBSecurityGroup
-  AMENI1:
+      - WSO2APIMLoadBalancerSecurityGroup
+  WSO2APIMNode1NetworkInterface:
     Type: 'AWS::EC2::NetworkInterface'
     Properties:
       Description: AM ENI for Node1
-      SubnetId: !Ref PublicSubnet
+      SubnetId: !Ref WSO2APIMPublicSubnet1
       GroupSet:
-        - !Ref WSO2AMSecurityGroup
-  AMENI2:
+        - !Ref WSO2APIMSecurityGroup
+  WSO2APIMNode2NetworkInterface:
     Type: 'AWS::EC2::NetworkInterface'
     Properties:
       Description: AM ENI for Node2
-      SubnetId: !Ref PublicSubnet2
+      SubnetId: !Ref WSO2APIMPublicSubnet2
       GroupSet:
-        - !Ref WSO2AMSecurityGroup
-  AnalyticsENI1:
+        - !Ref WSO2APIMSecurityGroup
+  WSO2APIMAnalyticsNode1NetworkInterface:
     Type: 'AWS::EC2::NetworkInterface'
     Properties:
       Description: Analytics ENI for Node1
-      SubnetId: !Ref PublicSubnet
+      SubnetId: !Ref WSO2APIMPublicSubnet1
       GroupSet:
-        - !Ref WSO2AMAnalyticsSecurityGroup
-  AWSCliInstanceProfile:
+        - !Ref WSO2APIMAnalyticsSecurityGroup
+  WSO2APIMAWSCLIInstanceProfile:
     Type: 'AWS::IAM::InstanceProfile'
     Properties:
       Path: /
       Roles:
-        - !Ref APIMDeploymentCLIRole
+        - !Ref WSO2APIMDeploymentCLIRole
       InstanceProfileName: CLIInstanceProfileForAMDeployment
-  APIMDeploymentCLIRole:
+  WSO2APIMDeploymentCLIRole:
     Type: 'AWS::IAM::Role'
     Properties:
       AssumeRolePolicyDocument:
@@ -1104,46 +1104,46 @@ Resources:
                 Action:
                   - 'ec2:*'
                 Resource: '*'
-  AMEIP1:
+  WSO2APIMNode1EIP:
     Type: 'AWS::EC2::EIP'
     Properties:
       Domain: vpc
-  AMEIPAssociation1:
+  WSO2APIMNode1EIPAssociation:
     Type: 'AWS::EC2::EIPAssociation'
     Properties:
       AllocationId: !GetAtt
-        - AMEIP1
+        - WSO2APIMNode1EIP
         - AllocationId
-      NetworkInterfaceId: !Ref AMENI1
-  AMEIP2:
+      NetworkInterfaceId: !Ref WSO2APIMNode1NetworkInterface
+  WSO2APIMNode2EIP:
     Type: 'AWS::EC2::EIP'
     Properties:
       Domain: vpc
-  AMEIPAssociation2:
+  WSO2APIMNode2EIPAssociation:
     Type: 'AWS::EC2::EIPAssociation'
     Properties:
       AllocationId: !GetAtt
-        - AMEIP2
+        - WSO2APIMNode2EIP
         - AllocationId
-      NetworkInterfaceId: !Ref AMENI2
-  AnalyticsEIP1:
+      NetworkInterfaceId: !Ref WSO2APIMNode2NetworkInterface
+  WSO2APIMAnalyticsNode1EIP:
     Type: 'AWS::EC2::EIP'
     Properties:
       Domain: vpc
-  AnalyticsEIPAssociation1:
+  WSO2APIMAnalyticsNode1EIPAssociation:
     Type: 'AWS::EC2::EIPAssociation'
     Properties:
       AllocationId: !GetAtt
-        - AnalyticsEIP1
+        - WSO2APIMAnalyticsNode1EIP
         - AllocationId
-      NetworkInterfaceId: !Ref AnalyticsENI1
+      NetworkInterfaceId: !Ref WSO2APIMAnalyticsNode1NetworkInterface
 Outputs:
   Publisher:
     Value: !Join 
       - ''
       - - 'https://'
         - !GetAtt 
-          - WSO2AMELB
+          - WSO2APIMLoadBalancer
           - DNSName
         - ':9443/publisher'
     Description: WSO2 API Manager Publisher URL.
@@ -1152,7 +1152,7 @@ Outputs:
       - ''
       - - 'https://'
         - !GetAtt 
-          - WSO2AMELB
+          - WSO2APIMLoadBalancer
           - DNSName
         - ':9443/store'
     Description: WSO2 API Manager Store URL.
@@ -1161,7 +1161,7 @@ Outputs:
       - ''
       - - 'https://'
         - !GetAtt 
-          - WSO2AMELB
+          - WSO2APIMLoadBalancer
           - DNSName
         - ':9443/carbon'
     Description: WSO2 API Manager Console URL.
@@ -1198,61 +1198,61 @@ Parameters:
     NoEcho: true
 Conditions: {}
 Mappings:
-  AWSAMIRegionMap:
+  WSO2APIMAMIRegionMap:
     ap-northeast-1:
-      Ubuntu140464bit: ami-2e63924f
+      Ubuntu140464bit: ami-to-be-added
     ap-northeast-2:
-      Ubuntu140464bit: ami-979258f9
+      Ubuntu140464bit: ami-to-be-added
     ap-south-1:
-      Ubuntu140464bit: ami-4a90fa25
+      Ubuntu140464bit: ami-to-be-added
     ap-southeast-1:
-      Ubuntu140464bit: ami-ea2bf989
+      Ubuntu140464bit: ami-to-be-added
     ap-southeast-2:
-      Ubuntu140464bit: ami-396a415a
+      Ubuntu140464bit: ami-to-be-added
     eu-central-1:
-      Ubuntu140464bit: ami-4bd03b24
+      Ubuntu140464bit: ami-to-be-added
     eu-west-1:
-      Ubuntu140464bit: ami-02b62c71
+      Ubuntu140464bit: ami-to-be-added
     eu-west-2:
-      Ubuntu140464bit: ami-63342007
+      Ubuntu140464bit: ami-to-be-added
     us-east-1:
-      Ubuntu140464bit: ami-a9e2a9bf
+      Ubuntu140464bit: ami-to-be-added
     us-east-2:
-      Ubuntu140464bit: ami-9f0627fa
+      Ubuntu140464bit: ami-4964472c
     us-west-1:
-      Ubuntu140464bit: ami-992661f9
+      Ubuntu140464bit: ami-to-be-added
     us-west-2:
-      Ubuntu140464bit: ami-42569022
+      Ubuntu140464bit: ami-to-be-added
     ca-central-1:
-      Ubuntu140464bit: ami-beea56da
+      Ubuntu140464bit: ami-to-be-added
     sa-east-1:
-      Ubuntu140464bit: ami-8df695e1
-  AWSAnalyticsAMIRegionMap:
+      Ubuntu140464bit: ami-to-be-added
+  WSO2APIMAnalyticsAMIRegionMap:
     ap-northeast-1:
-      Ubuntu140464bit: ami-2e63924f
+      Ubuntu140464bit: ami-to-be-added
     ap-northeast-2:
-      Ubuntu140464bit: ami-979258f9
+      Ubuntu140464bit: ami-to-be-added
     ap-south-1:
-      Ubuntu140464bit: ami-4a90fa25
+      Ubuntu140464bit: ami-to-be-added
     ap-southeast-1:
-      Ubuntu140464bit: ami-ea2bf989
+      Ubuntu140464bit: ami-to-be-added
     ap-southeast-2:
-      Ubuntu140464bit: ami-396a415a
+      Ubuntu140464bit: ami-to-be-added
     eu-central-1:
-      Ubuntu140464bit: ami-4bd03b24
+      Ubuntu140464bit: ami-to-be-added
     eu-west-1:
-      Ubuntu140464bit: ami-02b62c71
+      Ubuntu140464bit: ami-to-be-added
     eu-west-2:
-      Ubuntu140464bit: ami-63342007
+      Ubuntu140464bit: ami-to-be-added
     us-east-1:
-      Ubuntu140464bit: ami-a9e2a9bf
+      Ubuntu140464bit: ami-to-be-added
     us-east-2:
-      Ubuntu140464bit: ami-c53011a0
+      Ubuntu140464bit: ami-456b4820
     us-west-1:
-      Ubuntu140464bit: ami-992661f9
+      Ubuntu140464bit: ami-to-be-added
     us-west-2:
-      Ubuntu140464bit: ami-42569022
+      Ubuntu140464bit: ami-to-be-added
     ca-central-1:
-      Ubuntu140464bit: ami-beea56da
+      Ubuntu140464bit: ami-to-be-added
     sa-east-1:
-      Ubuntu140464bit: ami-8df695e1
+      Ubuntu140464bit: ami-to-be-added
