@@ -8,8 +8,9 @@ Metadata:
       - Label:
           default: Cluster Configuration
         Parameters:
-          - KeyPairName
+          - AWSAccessKeyId
           - AWSAccessKeySecret
+          - KeyPairName
       - Label:
           default: Network Configuration
         Parameters:
@@ -20,8 +21,10 @@ Metadata:
           - DBUsername
           - DBPassword
     ParameterLabels:
+      AWSAccessKeyId:
+        default: AWS Access Key ID?
       AWSAccessKeySecret:
-        default: AWS Access Secret Key
+        default: AWS Access Secret Key?
       CertificateName:
         default: Which certificate should be used at the Load Balancer for APIM?
       DBUsername:
@@ -148,7 +151,6 @@ Resources:
       AllocatedStorage: 5
       BackupRetentionPeriod: '0'
       DBInstanceIdentifier: WSO2APIMDBInstance
-#      DBName: WSO2APIM_DB
       DBName: WSO2AM_DB
       Engine: MySQL
       MasterUsername: !Ref DBUsername
@@ -194,7 +196,11 @@ Resources:
     Type: 'AWS::EFS::FileSystem'
     Properties:
       PerformanceMode: generalPurpose
-  WSO2APIMPrivateSubnetEFSMountTarget:
+  WSO2APIMAnalyticsEFSFileSystem:
+    Type: 'AWS::EFS::FileSystem'
+    Properties:
+      PerformanceMode: generalPurpose
+  WSO2APIMPrivateSubnet1EFSMountTarget:
     Type: 'AWS::EFS::MountTarget'
     Properties:
       SubnetId: !Ref WSO2APIMPrivateSubnet1
@@ -206,6 +212,13 @@ Resources:
     Properties:
       SubnetId: !Ref WSO2APIMPrivateSubnet2
       FileSystemId: !Ref WSO2APIMEFSFileSystem
+      SecurityGroups:
+        - !Ref WSO2APIMEFSSecurityGroup
+  WSO2APIMAnalyticsPrivateSubnet1EFSMountTarget:
+    Type: 'AWS::EFS::MountTarget'
+    Properties:
+      SubnetId: !Ref WSO2APIMPrivateSubnet1
+      FileSystemId: !Ref WSO2APIMAnalyticsEFSFileSystem
       SecurityGroups:
         - !Ref WSO2APIMEFSSecurityGroup
 
@@ -297,6 +310,7 @@ Resources:
             - output = text
             - EOF
             - mkdir -p /mnt/efs
+            - apt-get update
             - apt-get install -y nfs-common
             - !Sub "mount -t nfs4 -o nfsvers=4.1 ${WSO2APIMEFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt/efs"
             - !Join
@@ -315,10 +329,9 @@ Resources:
                 - >-
                   /g"
                   /etc/puppet/hieradata/dev/wso2/wso2am_runtime/pattern-2/default.yaml
-            - apt-get update
             - apt-get install -y python3-pip
             - pip3 install boto3
-            - !Sub "PRIVATE_IP=$(python3 /usr/local/bin/private_ip_extractor.py ${AWS::Region} AKIAJ45RB64Q2H6QH47A F5UDoqB+ZM5rp2jrd8nN8jb4JuCLZSe54Dy2YupB WSO2APIMAnalyticsInstance)"
+            - !Sub "PRIVATE_IP=$(python3 /usr/local/bin/private_ip_extractor.py ${AWS::Region} ${AWSAccessKeyId} ${AWSAccessKeySecret} WSO2APIMAnalyticsInstance)"
             - !Join
               - ''
               - - sed -i "s/CF_ANALYTICS_IP/
@@ -343,7 +356,6 @@ Resources:
                   - WSO2APIMDBInstance
                   - Endpoint.Address
                 - /g" /etc/puppet/hieradata/dev/wso2/common.yaml
-#            - mount -a -t nfs4
             - export DB_NAME=WSO2AM_DB
             - !Join
               - ''
@@ -484,7 +496,6 @@ Resources:
             - mkdir -p /mnt/efs
             - apt-get update
             - apt-get install -y nfs-common
-#            - mount -t nfs4 -o nfsvers=4.1 ${WSO2APIMEFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt/efs
             - !Sub "mount -t nfs4 -o nfsvers=4.1 ${WSO2APIMEFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt/efs"
             - !Join
               - ''
@@ -504,7 +515,7 @@ Resources:
                   /etc/puppet/hieradata/dev/wso2/wso2am_runtime/pattern-2/default.yaml
             - apt-get install -y python3-pip
             - pip3 install boto3
-            - !Sub "PRIVATE_IP=$(python3 /usr/local/bin/private_ip_extractor.py ${AWS::Region} AKIAJ45RB64Q2H6QH47A F5UDoqB+ZM5rp2jrd8nN8jb4JuCLZSe54Dy2YupB WSO2APIMAnalyticsInstance)"
+            - !Sub "PRIVATE_IP=$(python3 /usr/local/bin/private_ip_extractor.py ${AWS::Region} ${AWSAccessKeyId} ${AWSAccessKeySecret} WSO2APIMAnalyticsInstance)"
             - !Join
               - ''
               - - sed -i "s/CF_ANALYTICS_IP/
@@ -529,7 +540,6 @@ Resources:
                   - WSO2APIMDBInstance
                   - Endpoint.Address
                 - /g" /etc/puppet/hieradata/dev/wso2/common.yaml
-#            - mount -a -t nfs4
             - export DB_NAME=WSO2AM_DB
             - !Join
               - ''
@@ -694,19 +704,10 @@ Resources:
                 - !Ref 'AWS::Region'
             - output = text
             - EOF
-#            - bash /usr/local/bin/allocate_ips.sh
             - mkdir -p /mnt/efs
-#            - !Join
-#              - ''
-#              - - echo "
-#                - !Ref WSO2APIMAnalyticsEFSFileSystem
-#                - .efs.
-#                - !Ref 'AWS::Region'
-#                - .amazonaws.com
-#                - >-
-#                  :/ /mnt/efs nfs4
-#                  nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2
-#                  0 0" >> /etc/fstab
+            - apt-get update
+            - apt-get install -y nfs-common
+            - !Sub "mount -t nfs4 -o nfsvers=4.1 ${WSO2APIMAnalyticsEFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /mnt/efs"
             - !Join
               - ''
               - - sed -i "s/CF_ANALYTICS_ELB_DNS_NAME/
@@ -742,8 +743,7 @@ Resources:
                   - WSO2APIMDBInstance
                   - Endpoint.Address
                 - /g" /etc/puppet/hieradata/dev/wso2/common.yaml
-#            - mount -a -t nfs4
-            - export DB_NAME=WSO2APIM_DB
+            - export DB_NAME=WSO2AM_DB
             - !Join
               - ''
               - - export DB_HOSTNAME=
@@ -764,8 +764,8 @@ Resources:
               - ''
               - - export DB_PASSWORD=
                 - !Ref DBPassword
-#            - echo "Waiting for Cluster lock..."
-#            - bash /usr/local/bin/acquire_lock.sh
+            - echo "Waiting for Cluster lock..."
+            - bash /usr/local/bin/acquire_lock.sh
             - export FACTER_product_name=wso2am_analytics
             - export FACTER_product_version=2.1.0
             - export FACTER_product_profile=default
@@ -803,8 +803,8 @@ Resources:
                   - Endpoint.Port
                 - /g" /usr/local/bin/provision_db_analytics.sh
             - bash /usr/local/bin/provision_db_analytics.sh
-#            - echo "Releasing lock..."
-#            - /usr/local/bin/sync_lock apim unlock
+            - echo "Releasing lock..."
+            - /usr/local/bin/sync_lock apim unlock
             - apt-get --purge remove puppet mysql-client -y
             - rm -rf /etc/puppet
             - /mnt/wso2am-analytics-2.1.0/bin/wso2server.sh start
@@ -1011,7 +1011,7 @@ Resources:
     DependsOn:
       - BastionSecurityGroup
 Outputs:
-  APIMServiceURL:
+  APIMServicePublisherURL:
     Value: !Join
       - ''
       - - 'https://'
@@ -1019,7 +1019,16 @@ Outputs:
           - WSO2APIMLoadBalancer
           - DNSName
         - ':9443/publisher'
-    Description: APIM service URL
+    Description: APIM service publisher URL
+  APIMServiceStoreURL:
+    Value: !Join
+      - ''
+      - - 'https://'
+        - !GetAtt
+          - WSO2APIMLoadBalancer
+          - DNSName
+        - ':9443/store'
+    Description: APIM service store URL
   APIMAnalyticsServiceURL:
     Value: !Join
       - ''
@@ -1027,8 +1036,17 @@ Outputs:
         - !GetAtt
           - WSO2APIMAnalyticsLoadBalancer
           - DNSName
-        - ':9443/'
+        - ':9443/carbon'
+    Description: APIM Analytics Management Console
 Parameters:
+  AWSAccessKeyId:
+    Description: >-
+      The AWS Access Key ID used for internal AWS CLI request calls
+    Type: String
+  AWSAccessKeySecret:
+    Description: >-
+      The AWS Access Key Secret for internal AWS CLI request calls
+    Type: String
   KeyPairName:
     Description: >-
       The key pair to establish a SSH connection to the web servers. This should
@@ -1071,7 +1089,7 @@ Mappings:
     us-east-1:
       Ubuntu140464bit: ami-to-be-added
     us-east-2:
-      Ubuntu140464bit: ami-f9b39c9c
+      Ubuntu140464bit: ami-5d674938
     us-west-1:
       Ubuntu140464bit: ami-to-be-added
     us-west-2:
@@ -1100,7 +1118,7 @@ Mappings:
     us-east-1:
       Ubuntu140464bit: ami-to-be-added
     us-east-2:
-      Ubuntu140464bit: ami-456b4820
+      Ubuntu140464bit: ami-e6624c83
     us-west-1:
       Ubuntu140464bit: ami-to-be-added
     us-west-2:
