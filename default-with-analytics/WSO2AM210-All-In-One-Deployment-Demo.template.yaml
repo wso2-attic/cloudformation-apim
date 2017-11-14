@@ -1087,13 +1087,13 @@ Mappings:
     eu-west-2:
       Ubuntu140464bit: ami-to-be-added
     us-east-1:
-      Ubuntu140464bit: ami-to-be-added
+      Ubuntu140464bit: ami-b1bf3bcb
     us-east-2:
       Ubuntu140464bit: ami-5d674938
     us-west-1:
-      Ubuntu140464bit: ami-to-be-added
+      Ubuntu140464bit: ami-b43f06d4
     us-west-2:
-      Ubuntu140464bit: ami-to-be-added
+      Ubuntu140464bit: ami-51e43529
     ca-central-1:
       Ubuntu140464bit: ami-to-be-added
     sa-east-1:
@@ -1116,13 +1116,13 @@ Mappings:
     eu-west-2:
       Ubuntu140464bit: ami-to-be-added
     us-east-1:
-      Ubuntu140464bit: ami-to-be-added
+      Ubuntu140464bit: ami-62bf3b18
     us-east-2:
       Ubuntu140464bit: ami-e6624c83
     us-west-1:
-      Ubuntu140464bit: ami-to-be-added
+      Ubuntu140464bit: ami-323e0752
     us-west-2:
-      Ubuntu140464bit: ami-to-be-added
+      Ubuntu140464bit: ami-a3e130db
     ca-central-1:
       Ubuntu140464bit: ami-to-be-added
     sa-east-1:
