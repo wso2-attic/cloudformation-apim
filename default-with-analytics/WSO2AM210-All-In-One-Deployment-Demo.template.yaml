@@ -22,13 +22,13 @@ Metadata:
           - DBPassword
     ParameterLabels:
       AWSAccessKeyId:
-        default: AWS Access Key ID?
+        default: AWS Access Key ID
       AWSAccessKeySecret:
-        default: AWS Access Secret Key?
+        default: AWS Access Secret Key
       CertificateName:
         default: Which certificate should be used at the Load Balancer for APIM?
       DBUsername:
-        default: APIM Database Master username?
+        default: APIM Database Master username
       DBPassword:
         default: APIM Database Master password
 Resources:
@@ -221,34 +221,6 @@ Resources:
       FileSystemId: !Ref WSO2APIMAnalyticsEFSFileSystem
       SecurityGroups:
         - !Ref WSO2APIMEFSSecurityGroup
-
-  WSO2APIMAWSCLIInstanceProfile:
-    Type: 'AWS::IAM::InstanceProfile'
-    Properties:
-      Path: /
-      Roles:
-        - !Ref WSO2APIMDeploymentCLIRole
-      InstanceProfileName: CLIInstanceProfileForAMDeployment
-  WSO2APIMDeploymentCLIRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
-      Path: /
-      Policies:
-        - PolicyName: all-ec2TODO
-          PolicyDocument:
-            Statement:
-              - Effect: Allow
-                Action:
-                  - 'ec2:*'
-                Resource: '*'
 
   WSO2APIMSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
@@ -999,7 +971,10 @@ Resources:
     Properties:
       SecurityGroupIds:
         - !Ref BastionSecurityGroup
-      ImageId: ami-7bfcd81e
+      ImageId: !FindInMap
+        - AmazonLinuxAMIRegionMap
+        - !Ref 'AWS::Region'
+        - AmazonLinux
       KeyName: !Ref KeyPairName
       SubnetId: !Ref WSO2APIMPublicSubnet1
       InstanceType: t2.micro
@@ -1093,7 +1068,7 @@ Mappings:
     us-west-1:
       Ubuntu140464bit: ami-b43f06d4
     us-west-2:
-      Ubuntu140464bit: ami-51e43529
+      Ubuntu140464bit: ami-3266b74a
     ca-central-1:
       Ubuntu140464bit: ami-to-be-added
     sa-east-1:
@@ -1122,8 +1097,18 @@ Mappings:
     us-west-1:
       Ubuntu140464bit: ami-323e0752
     us-west-2:
-      Ubuntu140464bit: ami-a3e130db
+      Ubuntu140464bit: ami-5b6dbc23
     ca-central-1:
       Ubuntu140464bit: ami-to-be-added
     sa-east-1:
       Ubuntu140464bit: ami-to-be-added
+  AmazonLinuxAMIRegionMap:
+    us-east-1:
+      AmazonLinux: ami-157b2102
+    us-east-2:
+      AmazonLinux: ami-73257f16
+    us-west-1:
+      AmazonLinux: ami-7a165c1a
+    us-west-2:
+      AmazonLinux: ami-0d58fe6d
+
