@@ -40,8 +40,4 @@ This repository contains CloudFormation templates for deploying WSO2 API Manager
 
 ![Options](images/page-3.png)
 
-11. Choose option 'I acknowledge that AWS CloudFormation might create IAM resources with custom names.', at the bottom.
-
-12. Choose to Create.
-
-![Create stack](images/page-4.png)
+11. Choose to Create.
