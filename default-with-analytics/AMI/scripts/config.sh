@@ -53,6 +53,8 @@ if [ "$CF_PRODUCT" == "APIM" ]; then
   # Copy DB provisioning script
   mv /tmp/provision_db_apim.sh /usr/local/bin/
   chmod +x /usr/local/bin/provision_db_apim.sh
+
+  mv /tmp/private_ip_extractor.py /usr/local/bin/private_ip_extractor.py
 fi
 
 if [ "$CF_PRODUCT" == "APIM-ANALYTICS" ]; then

@@ -9,35 +9,45 @@
     "region": "us-east-2",
     "buildtime": "{{ isotime \"2006-01-02-1504\" }}"
   },
-  "builders": [{
-    "type": "amazon-ebs",
-    "access_key": "{{user `aws_access_key`}}",
-    "secret_key": "{{user `aws_secret_key`}}",
-    "region": "{{user `region`}}",
-    "source_ami": "{{user `base_ami`}}",
-    "instance_type": "t2.medium",
-    "ssh_username": "ubuntu",
-    "ami_name": "{{user `name`}}-{{user `product`}}-{{user `version`}}-{{isotime \"2006-01-02-1504\"}}",
-    "ami_description": "WSO2 {{user `product`}} Default profile on Ubuntu 14.04",
-    "tags": {
-      "Name": "{{user `name`}}-{{user `product`}}-{{user `version`}}",
-      "Product": "WSO2-{{user `product`}}",
-      "Version": "{{user `version`}}",
-      "Profile": "default",
-      "Build": "{{ user `buildtime` }}"
-    },
-    "ami_block_device_mappings": [{
-      "device_name": "/dev/xvdf",
-      "volume_size": 10,
-      "delete_on_termination": true
-    }],
-    "launch_block_device_mappings": [{
-      "device_name": "/dev/xvdf",
-      "volume_size": 10,
-      "delete_on_termination": true
-    }]
-  }],
-  "provisioners": [{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "{{user `region`}}",
+      "source_ami": "{{user `base_ami`}}",
+      "instance_type": "t2.medium",
+      "ssh_username": "ubuntu",
+      "ami_name": "{{user `name`}}-{{user `product`}}-{{user `version`}}-{{isotime \"2006-01-02-1504\"}}",
+      "ami_description": "WSO2 {{user `product`}} Default profile on Ubuntu 14.04",
+      "ami_regions": [
+        "us-east-1","us-east-2","us-west-1","us-west-2"
+      ],
+      "tags": {
+        "Name": "{{user `name`}}-{{user `product`}}-{{user `version`}}",
+        "Product": "WSO2-{{user `product`}}",
+        "Version": "{{user `version`}}",
+        "Profile": "default",
+        "Build": "{{ user `buildtime` }}"
+      },
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/xvdf",
+          "volume_size": 10,
+          "delete_on_termination": true
+        }
+      ],
+      "launch_block_device_mappings": [
+        {
+          "device_name": "/dev/xvdf",
+          "volume_size": 10,
+          "delete_on_termination": true
+        }
+      ]
+    }
+  ],
+  "provisioners": [
+    {
       "type": "shell",
       "inline": [
         "sleep 30",
@@ -53,7 +63,9 @@
     },
     {
       "type": "shell",
-      "environment_vars": ["CF_PRODUCT={{ user `product` }}"],
+      "environment_vars": [
+        "CF_PRODUCT={{ user `product` }}"
+      ],
       "execute_command": "sudo su - -c '{{ .Vars }} {{ .Path }}'",
       "script": "scripts/config.sh"
     }
