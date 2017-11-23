@@ -2,7 +2,26 @@
 
 This repository contains CloudFormation templates for deploying WSO2 API Manager on AWS.
 
-## Steps to follow
+## Quick Start Guide
+
+### Create Amazon Machine Images (AMIs)
+
+1. Open a terminal window.
+
+2. Go to <cloudformation-apim>/default-with-analytics directory in your file system.
+
+3. Create a WSO2 API Manager AMI by executing the create-AMI.sh script, as follows:
+
+        bash create-AMI.sh -p APIM
+
+4. Create a WSO2 API Manager Analytics AMI by executing the create-AMI.sh script, as follows:
+
+        bash create-AMI.sh -p APIM-ANALYTICS
+        
+Packer builder configuration is defined in <cloudformation-apim>/default-with-analytics/AMI/packer-conf.json.
+Please see [this](https://www.packer.io/docs/builders/amazon-ebs.html) Packer builder configuration reference guide, to edit desired configurations.
+
+### Create a stack using CloudFormation template
 
 1. Go to AWS Management Console.
 
@@ -41,3 +60,21 @@ This repository contains CloudFormation templates for deploying WSO2 API Manager
 ![Options](images/page-3.png)
 
 11. Choose to **Create**.
+
+You will be able to see the progress of resource creation using **Events** tab.
+
+![Events](images/events.png)
+
+### Verify the deployment
+
+1. You can confirm whether the stack was created successfully by checking the **Status**.
+
+![Successful stack](images/output-1.png)
+
+2. Check the output of the deployment using the **Outputs** tab.
+
+![Outputs](images/output-2.png)
+
+This tab contains URLs to WSO2 API Manager service store and publisher and an URL to WSO2 API Manager Analytics Management Console.
+
+**Note**: The services available through above URLs may take a few minutes to become available, after stack creation.
