@@ -8,7 +8,7 @@ This repository contains CloudFormation templates for deploying WSO2 API Manager
 
 1. Open a terminal window.
 
-2. Go to <cloudformation-apim>/default-with-analytics directory in your file system.
+2. Go to default-with-analytics directory in your file system.
 
 3. Create a WSO2 API Manager AMI by executing the create-AMI.sh script, as follows:
 
@@ -18,7 +18,7 @@ This repository contains CloudFormation templates for deploying WSO2 API Manager
 
         bash create-AMI.sh -p APIM-ANALYTICS
         
-Packer builder configuration is defined in <cloudformation-apim>/default-with-analytics/AMI/packer-conf.json.
+Packer builder configuration is defined in default-with-analytics/AMI/packer-conf.json file.
 Please see [this](https://www.packer.io/docs/builders/amazon-ebs.html) Packer builder configuration reference guide, to edit desired configurations.
 
 ### Create a stack using CloudFormation template
