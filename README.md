@@ -1,4 +1,4 @@
-# WSO2 API Manager CloudFormation Templates
+# AWS CloudFormation for WSO2 API Manager
 
 This repository contains CloudFormation templates for deploying WSO2 API Manager on AWS.
 
