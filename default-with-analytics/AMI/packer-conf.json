@@ -20,9 +20,6 @@
       "ssh_username": "ubuntu",
       "ami_name": "{{user `name`}}-{{user `product`}}-{{user `version`}}-{{isotime \"2006-01-02-1504\"}}",
       "ami_description": "WSO2 {{user `product`}} Default profile on Ubuntu 14.04",
-      "ami_regions": [
-        "us-east-1","us-east-2","us-west-1","us-west-2"
-      ],
       "tags": {
         "Name": "{{user `name`}}-{{user `product`}}-{{user `version`}}",
         "Product": "WSO2-{{user `product`}}",
