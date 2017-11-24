@@ -994,7 +994,7 @@ Parameters:
   DBPassword:
     Description: The password to be used in the WSO2 AM DB.
     Type: String
-    Default: rootrootroot
+    Default: wso2carbon
     MinLength: 8
     NoEcho: true
 Mappings:
