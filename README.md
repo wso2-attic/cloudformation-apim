@@ -8,17 +8,17 @@ This repository contains the CloudFormation template for WSO2 API Manager and re
 
 1. Open a terminal window.
 
-2. Go to default-with-analytics directory in your file system.
+2. Go to **default-with-analytics** directory in your file system.
 
-3. Create a WSO2 API Manager AMI by executing the create-AMI.sh script, as follows:
+3. Create a WSO2 API Manager AMI by executing the **create-AMI.sh** script, as follows:
 
         bash create-AMI.sh -p APIM
 
-4. Create a WSO2 API Manager Analytics AMI by executing the create-AMI.sh script, as follows:
+4. Create a WSO2 API Manager Analytics AMI by executing the **create-AMI.sh** script, as follows:
 
         bash create-AMI.sh -p APIM-ANALYTICS
         
-Packer builder configuration is defined in default-with-analytics/AMI/packer-conf.json file.
+Packer builder configuration is defined in **default-with-analytics/AMI/packer-conf.json** file.
 Please see [this](https://www.packer.io/docs/builders/amazon-ebs.html) Packer builder configuration reference guide, to edit desired configurations.
 
 ### Create a stack using CloudFormation template
@@ -29,11 +29,12 @@ Please see [this](https://www.packer.io/docs/builders/amazon-ebs.html) Packer bu
 
 3. Choose to **Create new stack**.
 
-4. Under **Select Template** tab, go to **Choose a template** and choose **Upload a template to Amazon S3** option. Then choose a new template file from your local filesystem.
+4. Under **Select Template** tab, go to **Choose a template** and choose **Upload a template to Amazon S3** option.
+Then, choose the template file of your choice from **patterns** directory (e.g. **patterns/pattern-<number>/pattern-<number>-cloudformation.template.yaml**).
 
 5. Select **Next**, after choosing the template file.
 
-![Select template](images/page-1.png)
+![Select template](quickstart/images/page-1.png)
 
 6. Enter a desired **Stack name**.
 
@@ -51,29 +52,29 @@ Please see [this](https://www.packer.io/docs/builders/amazon-ebs.html) Packer bu
     
 8. Select **Next**.
 
-![Specify details](images/page-2.png)
+![Specify details](quickstart/images/page-2.png)
 
 9. [Optional] Enter tag(s), if desired.
 
 10. Select **Next**.
 
-![Options](images/page-3.png)
+![Options](quickstart/images/page-3.png)
 
 11. Choose to **Create**.
 
 You will be able to see the progress of resource creation using **Events** tab.
 
-![Events](images/events.png)
+![Events](quickstart/images/events.png)
 
 ### Verify the deployment
 
 1. You can confirm whether the stack was created successfully by checking the **Status**.
 
-![Successful stack](images/output-1.png)
+![Successful stack](quickstart/images/output-1.png)
 
 2. Check the output of the deployment using the **Outputs** tab.
 
-![Outputs](images/output-2.png)
+![Outputs](quickstart/images/output-2.png)
 
 This tab contains URLs to WSO2 API Manager service store and publisher and an URL to WSO2 API Manager Analytics Management Console.
 
