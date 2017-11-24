@@ -1,6 +1,6 @@
-# AWS CloudFormation for WSO2 API Manager
+# AWS CloudFormation for WSO2 API Manager 2.1.0
 
-This repository contains the API Manager CloudFormation template and the resources required to create API Manager and API Manager Analytics Amazon Machine Images (AMIs).
+This repository contains the CloudFormation template for WSO2 API Manager and resources required to create WSO2 API Manager and WSO2 API Manager Analytics Amazon Machine Images (AMIs).
 
 ## Quick Start Guide
 
