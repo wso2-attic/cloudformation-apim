@@ -43,7 +43,6 @@ if [ "$product" != "APIM" ] && [ "$product" != "APIM-ANALYTICS" ]; then
   showUsageAndExit
 fi
 
-pushd AMI > /dev/null 2>&1
 if [[ "$OSTYPE" == *"darwin"* ]]; then
   aws_access_key=${AWS_ACCESS_KEY_ID? "Environment variable AWS_ACCESS_KEY_ID is not set"}
   aws_secret_access_key=${AWS_SECRET_ACCESS_KEY? "Environment variable AWS_SECRET_ACCESS_KEY is not set"}
@@ -89,5 +88,4 @@ else
   packer build $aws_credentials -var "product=${product}" -var "version=${version}" $packer_file
 fi
 
-popd > /dev/null 2>&1
 echo "DONE!"
