@@ -6,20 +6,35 @@ This repository contains the CloudFormation template for WSO2 API Manager and re
 
 ### Create Amazon Machine Images (AMIs)
 
-1. Open a terminal window.
+1. Clone this git repository and navigate to AMI directory:
 
-2. Go to **default-with-analytics** directory in your file system.
+   ```bash
+   git clone https://github.com/wso2/cloudformation-apim
+   cd cloudformation-apim/AMI
+   ```
 
-3. Create a WSO2 API Manager AMI by executing the **create-AMI.sh** script, as follows:
+2. Set the AWS region required for creating the AMIs in the packer-conf.json file:
+   
+   ```json
+   {
+       "variables": 
+       {
+           ...
+           "region": "us-east-2",
+           ...
+       }
+   }
+   ```
+
+3. Create WSO2 API Manager AMI by executing the **create-AMI.sh** script as follows:
 
         bash create-AMI.sh -p APIM
 
-4. Create a WSO2 API Manager Analytics AMI by executing the **create-AMI.sh** script, as follows:
+4. Create WSO2 API Manager Analytics AMI by executing the **create-AMI.sh** script as follows:
 
         bash create-AMI.sh -p APIM-ANALYTICS
-        
-Packer builder configuration is defined in **default-with-analytics/AMI/packer-conf.json** file.
-Please see [this](https://www.packer.io/docs/builders/amazon-ebs.html) Packer builder configuration reference guide, to edit desired configurations.
+
+Please refer [Packer AMI Builder Reference Guide](https://www.packer.io/docs/builders/amazon-ebs.html) for updating desired configurations in Packer builder configuration.
 
 ### Create a stack using CloudFormation template
 
