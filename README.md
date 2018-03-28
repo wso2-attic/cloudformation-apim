@@ -26,6 +26,8 @@ This repository contains the CloudFormation template for WSO2 API Manager and re
    }
    ```
 
+Please note that `base-ami` must be set accordingly (`ami-25a97a4a` is for `us-east-2` only).
+
 3. Create WSO2 API Manager AMI by executing the **create-AMI.sh** script as follows:
 
         bash create-AMI.sh -p APIM
